@@ -10,6 +10,9 @@ import { RolesGuard } from "./common/roles.guard";
 import { EmailModule } from "./email/email.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
+import { ProfileModule } from "./profile/profile.module";
+import { ProgrammeModule } from "./programme/programme.module";
+import { SettingsModule } from "./settings/settings.module";
 import { UsersModule } from "./users/users.module";
 
 @Module({
@@ -19,9 +22,12 @@ import { UsersModule } from "./users/users.module";
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     PrismaModule,
     AuditModule,
+    SettingsModule,
     EmailModule,
     AuthModule,
     UsersModule,
+    ProfileModule,
+    ProgrammeModule,
     HealthModule,
   ],
   providers: [

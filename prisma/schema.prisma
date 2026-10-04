@@ -288,10 +288,30 @@ model ActivityProgress {
   activity     Activity       @relation(fields: [activityId], references: [id], onDelete: Cascade)
   status       ActivityStatus @default(NOT_STARTED)
   attempts     Int            @default(0)
+  /// When the user first opened the activity. The server uses this to verify reading time.
+  startedAt    DateTime?
   completedAt  DateTime?
   updatedAt    DateTime       @updatedAt
 
+  submissions ActivitySubmission[]
+
   @@unique([enrollmentId, activityId])
+}
+
+/// Every reflection and quiz attempt is preserved as submitted. Rows are never updated.
+model ActivitySubmission {
+  id         String           @id @default(cuid())
+  progressId String
+  progress   ActivityProgress @relation(fields: [progressId], references: [id], onDelete: Cascade)
+  attempt    Int
+  /// Reflection: { text }. Quiz: { answers }.
+  data       Json
+  score      Int?
+  passed     Boolean?
+  createdAt  DateTime         @default(now())
+
+  /// One row per attempt; also stops two simultaneous submissions both counting.
+  @@unique([progressId, attempt])
 }
 
 // ───────────────────────── Assessment ─────────────────────────

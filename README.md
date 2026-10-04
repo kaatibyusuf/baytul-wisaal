@@ -65,3 +65,29 @@ holds an opaque token in an HTTP-only cookie and the database stores only its ha
 - Tests: `pnpm test` (runs the auth suite against an in-memory stand-in for the database).
 - Accounts are always created as `USER`. To make yourself an admin for testing, update the `role`
   column directly in the database (for example with Prisma Studio: `pnpm exec prisma studio --schema prisma/schema.prisma`).
+
+## Profile and programme (Milestone 3)
+
+- Profile: `GET/PATCH /api/v1/profile`. Name, gender and date of birth are fixed at registration.
+- Programme engine: enrol, one day opens at a time, lessons / reflections / quizzes, all verified on the
+  server. Quiz answer keys never leave the API. Reading time is enforced by the server's clock.
+- Thresholds (unlock interval, grace period, reading time, quiz pass mark and attempts) live in the
+  `SystemSetting` table, with sensible defaults, so they can be changed without a deploy.
+- The lesson content in `apps/api/src/seed.ts` is **sample content**. Replace it with the real curriculum.
+
+After pulling this milestone (PowerShell):
+
+```powershell
+pnpm install
+pnpm db:generate
+pnpm db:migrate --name programme
+pnpm db:seed
+```
+
+To test all 30 days quickly on your machine (every day open in order, no reading delay):
+
+```powershell
+$env:SEED_DEV_FAST=1; pnpm db:seed
+```
+
+Put the real timings back with `$env:SEED_DEV_FAST=0; pnpm db:seed`.

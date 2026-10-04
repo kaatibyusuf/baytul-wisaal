@@ -5,6 +5,7 @@ export class ApiError extends Error {
     public status: number,
     public code: string,
     message: string,
+    public extra: Record<string, unknown> = {},
   ) {
     super(message);
   }
@@ -34,7 +35,7 @@ export async function api<T = unknown>(
   if (!res.ok) {
     const raw = data?.message;
     const message = Array.isArray(raw) ? raw[0] : raw;
-    throw new ApiError(res.status, data?.code ?? "ERROR", message ?? "Something went wrong. Please try again.");
+    throw new ApiError(res.status, data?.code ?? "ERROR", message ?? "Something went wrong. Please try again.", data ?? {});
   }
   return data as T;
 }
@@ -47,4 +48,60 @@ export type Me = {
   emailVerifiedAt: string | null;
   profile: { fullName: string; preferredName: string | null } | null;
   journey: { programme: string };
+};
+
+export type DayState = "NOT_ENROLLED" | "COMPLETE" | "OPEN" | "LOCKED_TIME" | "LOCKED_PREVIOUS";
+
+export type ProgrammeSummary = {
+  programme: { id: string; title: string; totalDays: number };
+  enrollment: null | { status: "IN_PROGRESS" | "UNDER_REVIEW" | "COMPLETED" | "FAILED" | "EXPIRED"; startedAt: string; dueAt: string | null; completedAt: string | null };
+  days: { dayNumber: number; title: string; state: DayState; unlocksAt?: string | null; activitiesTotal?: number; activitiesDone?: number }[];
+  currentDay: number | null;
+  percentComplete: number;
+};
+
+export type ActivityStatus = "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED" | "UNDER_REVIEW" | "PASSED" | "FAILED";
+
+export type DayView = {
+  dayNumber: number;
+  title: string;
+  state: DayState;
+  activities: { id: string; type: "LESSON" | "REFLECTION" | "QUIZ" | "SCENARIO" | "ASSIGNMENT"; title: string; required: boolean; status: ActivityStatus }[];
+};
+
+export type ActivityView = {
+  id: string;
+  title: string;
+  required: boolean;
+  dayNumber: number;
+  status: ActivityStatus;
+  attemptsUsed: number;
+} & (
+  | { type: "LESSON"; content: { blocks: { type: "h" | "p" | "quote"; text: string }[] }; minReadSeconds: number }
+  | { type: "REFLECTION"; content: { prompt: string; minWords: number }; submittedText: string | null }
+  | { type: "QUIZ"; content: { questions: { text: string; options: string[] }[] }; passMark: number; maxAttempts: number }
+);
+
+export type ActivityResult = {
+  activityStatus: ActivityStatus;
+  dayComplete: boolean;
+  programmeCompleted: boolean;
+  score?: number;
+  passed?: boolean;
+  attemptsLeft?: number;
+};
+
+export type ProfileData = {
+  fullName: string;
+  preferredName: string | null;
+  gender: "MALE" | "FEMALE";
+  dateOfBirth: string;
+  maritalStatus: "NEVER_MARRIED" | "DIVORCED" | "WIDOWED";
+  location: string | null;
+  nationality: string | null;
+  phone: string | null;
+  education: string | null;
+  occupation: string | null;
+  religiousInfo: { practice?: string; quranStudy?: string; notes?: string };
+  familyInfo: { siblings?: number; parents?: string; notes?: string };
 };
