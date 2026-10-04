@@ -9,6 +9,7 @@
     "dev:api": "pnpm --filter @bw/api dev",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
+    "test": "pnpm --filter @bw/api test",
     "db:generate": "prisma generate --schema prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema prisma/schema.prisma",
     "db:validate": "prisma validate --schema prisma/schema.prisma"

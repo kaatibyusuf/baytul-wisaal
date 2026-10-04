@@ -28,6 +28,11 @@ enum UserStatus {
   SUSPENDED
 }
 
+enum AuthTokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
 enum Gender {
   MALE
   FEMALE
@@ -137,9 +142,14 @@ model User {
   role            Role       @default(USER)
   status          UserStatus @default(PENDING_VERIFICATION)
   emailVerifiedAt DateTime?
+  /// Login abuse protection (PRD section 35)
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
+  authSessions  AuthSession[]
+  authTokens    AuthToken[]
   profile       Profile?
   enrollments   Enrollment[]
   sessions      AssessmentSession[]
@@ -173,6 +183,39 @@ model Profile {
   visibility    Json?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+}
+
+// ───────────────────────── Authentication ─────────────────────────
+
+/// Server-side sessions. The browser holds an opaque random token in an HTTP-only cookie;
+/// only its SHA-256 hash is stored, so a database leak cannot be replayed as a login.
+model AuthSession {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String    @unique
+  userAgent  String?
+  ip         String?
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime  @default(now())
+  expiresAt  DateTime
+  revokedAt  DateTime?
+
+  @@index([userId])
+}
+
+/// Single-use tokens for email verification and password reset. Only the hash is stored.
+model AuthToken {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      AuthTokenType
+  tokenHash String        @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime      @default(now())
+
+  @@index([userId, type])
 }
 
 // ───────────────────────── Programme ─────────────────────────
