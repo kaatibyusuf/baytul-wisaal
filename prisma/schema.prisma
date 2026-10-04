@@ -1,0 +1,538 @@
+// Baytul Wisaal: core data model (Milestone 1 foundation).
+// Only the NestJS API and workers may access this database (PRD section 41).
+// Privacy layers (PRD section 34) are enforced in the service layer; tables are
+// separated so that private assessment data never lives beside match-visible data.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ───────────────────────── Enums ─────────────────────────
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  RESTRICTED
+  SUSPENDED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum MaritalStatus {
+  NEVER_MARRIED
+  DIVORCED
+  WIDOWED
+}
+
+enum ActivityType {
+  LESSON
+  REFLECTION
+  SCENARIO
+  QUIZ
+  ASSIGNMENT
+}
+
+enum EnrollmentStatus {
+  IN_PROGRESS
+  UNDER_REVIEW
+  COMPLETED
+  FAILED
+  EXPIRED
+}
+
+enum ActivityStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  SUBMITTED
+  UNDER_REVIEW
+  PASSED
+  FAILED
+}
+
+enum SessionStatus {
+  ACTIVE
+  SUBMITTED
+  EXPIRED
+  VOIDED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  FAILED
+  CLARIFICATION_REQUESTED
+  ADDITIONAL_ASSESSMENT_SENT
+}
+
+enum IntegrityEventType {
+  TAB_SWITCH
+  WINDOW_BLUR
+  LARGE_PASTE
+  RAPID_SUBMISSION
+  LONG_INACTIVITY
+  MULTIPLE_SESSIONS
+  PAGE_RELOAD
+  SESSION_CHANGE
+  SCREEN_CAPTURE_SIGNAL
+}
+
+/// PRD section 17
+enum PreferenceLevel {
+  NON_NEGOTIABLE
+  PREFERENCE
+  FLEXIBLE
+}
+
+enum MatchStatus {
+  ACTIVE
+  CLOSED
+  PASSED
+}
+
+/// Stage-based progression (PRD sections 20, 26). Extend without rebuilding.
+enum MatchStage {
+  EXPECTATIONS_PENDING
+  RESPONSE_PENDING
+  COMPATIBILITY_REVIEW
+  NEXT_STAGE
+}
+
+/// PRD section 22
+enum ResponseType {
+  AGREE
+  DISAGREE
+  PARTIALLY_AGREE
+  WILLING_TO_DISCUSS
+  NOT_APPLICABLE
+}
+
+/// PRD section 23
+enum CompatibilityClass {
+  ALIGNED
+  NEEDS_DISCUSSION
+  CONFLICT
+}
+
+// ───────────────────────── Identity ─────────────────────────
+
+model User {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  passwordHash    String
+  role            Role       @default(USER)
+  status          UserStatus @default(PENDING_VERIFICATION)
+  emailVerifiedAt DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  profile       Profile?
+  enrollments   Enrollment[]
+  sessions      AssessmentSession[]
+  preferenceSet PreferenceSet?
+  notifications Notification[]
+  matchesAsA    Match[]      @relation("MatchUserA")
+  matchesAsB    Match[]      @relation("MatchUserB")
+
+  @@index([status])
+}
+
+model Profile {
+  id            String        @id @default(cuid())
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName      String
+  preferredName String?
+  gender        Gender
+  dateOfBirth   DateTime
+  location      String?
+  nationality   String?
+  maritalStatus MaritalStatus
+  phone         String?
+  education     String?
+  occupation    String?
+  /// Object key in Cloudflare R2. Never a public URL (PRD section 45).
+  photoKey      String?
+  religiousInfo Json?
+  familyInfo    Json?
+  /// Which fields may be shared with a match at which stage (PRD section 6).
+  visibility    Json?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+// ───────────────────────── Programme ─────────────────────────
+
+model Programme {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  totalDays   Int      @default(30)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  days        ProgrammeDay[]
+  enrollments Enrollment[]
+}
+
+model ProgrammeDay {
+  id          String    @id @default(cuid())
+  programmeId String
+  programme   Programme @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  dayNumber   Int
+  title       String
+
+  activities Activity[]
+
+  @@unique([programmeId, dayNumber])
+}
+
+model Activity {
+  id        String       @id @default(cuid())
+  dayId     String
+  day       ProgrammeDay @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  type      ActivityType
+  title     String
+  position  Int          @default(0)
+  required  Boolean      @default(true)
+  /// Lesson body, reflection prompt, quiz definition. Shape depends on type.
+  content   Json
+  scenarioId String?
+  scenario   Scenario?   @relation(fields: [scenarioId], references: [id])
+
+  progress ActivityProgress[]
+
+  @@index([dayId, position])
+}
+
+model Enrollment {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  programmeId String
+  programme   Programme        @relation(fields: [programmeId], references: [id])
+  status      EnrollmentStatus @default(IN_PROGRESS)
+  startedAt   DateTime         @default(now())
+  /// Deadline for completion; configurable (PRD section 15).
+  dueAt       DateTime?
+  completedAt DateTime?
+
+  progress ActivityProgress[]
+
+  @@unique([userId, programmeId])
+}
+
+/// Completion is verified by the backend; clients never mark activities complete.
+model ActivityProgress {
+  id           String         @id @default(cuid())
+  enrollmentId String
+  enrollment   Enrollment     @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  activityId   String
+  activity     Activity       @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  status       ActivityStatus @default(NOT_STARTED)
+  attempts     Int            @default(0)
+  completedAt  DateTime?
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([enrollmentId, activityId])
+}
+
+// ───────────────────────── Assessment ─────────────────────────
+
+model Scenario {
+  id         String   @id @default(cuid())
+  key        String   @unique
+  competency String?
+  createdAt  DateTime @default(now())
+
+  versions   ScenarioVersion[]
+  rubrics    Rubric[]
+  activities Activity[]
+}
+
+/// Questions are versioned and served only inside authenticated sessions (PRD section 30).
+model ScenarioVersion {
+  id         String   @id @default(cuid())
+  scenarioId String
+  scenario   Scenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  version    Int
+  /// Template with randomisable values and contextual variants (PRD section 14).
+  body       Json
+  followUps  Json?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  sessions AssessmentSession[]
+
+  @@unique([scenarioId, version])
+}
+
+model Rubric {
+  id               String   @id @default(cuid())
+  scenarioId       String
+  scenario         Scenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  version          Int
+  /// [{ key, label, weight }]. Never shown to users.
+  criteria         Json
+  /// Administrator-defined critical criteria (PRD section 12).
+  criticalCriteria Json?
+  passThreshold    Int?
+  createdAt        DateTime @default(now())
+
+  evaluations AIEvaluation[]
+
+  @@unique([scenarioId, version])
+}
+
+model AssessmentSession {
+  id                String          @id @default(cuid())
+  userId            String
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scenarioVersionId String
+  scenarioVersion   ScenarioVersion @relation(fields: [scenarioVersionId], references: [id])
+  status            SessionStatus   @default(ACTIVE)
+  /// Hash of the session token; the raw token is never stored.
+  tokenHash         String
+  /// Shown as the on-screen watermark, e.g. BW-82F91 (PRD section 27.5).
+  watermarkCode     String          @unique
+  /// The exact randomised variant this user was served.
+  renderedVariant   Json?
+  startedAt         DateTime        @default(now())
+  expiresAt         DateTime
+  submittedAt       DateTime?
+  integrityScore    Int?
+
+  answers AssessmentAnswer[]
+  events  IntegrityEvent[]
+
+  @@index([userId, status])
+}
+
+/// The original answer is always preserved (PRD section 10). Rows are never updated.
+model AssessmentAnswer {
+  id           String            @id @default(cuid())
+  sessionId    String
+  session      AssessmentSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  /// 0 for the main answer, 1..n for follow-ups.
+  sequence     Int               @default(0)
+  promptShown  String
+  originalText String
+  createdAt    DateTime          @default(now())
+
+  evaluations AIEvaluation[]
+  reviews     HumanReview[]
+
+  @@unique([sessionId, sequence])
+}
+
+model AIEvaluation {
+  id             String           @id @default(cuid())
+  answerId       String
+  answer         AssessmentAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  rubricId       String
+  rubric         Rubric           @relation(fields: [rubricId], references: [id])
+  provider       String
+  model          String
+  scores         Json
+  total          Int
+  evidence       Json
+  concerns       Json?
+  contradictions Json?
+  confidence     Float?
+  followUp       String?
+  recommendation String?
+  /// True when a critical criterion is triggered; forces human review (PRD section 12).
+  criticalFlag   Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+
+  @@index([answerId])
+}
+
+model HumanReview {
+  id         String       @id @default(cuid())
+  answerId   String
+  answer     AssessmentAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  reviewerId String?
+  status     ReviewStatus @default(PENDING)
+  reason     String?
+  notes      String?
+  createdAt  DateTime     @default(now())
+  decidedAt  DateTime?
+
+  @@index([status])
+}
+
+model IntegrityEvent {
+  id        String             @id @default(cuid())
+  sessionId String
+  session   AssessmentSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  type      IntegrityEventType
+  metadata  Json?
+  at        DateTime           @default(now())
+
+  @@index([sessionId, type])
+}
+
+// ───────────────────────── Preferences ─────────────────────────
+
+model PreferenceSet {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Hard filters: age range, location, marital status, relocation, timeline, etc.
+  hardFilters Json?
+  updatedAt   DateTime @updatedAt
+
+  items PreferenceItem[]
+}
+
+model PreferenceItem {
+  id        String          @id @default(cuid())
+  setId     String
+  set       PreferenceSet   @relation(fields: [setId], references: [id], onDelete: Cascade)
+  /// religion | marriage | children | finance | family | lifestyle | personal
+  category  String
+  key       String
+  level     PreferenceLevel
+  value     Json
+  note      String?
+
+  @@unique([setId, category, key])
+}
+
+// ───────────────────────── Matching ─────────────────────────
+
+model Match {
+  id           String      @id @default(cuid())
+  userAId      String
+  userA        User        @relation("MatchUserA", fields: [userAId], references: [id])
+  userBId      String
+  userB        User        @relation("MatchUserB", fields: [userBId], references: [id])
+  status       MatchStatus @default(ACTIVE)
+  stage        MatchStage  @default(EXPECTATIONS_PENDING)
+  createdAt    DateTime    @default(now())
+  closedAt     DateTime?
+  /// Neutral wording only. Never framed as a user failing (PRD section 24).
+  closureNote  String?
+
+  expectations  MatchExpectation[]
+  compatibility Compatibility?
+
+  @@index([userAId, status])
+  @@index([userBId, status])
+}
+
+model MatchExpectation {
+  id          String   @id @default(cuid())
+  matchId     String
+  match       Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  authorId    String
+  submittedAt DateTime?
+
+  items MatchExpectationItem[]
+
+  @@unique([matchId, authorId])
+}
+
+model MatchExpectationItem {
+  id            String          @id @default(cuid())
+  expectationId String
+  expectation   MatchExpectation @relation(fields: [expectationId], references: [id], onDelete: Cascade)
+  category      String
+  statement     String
+  level         PreferenceLevel
+  isDealBreaker Boolean         @default(false)
+  compromiseNote String?
+
+  response MatchResponse?
+}
+
+model MatchResponse {
+  id          String               @id @default(cuid())
+  itemId      String               @unique
+  item        MatchExpectationItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  responderId String
+  type        ResponseType
+  /// A bare "agree" is not accepted as genuine agreement (PRD section 22).
+  explanation String?
+  createdAt   DateTime             @default(now())
+}
+
+model Compatibility {
+  id         String   @id @default(cuid())
+  matchId    String   @unique
+  match      Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  /// [{ itemId, category, classification: ALIGNED | NEEDS_DISCUSSION | CONFLICT }]
+  areas      Json
+  passed     Boolean?
+  summary    String?
+  decidedBy  String?
+  createdAt  DateTime @default(now())
+}
+
+/// Permanent pair exclusion (PRD rule 9). The service layer always stores the pair
+/// in canonical order (userLowId < userHighId) so the unique key covers both directions.
+model MatchExclusion {
+  id         String   @id @default(cuid())
+  userLowId  String
+  userHighId String
+  reason     String?
+  createdBy  String?
+  createdAt  DateTime @default(now())
+
+  @@unique([userLowId, userHighId])
+  @@index([userHighId])
+}
+
+// ───────────────────────── Platform ─────────────────────────
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, readAt])
+}
+
+/// Configurable thresholds and rules; nothing is hard-coded (PRD section 15).
+model SystemSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+/// Append-only from the application's perspective (PRD section 36).
+/// The AuditModule exposes create and read only. No update or delete is implemented.
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  action     String
+  targetType String
+  targetId   String
+  reason     String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([targetType, targetId])
+  @@index([actorId])
+  @@index([createdAt])
+}

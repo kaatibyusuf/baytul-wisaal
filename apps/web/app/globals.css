@@ -1,0 +1,236 @@
+@import "@fontsource-variable/raleway";
+@import "@fontsource-variable/source-serif-4";
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Baytul Wisaal theme
+  Brand palette (from PRD): NileBlue #17334B, DeepAqua #19687E, Turquoise #02D3CB, SoftGold #D9A441
+
+  Contrast notes (WCAG, measured):
+  - White on NileBlue 13.0:1, white on DeepAqua 6.3:1  -> safe for text
+  - White on Turquoise 1.9:1, white on SoftGold 2.3:1  -> NEVER use as text on white
+  - NileBlue on Turquoise 6.9:1, NileBlue on SoftGold 5.8:1 -> use NileBlue text on these fills
+  - Turquoise and SoftGold as text on NileBlue 6.9:1 / 5.8:1 -> fine in dark sections
+  - Gold text on light backgrounds uses --gold-ink (5.6:1 on white)
+  - Turquoise text/icons on light backgrounds use --aqua-ink (4.8:1 on white)
+*/
+
+:root {
+  /* Raw brand colours */
+  --nile-blue: #17334b;
+  --deep-aqua: #19687e;
+  --turquoise: #02d3cb;
+  --soft-gold: #d9a441;
+
+  /* Accessible variants for use on light backgrounds */
+  --aqua-ink: #0e7f86;
+  --gold-ink: #8a5f0f;
+
+  /* Tints (large surfaces) */
+  --surface: #f6f8f9;
+  --aqua-tint: #e8f1f4;
+  --gold-tint: #fbf3e2;
+  --border-soft: #d6dfe5;
+  --text-muted: #5b6b7a;
+
+  --radius: 0.5rem;
+
+  /* shadcn/ui tokens */
+  --background: #ffffff;
+  --foreground: #17334b;
+  --card: #ffffff;
+  --card-foreground: #17334b;
+  --popover: #ffffff;
+  --popover-foreground: #17334b;
+  --primary: #17334b;
+  --primary-foreground: #ffffff;
+  --secondary: #19687e;
+  --secondary-foreground: #ffffff;
+  --muted: #f6f8f9;
+  --muted-foreground: #5b6b7a;
+  --accent: #e8f1f4;
+  --accent-foreground: #17334b;
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --border: #d6dfe5;
+  --input: #d6dfe5;
+  --ring: #02d3cb;
+
+  --chart-1: #17334b;
+  --chart-2: #19687e;
+  --chart-3: #02d3cb;
+  --chart-4: #d9a441;
+  --chart-5: #5b6b7a;
+
+  --sidebar: #f6f8f9;
+  --sidebar-foreground: #17334b;
+  --sidebar-primary: #17334b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8f1f4;
+  --sidebar-accent-foreground: #17334b;
+  --sidebar-border: #d6dfe5;
+  --sidebar-ring: #02d3cb;
+}
+
+/*
+  Dark mode: the PRD describes dark sections rather than a full dark theme.
+  This is a restrained dark mode built on NileBlue so you can enable it later.
+*/
+.dark {
+  --background: #0f2234;
+  --foreground: #f6f8f9;
+  --card: #17334b;
+  --card-foreground: #f6f8f9;
+  --popover: #17334b;
+  --popover-foreground: #f6f8f9;
+  --primary: #f6f8f9;
+  --primary-foreground: #17334b;
+  --secondary: #19687e;
+  --secondary-foreground: #ffffff;
+  --muted: #17334b;
+  --muted-foreground: #a9bac6;
+  --accent: #1f4560;
+  --accent-foreground: #f6f8f9;
+  --destructive: #f97066;
+  --destructive-foreground: #0f2234;
+  --border: #2a4a63;
+  --input: #2a4a63;
+  --ring: #02d3cb;
+
+  --chart-1: #f6f8f9;
+  --chart-2: #5fb3c4;
+  --chart-3: #02d3cb;
+  --chart-4: #d9a441;
+  --chart-5: #a9bac6;
+
+  --sidebar: #0f2234;
+  --sidebar-foreground: #f6f8f9;
+  --sidebar-primary: #02d3cb;
+  --sidebar-primary-foreground: #17334b;
+  --sidebar-accent: #1f4560;
+  --sidebar-accent-foreground: #f6f8f9;
+  --sidebar-border: #2a4a63;
+  --sidebar-ring: #02d3cb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Brand colours as Tailwind utilities: bg-nile, text-aqua-ink, border-gold, etc. */
+  --color-nile: var(--nile-blue);
+  --color-aqua: var(--deep-aqua);
+  --color-turquoise: var(--turquoise);
+  --color-gold: var(--soft-gold);
+  --color-aqua-ink: var(--aqua-ink);
+  --color-gold-ink: var(--gold-ink);
+  --color-surface: var(--surface);
+  --color-aqua-tint: var(--aqua-tint);
+  --color-gold-tint: var(--gold-tint);
+  --color-text-muted: var(--text-muted);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  /* Fonts: wire these to next/font variables in layout.tsx */
+  --font-sans: "Raleway Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    line-height: 1.65;
+    /* Raleway defaults to old-style numerals; lining figures read better in forms and tables */
+    font-feature-settings: "lnum" 1;
+  }
+
+  /* Editorial serif is for reflective content only, never functional UI */
+  .editorial {
+    font-family: var(--font-serif);
+    line-height: 1.75;
+  }
+
+  /* Comfortable measure for lessons, scenarios and written answers */
+  .prose-measure {
+    max-width: 68ch;
+  }
+
+  /* Visible keyboard focus: turquoise ring, with a NileBlue inner line for contrast on light surfaces */
+  :focus-visible {
+    outline: 2px solid var(--turquoise);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Dark brand section (landing page, footer): NileBlue with restrained accents */
+.section-nile {
+  background-color: var(--nile-blue);
+  color: #ffffff;
+  --foreground: #ffffff;
+  --muted-foreground: #a9bac6;
+  --border: #2a4a63;
+}
+
+/* Milestone highlight: subtle gold, readable ink */
+.milestone {
+  background-color: var(--gold-tint);
+  color: var(--nile-blue);
+  border: 1px solid var(--soft-gold);
+}
+
+/* SoftGold as text is only used on NileBlue-family backgrounds (5.8:1 on #17334B) */
+@theme inline {
+  --color-soft-gold-on-dark: #d9a441;
+}
