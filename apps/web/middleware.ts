@@ -12,4 +12,4 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/dashboard/:path*", "/programme/:path*", "/profile/:path*", "/admin/:path*"] };
+export const config = { matcher: ["/dashboard/:path*", "/programme/:path*", "/profile/:path*", "/admin/:path*", "/preferences/:path*", "/matches/:path*"] };

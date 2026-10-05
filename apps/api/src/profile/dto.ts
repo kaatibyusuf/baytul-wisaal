@@ -40,6 +40,12 @@ export class UpdateProfileDto {
   location?: string | null;
 
   @IsOptional() @Transform(blankToNull) @IsString() @MaxLength(80)
+  country?: string | null;
+
+  @IsOptional() @Transform(blankToNull) @IsString() @MaxLength(80)
+  region?: string | null;
+
+  @IsOptional() @Transform(blankToNull) @IsString() @MaxLength(80)
   nationality?: string | null;
 
   @IsOptional()

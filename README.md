@@ -124,3 +124,47 @@ pnpm db:seed
 4. To review it, make a second account a reviewer: run `pnpm exec prisma studio --schema prisma/schema.prisma`,
    open the `User` table, and set that account's `role` to `MODERATOR`. Sign in as that account and open Reviews.
 5. A reviewer cannot decide their own response, so use two accounts.
+
+## Preferences and matchmaking (Milestone 5, backend)
+
+- `GET/PUT /api/v1/preferences`: the spouse questionnaire (served by the API), hard filters, and availability.
+  Each question is asked twice: your own answer, and which answers you would accept in a spouse, with a firmness
+  level (non-negotiable, preference, flexible). Personal and physical questions can never be non-negotiable.
+- Opens after the marriage-readiness programme is finished (`matching.requireProgramme`, on by default).
+- `POST /api/v1/admin/matchmaking/run` (ADMIN): `{ "dryRun": true }` previews pairs, `{ "dryRun": false }` creates
+  matches. Rules in order: opposite sexes, hard filters both ways, non-negotiables both ways, not excluded, a minimum
+  fit score, then best fit first with each person paired once per round.
+- `GET /api/v1/matches`: the current match (basic introduction only) and closed history (nothing about the other person).
+- `POST /api/v1/matches/:id/withdraw`: closes a pairing permanently for that pair. The person who closes it rests for
+  `matching.withdrawCooldownDays` so matches cannot be browsed by closing them.
+- `POST /api/v1/admin/matchmaking/exclusions` (ADMIN): stop two people ever being matched, by email.
+- The questionnaire wording in `src/matching/questionnaire.ts` is **sample content**. Review it and replace it with your own.
+- Matching runs when an administrator triggers it. It is not scheduled yet.
+
+After pulling this milestone (PowerShell):
+
+```powershell
+pnpm install
+pnpm db:generate
+pnpm db:migrate --name matching
+pnpm db:seed
+pnpm test
+```
+
+### Preferences, matches and notifications screens (Milestone 5, web)
+
+- `/preferences`: the questionnaire (served by the API), hard filters, availability pause and resume.
+- `/matches`: the current match's basic introduction, closing a pairing, and closed history.
+- `/admin/matchmaking` (ADMIN): preview a round, create matches, prevent a pairing by email.
+- The dashboard now follows the journey through preferences and matching, and shows unread notifications.
+- Profile now has country and region, which the location filter needs.
+- `GET /api/v1/notifications` and `POST /api/v1/notifications/read` back the "New for you" card.
+
+To try the whole flow on your machine:
+
+1. `$env:SEED_DEV_FAST=1; pnpm db:seed`, then `pnpm dev`.
+2. Create at least two accounts of different sexes, and a third to be the administrator
+   (set its `role` to `ADMIN` in Prisma Studio: `pnpm exec prisma studio --schema prisma/schema.prisma`).
+3. For each of the two, finish the programme (placeholder days are short), then complete `/preferences`.
+4. As the administrator, open Matchmaking, preview a round, then create the matches.
+5. Sign in as each of the two to see the introduction, then close the pairing from one of them.

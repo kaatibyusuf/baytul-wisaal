@@ -99,6 +99,8 @@ export type ProfileData = {
   dateOfBirth: string;
   maritalStatus: "NEVER_MARRIED" | "DIVORCED" | "WIDOWED";
   location: string | null;
+  country: string | null;
+  region: string | null;
   nationality: string | null;
   phone: string | null;
   education: string | null;
@@ -145,4 +147,72 @@ export type ReviewDetail = {
     criticalFlag: boolean;
   }[];
   events: { type: string; at: string; metadata: Record<string, unknown> | null }[];
+};
+
+export type Level = "NON_NEGOTIABLE" | "PREFERENCE" | "FLEXIBLE";
+
+export type QuestionDef = {
+  key: string;
+  category: string;
+  prompt: string;
+  seekPrompt: string;
+  options: { value: string; label: string }[];
+  weight: number;
+  allowNonNegotiable: boolean;
+};
+
+export type PreferencesForm = {
+  version: number;
+  categories: { key: string; title: string; intro: string }[];
+  questions: QuestionDef[];
+  eligible: boolean;
+  ineligibleReason: string | null;
+  nonNegotiableMax: number;
+  submittedAt: string | null;
+  availability: "AVAILABLE" | "PAUSED";
+  availableAfter: string | null;
+  hasActiveMatch: boolean;
+  answers: null | {
+    self: Record<string, string>;
+    seek: Record<string, { accept: string[]; level: Level; note?: string }>;
+    filters: { ageMin: number; ageMax: number; maritalStatuses: string[]; locationScope: string } | null;
+  };
+};
+
+export type MatchesData = {
+  current: null | {
+    id: string;
+    stage: string;
+    createdAt: string;
+    whatNext: string;
+    introduction: null | {
+      name: string;
+      age: number;
+      location: string | null;
+      education: string | null;
+      occupation: string | null;
+      maritalStatus: string;
+    };
+  };
+  history: { id: string; status: string; stage: string; createdAt: string; closedAt: string | null; note: string | null }[];
+};
+
+export type RunResult = {
+  dryRun: boolean;
+  created: number;
+  proposed: { a: string; b: string; score: number }[];
+  stats: {
+    candidates: number;
+    pairsConsidered: number;
+    excluded: number;
+    belowMinimumScore: number;
+    rejected: Record<string, number>;
+    eligiblePairs: number;
+    unmatched: number;
+  };
+};
+
+export type NotificationsData = {
+  unread: number;
+  items: { id: string; type: string; title: string; body: string | null; readAt: string | null; createdAt: string }[];
 };

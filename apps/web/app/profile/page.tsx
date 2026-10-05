@@ -10,6 +10,8 @@ import { useLoad } from "@/lib/use-load";
 type Values = {
   preferredName: string;
   location: string;
+  country: string;
+  region: string;
   nationality: string;
   phone: string;
   education: string;
@@ -26,6 +28,8 @@ type Values = {
 const toValues = (p: ProfileData): Values => ({
   preferredName: p.preferredName ?? "",
   location: p.location ?? "",
+  country: p.country ?? "",
+  region: p.region ?? "",
   nationality: p.nationality ?? "",
   phone: p.phone ?? "",
   education: p.education ?? "",
@@ -62,6 +66,8 @@ export default function ProfilePage() {
         body: {
           preferredName: v.preferredName,
           location: v.location,
+          country: v.country,
+          region: v.region,
           nationality: v.nationality,
           phone: v.phone,
           education: v.education,
@@ -102,7 +108,11 @@ export default function ProfilePage() {
           <h2 className="text-lg font-semibold text-nile">About you</h2>
           <TextField label="Preferred name" autoComplete="nickname" {...register("preferredName")} />
           <div className="grid gap-5 sm:grid-cols-2">
-            <TextField label="Where you live" autoComplete="address-level2" {...register("location")} />
+            <TextField label="Country you live in" autoComplete="country-name" hint="Needed if you want to match with people in the same country." {...register("country")} />
+            <TextField label="State or region" autoComplete="address-level1" hint="Needed if you want to match within the same region." {...register("region")} />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <TextField label="Town or city" autoComplete="address-level2" {...register("location")} />
             <TextField label="Nationality" {...register("nationality")} />
           </div>
           <TextField label="Phone" type="tel" autoComplete="tel" hint="Used only to reach you. Never shared with a match." {...register("phone")} />

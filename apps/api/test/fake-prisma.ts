@@ -92,6 +92,17 @@ function table(name: string, opts: { uniques?: string[][]; defaults?: () => Row 
       hit.forEach((r) => Object.assign(r, data));
       return { count: hit.length };
     },
+    async deleteMany({ where }: { where?: Where } = {}) {
+      const keep = rows.filter((r) => !matches(r, where));
+      const count = rows.length - keep.length;
+      rows.length = 0;
+      rows.push(...keep);
+      return { count };
+    },
+    async createMany({ data }: { data: Row[] }) {
+      for (const d of data) await api.create({ data: d });
+      return { count: data.length };
+    },
     async upsert({ where, create, update }: { where: Where; create: Row; update: Row }) {
       const row = rows.find((r) => matches(r, where));
       if (row) return copy(Object.assign(row, update));
@@ -123,7 +134,7 @@ export function createFakePrisma() {
     defaults: () => ({ status: "NOT_STARTED", attempts: 0, startedAt: null, completedAt: null }),
   });
   const submissions = table("activitySubmission", { uniques: [["progressId", "attempt"]] });
-  const notifications = table("notification");
+  const notifications = table("notification", { defaults: () => ({ readAt: null }) });
   const scenarios = table("scenario", { uniques: [["key"]] });
   const scenarioVersions = table("scenarioVersion", { defaults: () => ({ isActive: true }) });
   const rubrics = table("rubric", { defaults: () => ({ criticalCriteria: null, passThreshold: null }) });
@@ -138,6 +149,13 @@ export function createFakePrisma() {
   const evaluations = table("aIEvaluation");
   const reviews = table("humanReview", { defaults: () => ({ status: "PENDING", triggers: [], notes: null, reviewerId: null, decidedAt: null }) });
   const events = table("integrityEvent", { defaults: () => ({ at: new Date(), metadata: null }) });
+  const prefSets = table("preferenceSet", {
+    uniques: [["userId"]],
+    defaults: () => ({ selfAnswers: null, hardFilters: null, questionnaireVersion: null, submittedAt: null, availability: "AVAILABLE", availableAfter: null }),
+  });
+  const prefItems = table("preferenceItem", { uniques: [["setId", "key"]], defaults: () => ({ note: null }) });
+  const matches = table("match", { defaults: () => ({ status: "ACTIVE", stage: "EXPECTATIONS_PENDING", closedAt: null, closureNote: null }) });
+  const exclusions = table("matchExclusion", { uniques: [["userLowId", "userHighId"]] });
 
   const withProfile = (u: Row | null, include?: Row) =>
     u && include?.profile ? { ...u, profile: profiles.rows.find((p) => p.userId === u.id) ?? null } : u;
@@ -146,6 +164,7 @@ export function createFakePrisma() {
     // Direct access for assertions in tests
     users, profiles, sessions, tokens, audit, settings, programme, days, activities, enrollments, progress, submissions, notifications,
     scenarios, scenarioVersions, rubrics, assessmentSessions: sessionsA, answers, evaluations, reviews, events,
+    prefSets, prefItems, matches, exclusions,
 
     user: {
       async create({ data }: { data: Row }) {
@@ -157,9 +176,10 @@ export function createFakePrisma() {
       async findUnique({ where, include }: { where: Where; include?: Row }) {
         return withProfile(await users.findUnique({ where }), include);
       },
+      findMany: users.findMany,
       update: users.update,
     },
-    profile: { findUnique: profiles.findUnique, update: profiles.update },
+    profile: { findUnique: profiles.findUnique, findMany: profiles.findMany, update: profiles.update },
     authSession: {
       create: sessions.create,
       update: sessions.update,
@@ -174,10 +194,10 @@ export function createFakePrisma() {
     systemSetting: { findUnique: settings.findUnique },
     programmeDay: { findMany: days.findMany, findUnique: days.findUnique },
     activity: { findMany: activities.findMany, findUnique: activities.findUnique },
-    enrollment: { create: enrollments.create, findUnique: enrollments.findUnique, findFirst: enrollments.findFirst, update: enrollments.update },
+    enrollment: { create: enrollments.create, findUnique: enrollments.findUnique, findFirst: enrollments.findFirst, findMany: enrollments.findMany, update: enrollments.update },
     activityProgress: { findMany: progress.findMany, update: progress.update, upsert: progress.upsert },
     activitySubmission: { create: submissions.create, findFirst: submissions.findFirst },
-    notification: { create: notifications.create },
+    notification: { create: notifications.create, findMany: notifications.findMany, updateMany: notifications.updateMany },
     scenarioVersion: { findFirst: scenarioVersions.findFirst, findUnique: scenarioVersions.findUnique },
     rubric: { findFirst: rubrics.findFirst },
     assessmentSession: {
@@ -186,6 +206,10 @@ export function createFakePrisma() {
     assessmentAnswer: { create: answers.create, findFirst: answers.findFirst, findUnique: answers.findUnique },
     aIEvaluation: { create: evaluations.create, findMany: evaluations.findMany },
     humanReview: { create: reviews.create, findMany: reviews.findMany, findUnique: reviews.findUnique, update: reviews.update },
+    preferenceSet: { findUnique: prefSets.findUnique, findMany: prefSets.findMany, upsert: prefSets.upsert, update: prefSets.update },
+    preferenceItem: { findMany: prefItems.findMany, deleteMany: prefItems.deleteMany, createMany: prefItems.createMany },
+    match: { create: matches.create, findUnique: matches.findUnique, findFirst: matches.findFirst, findMany: matches.findMany, update: matches.update },
+    matchExclusion: { create: exclusions.create, findMany: exclusions.findMany },
     integrityEvent: { create: events.create, findFirst: events.findFirst, findMany: events.findMany, count: events.count },
 
     $transaction: (ops: Promise<unknown>[]) => Promise.all(ops),

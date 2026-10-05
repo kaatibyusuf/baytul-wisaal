@@ -10,6 +10,9 @@ import { OriginGuard } from "./common/origin.guard";
 import { RolesGuard } from "./common/roles.guard";
 import { EmailModule } from "./email/email.module";
 import { HealthModule } from "./health/health.module";
+import { MatchingModule } from "./matching/matching.module";
+import { NotificationsModule } from "./notifications/notifications.module";
+import { PreferencesModule } from "./preferences/preferences.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ProfileModule } from "./profile/profile.module";
 import { ProgrammeModule } from "./programme/programme.module";
@@ -30,6 +33,9 @@ import { UsersModule } from "./users/users.module";
     ProfileModule,
     ProgrammeModule,
     AssessmentModule,
+    PreferencesModule,
+    MatchingModule,
+    NotificationsModule,
     HealthModule,
   ],
   providers: [

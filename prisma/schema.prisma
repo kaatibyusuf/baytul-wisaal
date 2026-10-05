@@ -106,6 +106,12 @@ enum IntegrityEventType {
   QUESTION_SERVED
 }
 
+/// Whether a person is open to being matched right now (PRD section 19: current availability)
+enum Availability {
+  AVAILABLE
+  PAUSED
+}
+
 /// PRD section 17
 enum PreferenceLevel {
   NON_NEGOTIABLE
@@ -180,6 +186,9 @@ model Profile {
   gender        Gender
   dateOfBirth   DateTime
   location      String?
+  /// Structured location used by the location filter in matching
+  country       String?
+  region        String?
   nationality   String?
   maritalStatus MaritalStatus
   phone         String?
@@ -483,6 +492,14 @@ model PreferenceSet {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   /// Hard filters: age range, location, marital status, relocation, timeline, etc.
   hardFilters Json?
+  /// The person's own answer to each question, keyed by question key
+  selfAnswers Json?
+  questionnaireVersion Int?
+  /// Set when the form is first completed. Only people with this set can be matched.
+  submittedAt DateTime?
+  availability Availability @default(AVAILABLE)
+  /// Cooling-off after withdrawing from a match, so matches cannot be browsed by closing them
+  availableAfter DateTime?
   updatedAt   DateTime @updatedAt
 
   items PreferenceItem[]

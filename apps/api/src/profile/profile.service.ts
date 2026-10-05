@@ -25,6 +25,8 @@ export class ProfileService {
       dateOfBirth: p.dateOfBirth,
       maritalStatus: p.maritalStatus,
       location: p.location,
+      country: p.country,
+      region: p.region,
       nationality: p.nationality,
       phone: p.phone,
       education: p.education,
@@ -41,7 +43,7 @@ export class ProfileService {
   async update(userId: string, dto: UpdateProfileDto) {
     const current = await this.load(userId);
     const data: Prisma.ProfileUpdateInput = {};
-    const simple = ["preferredName", "location", "nationality", "phone", "education", "occupation"] as const;
+    const simple = ["preferredName", "location", "country", "region", "nationality", "phone", "education", "occupation"] as const;
     for (const k of simple) if (dto[k] !== undefined) data[k] = dto[k];
     if (dto.maritalStatus !== undefined) data.maritalStatus = dto.maritalStatus;
     // Nested objects replace the stored object, so clearing a field is possible.

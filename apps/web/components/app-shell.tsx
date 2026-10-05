@@ -9,6 +9,8 @@ import { api, type Me } from "@/lib/api";
 const links = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/programme", label: "Programme" },
+  { href: "/preferences", label: "Preferences" },
+  { href: "/matches", label: "Matches" },
   { href: "/profile", label: "Profile" },
 ];
 
@@ -25,6 +27,7 @@ export function AppShell({ children, width = "max-w-4xl" }: { children: ReactNod
       .catch(() => undefined);
   }, []);
   const isReviewer = role === "MODERATOR" || role === "ADMIN" || role === "SUPER_ADMIN";
+  const isAdmin = role === "ADMIN" || role === "SUPER_ADMIN";
 
   async function signOut() {
     await api("/auth/logout", { method: "POST", body: {} }).catch(() => undefined);
@@ -39,7 +42,7 @@ export function AppShell({ children, width = "max-w-4xl" }: { children: ReactNod
             <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto" priority />
           </Link>
           <nav aria-label="Main" className="flex items-center gap-5 text-sm">
-            {[...links, ...(isReviewer ? [{ href: "/admin/reviews", label: "Reviews" }] : [])].map((l) => (
+            {[...links, ...(isReviewer ? [{ href: "/admin/reviews", label: "Reviews" }] : []), ...(isAdmin ? [{ href: "/admin/matchmaking", label: "Matchmaking" }] : [])].map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
