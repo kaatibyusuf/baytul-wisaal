@@ -91,3 +91,26 @@ $env:SEED_DEV_FAST=1; pnpm db:seed
 ```
 
 Put the real timings back with `$env:SEED_DEV_FAST=0; pnpm db:seed`.
+
+## Scenario assessment and AI evaluation (Milestone 4, backend)
+
+- A scenario is shown only inside a protected session: its own token (rotated on every reload),
+  an expiry, a watermark code, uncached responses, and every fetch logged.
+- Answers are validated on the server (no vague stock answers), kept exactly as written, and evaluated
+  in the background by up to three providers (Anthropic, OpenAI, Google) behind one interface.
+- Scores are combined (median per criterion). A critical flag from ANY provider stands.
+- Business rules decide what happens next. The AI can only ever pass someone automatically when nothing is
+  unusual. Low scores, critical flags, low confidence, provider disagreement, contradictions, suspicious signals,
+  prompt-injection attempts and outages all go to a human reviewer. The AI never fails anyone by itself.
+- Reviewers use `GET /api/v1/admin/reviews` and `POST /api/v1/admin/reviews/:id/decision` (roles MODERATOR or ADMIN).
+- Add API keys to `apps/api/.env` (see `.env.example`). Without keys everything goes to human review.
+- The scenario and rubric in `src/seed.ts` are **samples**. Day 4 of the sample programme contains the scenario.
+
+After pulling this milestone (PowerShell):
+
+```powershell
+pnpm install
+pnpm db:generate
+pnpm db:migrate --name assessment
+pnpm db:seed
+```

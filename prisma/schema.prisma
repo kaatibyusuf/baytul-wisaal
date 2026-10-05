@@ -72,8 +72,17 @@ enum ActivityStatus {
 enum SessionStatus {
   ACTIVE
   SUBMITTED
+  EVALUATED
   EXPIRED
   VOIDED
+}
+
+/// Where an assessment answer is in the evaluation pipeline (PRD section 11)
+enum EvalState {
+  NONE
+  PENDING
+  DONE
+  REVIEW
 }
 
 enum ReviewStatus {
@@ -94,6 +103,7 @@ enum IntegrityEventType {
   PAGE_RELOAD
   SESSION_CHANGE
   SCREEN_CAPTURE_SIGNAL
+  QUESTION_SERVED
 }
 
 /// PRD section 17
@@ -365,6 +375,8 @@ model AssessmentSession {
   id                String          @id @default(cuid())
   userId            String
   user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// The programme activity this session belongs to
+  activityId        String?
   scenarioVersionId String
   scenarioVersion   ScenarioVersion @relation(fields: [scenarioVersionId], references: [id])
   status            SessionStatus   @default(ACTIVE)
@@ -377,12 +389,19 @@ model AssessmentSession {
   startedAt         DateTime        @default(now())
   expiresAt         DateTime
   submittedAt       DateTime?
+  lastSeenAt        DateTime?
+  evalState         EvalState       @default(NONE)
+  evalAttempts      Int             @default(0)
+  evalError         String?
+  evaluatedAt       DateTime?
   integrityScore    Int?
 
   answers AssessmentAnswer[]
   events  IntegrityEvent[]
 
   @@index([userId, status])
+  @@index([userId, activityId])
+  @@index([evalState])
 }
 
 /// The original answer is always preserved (PRD section 10). Rows are never updated.
@@ -393,6 +412,8 @@ model AssessmentAnswer {
   /// 0 for the main answer, 1..n for follow-ups.
   sequence     Int               @default(0)
   promptShown  String
+  /// Per-question answers, kept exactly as written
+  parts        Json?
   originalText String
   createdAt    DateTime          @default(now())
 
@@ -418,6 +439,8 @@ model AIEvaluation {
   confidence     Float?
   followUp       String?
   recommendation String?
+  /// True for the combined result across providers; false for a single provider's result.
+  isAggregate    Boolean          @default(false)
   /// True when a critical criterion is triggered; forces human review (PRD section 12).
   criticalFlag   Boolean          @default(false)
   createdAt      DateTime         @default(now())
@@ -431,6 +454,8 @@ model HumanReview {
   answer     AssessmentAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
   reviewerId String?
   status     ReviewStatus @default(PENDING)
+  /// Why this was sent for review, e.g. CRITICAL_FLAG, LOW_CONFIDENCE
+  triggers   String[]     @default([])
   reason     String?
   notes      String?
   createdAt  DateTime     @default(now())

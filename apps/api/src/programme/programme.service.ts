@@ -242,7 +242,12 @@ export class ProgrammeService {
   async activityView(userId: string, activityId: string) {
     const ctx = await this.context(userId, activityId);
     const { activity } = ctx;
-    if (activity.type !== ActivityType.LESSON && activity.type !== ActivityType.REFLECTION && activity.type !== ActivityType.QUIZ) {
+    if (
+      activity.type !== ActivityType.LESSON &&
+      activity.type !== ActivityType.REFLECTION &&
+      activity.type !== ActivityType.QUIZ &&
+      activity.type !== ActivityType.SCENARIO
+    ) {
       throw notAvailable();
     }
 
@@ -283,6 +288,14 @@ export class ProgrammeService {
         ...base,
         content: { prompt: c.prompt, minWords: c.minWords ?? 50 },
         submittedText: (last?.data as { text?: string } | undefined)?.text ?? null,
+      };
+    }
+
+    if (activity.type === ActivityType.SCENARIO) {
+      // The scenario itself is only ever served inside a protected assessment session.
+      return {
+        ...base,
+        sessionMinutes: await this.settingsSvc.get<number>("assessment.sessionMinutes", 60),
       };
     }
 
@@ -375,6 +388,69 @@ export class ProgrammeService {
     const done = await this.result(ctx, status);
     // Only the score and the verdict go back, never which answers were wrong.
     return { ...done, score: graded.score, passed, attemptsLeft: Math.max(0, maxAttempts - attempt) };
+  }
+
+  // ───────────────────────── Used by the assessment engine ─────────────────────────
+
+  /** Checks a person may start this scenario now, and marks it opened. */
+  async prepareScenario(userId: string, activityId: string) {
+    const ctx = await this.context(userId, activityId);
+    if (ctx.activity.type !== ActivityType.SCENARIO) {
+      throw new BadRequestException({ code: "WRONG_TYPE", message: "This activity is not a scenario." });
+    }
+    this.assertEnrollmentActive(ctx.enrollment);
+    let progress = await this.progressFor(ctx.enrollment.id, ctx.activity.id);
+    if (progress.status === ActivityStatus.PASSED) {
+      throw new ConflictException({ code: "ALREADY_COMPLETE", message: "You have already completed this." });
+    }
+    if (progress.status === ActivityStatus.SUBMITTED || progress.status === ActivityStatus.UNDER_REVIEW) {
+      throw new ConflictException({ code: "ALREADY_SUBMITTED", message: "Your response has been received and is being reviewed." });
+    }
+    if (progress.status === ActivityStatus.FAILED) {
+      throw new ForbiddenException({ code: "ON_HOLD", message: "This is with our team. We will be in touch." });
+    }
+    if (!progress.startedAt) {
+      progress = await this.prisma.activityProgress.update({
+        where: { id: progress.id },
+        data: { startedAt: new Date(), status: ActivityStatus.IN_PROGRESS },
+      });
+    }
+    return { activity: ctx.activity };
+  }
+
+  /**
+   * Sets the outcome of an activity decided outside this service (assessment evaluation or a
+   * moderator), then rechecks whether the whole programme is now complete.
+   */
+  async resolveActivity(userId: string, activityId: string, status: ActivityStatus) {
+    const activity = await this.prisma.activity.findUnique({ where: { id: activityId } });
+    if (!activity) return null;
+    const day = await this.prisma.programmeDay.findUnique({ where: { id: activity.dayId } });
+    if (!day) return null;
+    const enrollment = await this.findEnrollment(userId, day.programmeId);
+    if (!enrollment) return null;
+
+    const progress = await this.progressFor(enrollment.id, activity.id);
+    await this.prisma.activityProgress.update({
+      where: { id: progress.id },
+      data: {
+        status,
+        completedAt: status === ActivityStatus.PASSED ? new Date() : progress.completedAt,
+        attempts: status === ActivityStatus.SUBMITTED ? progress.attempts + 1 : progress.attempts,
+      },
+    });
+    const settings = await this.settings();
+    return this.result({ activity, day, enrollment, settings, programmeId: day.programmeId }, status);
+  }
+
+  /** The status the person sees for an activity, for polling after a scenario is submitted. */
+  async activityStatusFor(userId: string, activityId: string): Promise<ActivityStatus> {
+    const activity = await this.prisma.activity.findUnique({ where: { id: activityId } });
+    const day = activity && (await this.prisma.programmeDay.findUnique({ where: { id: activity.dayId } }));
+    const enrollment = day && (await this.findEnrollment(userId, day.programmeId));
+    if (!activity || !enrollment) return ActivityStatus.NOT_STARTED;
+    const progress = await this.progressFor(enrollment.id, activity.id);
+    return progress.status;
   }
 
   // ───────────────────────── Internals ─────────────────────────

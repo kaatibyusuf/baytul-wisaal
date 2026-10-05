@@ -4,7 +4,8 @@
  * verified separately against real Postgres.
  */
 let counter = 0;
-const newId = () => `id_${++counter}`;
+/** Real ids are 25-character cuids, so the fake makes ids of the same length. */
+const newId = () => `c${String(++counter).padStart(24, "0")}`;
 
 type Row = Record<string, any>;
 type Where = Record<string, any>;
@@ -123,6 +124,20 @@ export function createFakePrisma() {
   });
   const submissions = table("activitySubmission", { uniques: [["progressId", "attempt"]] });
   const notifications = table("notification");
+  const scenarios = table("scenario", { uniques: [["key"]] });
+  const scenarioVersions = table("scenarioVersion", { defaults: () => ({ isActive: true }) });
+  const rubrics = table("rubric", { defaults: () => ({ criticalCriteria: null, passThreshold: null }) });
+  const sessionsA = table("assessmentSession", {
+    uniques: [["watermarkCode"]],
+    defaults: () => ({
+      status: "ACTIVE", evalState: "NONE", evalAttempts: 0, evalError: null, evaluatedAt: null,
+      integrityScore: null, startedAt: new Date(), submittedAt: null, lastSeenAt: null,
+    }),
+  });
+  const answers = table("assessmentAnswer", { uniques: [["sessionId", "sequence"]] });
+  const evaluations = table("aIEvaluation");
+  const reviews = table("humanReview", { defaults: () => ({ status: "PENDING", triggers: [], notes: null, reviewerId: null, decidedAt: null }) });
+  const events = table("integrityEvent", { defaults: () => ({ at: new Date(), metadata: null }) });
 
   const withProfile = (u: Row | null, include?: Row) =>
     u && include?.profile ? { ...u, profile: profiles.rows.find((p) => p.userId === u.id) ?? null } : u;
@@ -130,6 +145,7 @@ export function createFakePrisma() {
   const fake: Row = {
     // Direct access for assertions in tests
     users, profiles, sessions, tokens, audit, settings, programme, days, activities, enrollments, progress, submissions, notifications,
+    scenarios, scenarioVersions, rubrics, assessmentSessions: sessionsA, answers, evaluations, reviews, events,
 
     user: {
       async create({ data }: { data: Row }) {
@@ -162,6 +178,15 @@ export function createFakePrisma() {
     activityProgress: { findMany: progress.findMany, update: progress.update, upsert: progress.upsert },
     activitySubmission: { create: submissions.create, findFirst: submissions.findFirst },
     notification: { create: notifications.create },
+    scenarioVersion: { findFirst: scenarioVersions.findFirst, findUnique: scenarioVersions.findUnique },
+    rubric: { findFirst: rubrics.findFirst },
+    assessmentSession: {
+      create: sessionsA.create, findUnique: sessionsA.findUnique, findMany: sessionsA.findMany, update: sessionsA.update,
+    },
+    assessmentAnswer: { create: answers.create, findFirst: answers.findFirst, findUnique: answers.findUnique },
+    aIEvaluation: { create: evaluations.create, findMany: evaluations.findMany },
+    humanReview: { create: reviews.create, findMany: reviews.findMany, findUnique: reviews.findUnique, update: reviews.update },
+    integrityEvent: { create: events.create, findFirst: events.findFirst, findMany: events.findMany, count: events.count },
 
     $transaction: (ops: Promise<unknown>[]) => Promise.all(ops),
     $queryRaw: async () => [{ "?column?": 1 }],

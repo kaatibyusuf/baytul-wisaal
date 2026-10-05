@@ -11,12 +11,13 @@
  */
 import "dotenv/config";
 import { ActivityType, Prisma, PrismaClient } from "@prisma/client";
+import { ASSESSMENT_DEFAULTS } from "./assessment/settings";
 import { DEFAULT_SETTINGS, SETTING_KEYS } from "./programme/rules";
 
 const prisma = new PrismaClient();
 
 type Block = { type: "h" | "p" | "quote"; text: string };
-type Seed = { type: ActivityType; title: string; required?: boolean; content: Prisma.InputJsonValue };
+type Seed = { type: ActivityType; title: string; required?: boolean; content: Prisma.InputJsonValue; scenarioKey?: string };
 
 const lesson = (title: string, blocks: Block[]): Seed => ({ type: ActivityType.LESSON, title, content: { blocks } });
 const reflection = (title: string, prompt: string, minWords: number): Seed => ({
@@ -103,6 +104,18 @@ const authored: Record<number, { title: string; activities: Seed[] }> = {
       ),
     ],
   },
+  4: {
+    title: "A scenario: when two duties collide",
+    activities: [
+      lesson("How scenarios work", [
+        { type: "p", text: "SAMPLE CONTENT. Today you are placed in a realistic situation and asked to decide. There is no trick answer. What matters is that you make a concrete decision, explain it, and show that you have thought about everyone affected." },
+        { type: "p", text: "Answers such as \"it depends\" or \"I would communicate\" are not accepted on their own, because they do not show how you would actually act. Say what you would do, in what order, and why." },
+        { type: "h", text: "How the assessment is run" },
+        { type: "p", text: "The scenario is shown only inside a protected session with a time limit and cannot be copied. Switching away from the page is noted for a person to consider, and is not treated as proof of anything. Write in your own words." },
+      ]),
+      { type: ActivityType.SCENARIO, title: "Scenario: a job loss and a parent's treatment", content: {}, scenarioKey: "job-loss-parent-treatment" },
+    ],
+  },
 };
 
 const placeholder = (n: number): { title: string; activities: Seed[] } => ({
@@ -122,6 +135,63 @@ async function main() {
     create: { slug: "marriage-readiness", title: "Marriage Readiness Programme", totalDays: 30 },
   });
 
+  // SAMPLE scenario content. Replace with the real scenarios and rubrics (PRD sections 8 and 9).
+  const scenario = await prisma.scenario.upsert({
+    where: { key: "job-loss-parent-treatment" },
+    update: {},
+    create: { key: "job-loss-parent-treatment", competency: "Finance, family and communication" },
+  });
+  const body = {
+    title: "A job loss and a parent's treatment",
+    template:
+      "You have been married for {{months}} months. Your combined household income is {{income}}. Your spouse loses their job. Your {{parent}} urgently needs {{need}} for medical treatment. You have {{savings}} in savings. Your spouse does not want you to use the emergency fund without discussing it together. Your {{parent}} says your spouse has become more important to you than your own {{parent}}. You have 48 hours to decide.",
+    variables: {
+      months: { type: "int", min: 10, max: 18 },
+      income: { type: "int", min: 500000, max: 800000, step: 50000, format: "naira" },
+      need: { type: "int", min: 200000, max: 300000, step: 50000, format: "naira" },
+      savings: { type: "int", min: 800000, max: 1200000, step: 100000, format: "naira" },
+      parent: { type: "choice", options: ["father", "mother"] },
+    },
+    instructions: "Make a decision and explain it. Answers like \"it depends\" or \"I would communicate\" are not accepted on their own.",
+    parts: [
+      { key: "decision", label: "What do you decide to do?", minWords: 12 },
+      { key: "reasoning", label: "Why did you decide this?", minWords: 12 },
+      { key: "funds", label: "Where exactly does the money come from?", minWords: 10 },
+      { key: "tellSpouse", label: "What do you tell your spouse, and when?", minWords: 12 },
+      { key: "tellParent", label: "What do you tell your parent, and when?", minWords: 12 },
+      { key: "cuts", label: "Which expenses would you cut?", minWords: 10 },
+      { key: "spouseDisagrees", label: "What happens if your spouse still disagrees?", minWords: 12 },
+      { key: "parentAngry", label: "What happens if your parent becomes angry?", minWords: 12 },
+      { key: "whoIsRight", label: "What is each side right about?", minWords: 12 },
+      { key: "principle", label: "What principle is behind your decision?", minWords: 10 },
+    ],
+  };
+  const hasVersion = await prisma.scenarioVersion.findFirst({ where: { scenarioId: scenario.id } });
+  if (!hasVersion) await prisma.scenarioVersion.create({ data: { scenarioId: scenario.id, version: 1, body } });
+  const hasRubric = await prisma.rubric.findFirst({ where: { scenarioId: scenario.id } });
+  if (!hasRubric) {
+    await prisma.rubric.create({
+      data: {
+        scenarioId: scenario.id,
+        version: 1,
+        passThreshold: 70,
+        criteria: [
+          { key: "financial_responsibility", label: "Financial responsibility", weight: 20, description: "Realistic, specific handling of the money, including repayment and protecting the household." },
+          { key: "communication", label: "Communication", weight: 20, description: "Concrete plans for what is said, to whom and when, including honesty and timing." },
+          { key: "conflict_resolution", label: "Conflict resolution", weight: 20, description: "A workable way through disagreement with the spouse and with the parent." },
+          { key: "consideration_of_spouse", label: "Consideration of spouse", weight: 15, description: "Treats the spouse as a partner whose concerns are weighed and respected." },
+          { key: "practical_reasoning", label: "Practical reasoning", weight: 15, description: "A plan that could actually be carried out within the time and means given." },
+          { key: "self_awareness", label: "Self-awareness", weight: 10, description: "Recognises their own pressures, bias and what each side is right about." },
+        ],
+        criticalCriteria: [
+          { key: "violence_or_coercion", label: "Violence or coercion", description: "Willingness to use violence, threats or coercion against anyone." },
+          { key: "serious_deception", label: "Serious deliberate deception", description: "Plans to seriously and deliberately deceive the spouse or parent." },
+          { key: "severe_financial_irresponsibility", label: "Severe financial irresponsibility", description: "Plans that would knowingly put the household in serious financial danger." },
+        ],
+      },
+    });
+  }
+
   for (let n = 1; n <= programme.totalDays; n++) {
     const def = authored[n] ?? placeholder(n);
     const day = await prisma.programmeDay.upsert({
@@ -131,7 +201,8 @@ async function main() {
     });
     for (const [i, a] of def.activities.entries()) {
       const existing = await prisma.activity.findFirst({ where: { dayId: day.id, position: i } });
-      const data = { type: a.type, title: a.title, required: a.required ?? true, content: a.content, position: i };
+      const scenarioId = a.scenarioKey ? (await prisma.scenario.findUnique({ where: { key: a.scenarioKey } }))?.id ?? null : null;
+      const data = { type: a.type, title: a.title, required: a.required ?? true, content: a.content, position: i, scenarioId };
       if (existing) await prisma.activity.update({ where: { id: existing.id }, data });
       else await prisma.activity.create({ data: { ...data, dayId: day.id } });
     }
@@ -148,6 +219,11 @@ async function main() {
     } else {
       await prisma.systemSetting.upsert({ where: { key }, update: { value }, create: { key, value } });
     }
+  }
+
+  for (const [k, v] of Object.entries(ASSESSMENT_DEFAULTS)) {
+    const key = `assessment.${k}`;
+    await prisma.systemSetting.upsert({ where: { key }, update: {}, create: { key, value: v } });
   }
 
   console.log(
