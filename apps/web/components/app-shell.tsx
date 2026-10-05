@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import type { ReactNode } from "react";
-import { api } from "@/lib/api";
+import { useEffect, useState, type ReactNode } from "react";
+import { api, type Me } from "@/lib/api";
 
 const links = [
   { href: "/dashboard", label: "Dashboard" },
@@ -16,6 +16,15 @@ const links = [
 export function AppShell({ children, width = "max-w-4xl" }: { children: ReactNode; width?: string }) {
   const router = useRouter();
   const path = usePathname();
+  const [role, setRole] = useState<string | null>(null);
+
+  // Only used to show the Reviews link. The API enforces who may actually review.
+  useEffect(() => {
+    api<Me>("/users/me")
+      .then((m) => setRole(m.role))
+      .catch(() => undefined);
+  }, []);
+  const isReviewer = role === "MODERATOR" || role === "ADMIN" || role === "SUPER_ADMIN";
 
   async function signOut() {
     await api("/auth/logout", { method: "POST", body: {} }).catch(() => undefined);
@@ -30,7 +39,7 @@ export function AppShell({ children, width = "max-w-4xl" }: { children: ReactNod
             <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto" priority />
           </Link>
           <nav aria-label="Main" className="flex items-center gap-5 text-sm">
-            {links.map((l) => (
+            {[...links, ...(isReviewer ? [{ href: "/admin/reviews", label: "Reviews" }] : [])].map((l) => (
               <Link
                 key={l.href}
                 href={l.href}

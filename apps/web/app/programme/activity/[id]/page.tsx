@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AppShell, PageLoading } from "@/components/app-shell";
+import { ScenarioRunner } from "@/components/scenario-runner";
 import { Button, FormMessage } from "@/components/ui";
 import { ApiError, api, type ActivityResult, type ActivityView } from "@/lib/api";
 import { useLoad } from "@/lib/use-load";
@@ -201,6 +202,17 @@ function Quiz({ a, onDone }: { a: Extract<ActivityView, { type: "QUIZ" }>; onDon
   );
 }
 
+function ScenarioPanel({ a }: { a: Extract<ActivityView, { type: "SCENARIO" }> }) {
+  if (a.status === "PASSED") return <p className="mt-6 font-semibold text-aqua-ink">✓ You have completed this scenario.</p>;
+  if (a.status === "SUBMITTED" || a.status === "UNDER_REVIEW") {
+    return <div className="mt-6"><FormMessage tone="info">Your response has been received and is being assessed. There is nothing you need to do.</FormMessage></div>;
+  }
+  if (a.status === "FAILED") {
+    return <div className="mt-6"><FormMessage tone="info">This activity is with our team. We will be in touch.</FormMessage></div>;
+  }
+  return <ScenarioRunner activityId={a.id} sessionMinutes={a.sessionMinutes} dayNumber={a.dayNumber} />;
+}
+
 export default function ActivityPage() {
   const { id } = useParams<{ id: string }>();
   const { data, error, reload } = useLoad<ActivityView>(`/programme/activities/${id}`);
@@ -233,6 +245,7 @@ export default function ActivityPage() {
       {data.type === "LESSON" && <Lesson key={data.id} a={data} onDone={finish} />}
       {data.type === "REFLECTION" && <Reflection key={data.id} a={data} onDone={finish} />}
       {data.type === "QUIZ" && <Quiz key={data.id} a={data} onDone={finish} />}
+      {data.type === "SCENARIO" && <ScenarioPanel a={data} />}
 
       {result && <Outcome result={result} dayNumber={data.dayNumber} />}
     </AppShell>

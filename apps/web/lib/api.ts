@@ -17,14 +17,14 @@ export class ApiError extends Error {
  */
 export async function api<T = unknown>(
   path: string,
-  opts: { method?: string; body?: unknown } = {},
+  opts: { method?: string; body?: unknown; headers?: Record<string, string> } = {},
 ): Promise<T> {
   let res: Response;
   try {
     res = await fetch(`${BASE}${path}`, {
       method: opts.method ?? (opts.body ? "POST" : "GET"),
       credentials: "include",
-      headers: opts.body ? { "Content-Type": "application/json" } : undefined,
+      headers: { ...(opts.body ? { "Content-Type": "application/json" } : {}), ...(opts.headers ?? {}) },
       body: opts.body ? JSON.stringify(opts.body) : undefined,
     });
   } catch {
@@ -80,6 +80,7 @@ export type ActivityView = {
   | { type: "LESSON"; content: { blocks: { type: "h" | "p" | "quote"; text: string }[] }; minReadSeconds: number }
   | { type: "REFLECTION"; content: { prompt: string; minWords: number }; submittedText: string | null }
   | { type: "QUIZ"; content: { questions: { text: string; options: string[] }[] }; passMark: number; maxAttempts: number }
+  | { type: "SCENARIO"; sessionMinutes: number }
 );
 
 export type ActivityResult = {
@@ -104,4 +105,44 @@ export type ProfileData = {
   occupation: string | null;
   religiousInfo: { practice?: string; quranStudy?: string; notes?: string };
   familyInfo: { siblings?: number; parents?: string; notes?: string };
+};
+
+export type AssessmentQuestion = {
+  sessionId: string;
+  watermark: string;
+  expiresAt: string;
+  title: string;
+  text: string;
+  instructions: string;
+  parts: { key: string; label: string; minWords: number }[];
+};
+
+export type SessionState = "IN_PROGRESS" | "RECEIVED" | "IN_REVIEW" | "COMPLETE" | "EXPIRED";
+
+export type ReviewListItem = { id: string; createdAt: string; triggers: string[] };
+
+export type ReviewDetail = {
+  id: string;
+  status: string;
+  triggers: string[];
+  createdAt: string;
+  candidate: string;
+  scenario: string;
+  answer: string;
+  integrityScore: number;
+  evaluations: {
+    provider: string;
+    model: string;
+    isAggregate: boolean;
+    total: number;
+    scores: Record<string, number>;
+    evidence: Record<string, string>;
+    concerns: string[] | null;
+    contradictions: { earlier: string; current: string; explanation: string }[] | null;
+    confidence: number | null;
+    followUp: string | null;
+    summary: string | null;
+    criticalFlag: boolean;
+  }[];
+  events: { type: string; at: string; metadata: Record<string, unknown> | null }[];
 };

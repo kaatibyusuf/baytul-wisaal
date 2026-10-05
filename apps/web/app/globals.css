@@ -234,3 +234,26 @@
 @theme inline {
   --color-soft-gold-on-dark: #d9a441;
 }
+
+
+/*
+  Protected assessment content (PRD section 27). This is a deterrent, not a lock: a browser
+  cannot stop a photo of the screen. It discourages casual copying and printing.
+*/
+.protected-content {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media print {
+  .protected-content,
+  .protected-hide-on-print {
+    display: none !important;
+  }
+  body::before {
+    content: "This content cannot be printed.";
+    display: block;
+    padding: 2rem;
+  }
+}

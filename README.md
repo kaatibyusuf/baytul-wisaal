@@ -114,3 +114,13 @@ pnpm db:generate
 pnpm db:migrate --name assessment
 pnpm db:seed
 ```
+
+### Trying the scenario and review screens
+
+1. Seed with fast settings: `$env:SEED_DEV_FAST=1; pnpm db:seed`, then `pnpm dev`.
+2. Sign in, open Programme, finish days 1 to 3, then open Day 4 and start the scenario.
+3. With no AI keys in `apps/api/.env`, the answer goes straight to human review, which lets you test the
+   whole flow for free. Add one or more keys to try the real evaluation.
+4. To review it, make a second account a reviewer: run `pnpm exec prisma studio --schema prisma/schema.prisma`,
+   open the `User` table, and set that account's `role` to `MODERATOR`. Sign in as that account and open Reviews.
+5. A reviewer cannot decide their own response, so use two accounts.
