@@ -82,6 +82,13 @@ export default function MatchesPage() {
             This is a deliberately short introduction. There is no photo at this stage, because we want you to think beyond appearance.
           </p>
 
+          <Link
+            href={`/matches/${current.id}`}
+            className="mt-6 inline-block rounded-md bg-nile px-5 py-3 font-semibold text-white transition-colors hover:bg-aqua"
+          >
+            {{ EXPECTATIONS_PENDING: "Write what you are seeking", RESPONSE_PENDING: "Respond to their expectations", COMPATIBILITY_REVIEW: "See where things stand", NEXT_STAGE: "See how you compare" }[current.stage] ?? "Continue"}
+          </Link>
+
           <div className="mt-6 border-t border-border pt-5">
             {!confirming ? (
               <Button variant="secondary" onClick={() => setConfirming(true)}>Close this pairing</Button>

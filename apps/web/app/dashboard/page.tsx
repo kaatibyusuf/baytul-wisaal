@@ -48,12 +48,30 @@ function journey(p: ProgrammeSummary, prefs: PreferencesForm, matches: MatchesDa
         cta: { href: prefs.availability === "PAUSED" ? "/preferences" : "/matches", label: prefs.availability === "PAUSED" ? "Resume matching" : "View matches" },
       };
     }
+    const stage = matches.current.stage;
+    const href = `/matches/${matches.current.id}`;
+    const common = [...base, { ...rest[0], state: "done" as const }, { ...rest[1], state: "done" as const }];
+    if (stage === "NEXT_STAGE") {
+      return {
+        steps: [...common, { ...rest[2], state: "done" }, { ...rest[3], state: "current" }],
+        where: "Your expectations are compatible enough to move forward.",
+        todo: "Look through how you compare, and the points to talk about.",
+        next: "The later steps open in a future release.",
+        cta: { href, label: "See how you compare" },
+      };
+    }
+    const todo =
+      stage === "EXPECTATIONS_PENDING"
+        ? "Write what you are seeking in a spouse."
+        : stage === "RESPONSE_PENDING"
+          ? "Read what they are seeking and respond to each point."
+          : "Nothing. Your expectations are being compared.";
     return {
-      steps: [...base, { ...rest[0], state: "done" }, { ...rest[1], state: "done" }, { ...rest[2], state: "current" }, rest[3]],
+      steps: [...common, { ...rest[2], state: "current" }, rest[3]],
       where: "You have a match.",
-      todo: "Read their introduction. Nothing else is needed yet.",
-      next: "The next step, sharing what each of you is seeking, opens in the next release.",
-      cta: { href: "/matches", label: "See your match" },
+      todo,
+      next: "When you have both written and responded, we compare your expectations.",
+      cta: { href, label: stage === "COMPATIBILITY_REVIEW" ? "See where things stand" : "Continue" },
     };
   }
   if (status === "EXPIRED" || status === "FAILED" || status === "UNDER_REVIEW") {

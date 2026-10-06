@@ -201,3 +201,20 @@ pnpm db:migrate --name postmatch
 pnpm db:seed
 pnpm test
 ```
+
+### Post-match screens (Milestone 6, web)
+
+- `/matches/[id]`: the whole flow in one place, with a progress strip. It shows the expectations editor (drafts, firmness levels,
+  limits and a submit confirmation), the response editor (one card per expectation, explanation required), waiting
+  and review states, and finally how the two of you compare.
+- `/admin/reviews` now also lists pairings awaiting review, and `/admin/compatibility/[id]` shows both sides without names
+  and records the decision (let it proceed, or close the pairing, which asks for confirmation).
+- The Matches page and the dashboard now point to the next step at every stage.
+
+To try it on your machine:
+
+1. Get two matched accounts (see the earlier steps: finish the programme, complete preferences, an admin runs matchmaking).
+2. As each person, open Matches, then "Write what you are seeking". Write at least 5 expectations and submit.
+3. Once both have submitted, each person sees the other's expectations. Respond to every one, with a real explanation.
+4. For an easy pass, agree with everything. For the review path, have one person mark something non-negotiable and the other disagree with it.
+5. As an administrator (or moderator who is not one of the two), open Reviews and look at the pairing.

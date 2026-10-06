@@ -216,3 +216,65 @@ export type NotificationsData = {
   unread: number;
   items: { id: string; type: string; title: string; body: string | null; readAt: string | null; createdAt: string }[];
 };
+
+export type ResponseType = "AGREE" | "PARTIALLY_AGREE" | "WILLING_TO_DISCUSS" | "DISAGREE" | "NOT_APPLICABLE";
+export type Classification = "ALIGNED" | "NEEDS_DISCUSSION" | "CONFLICT";
+
+export type FlowRules = {
+  categories: { key: string; title: string; hint: string; example: string }[];
+  levels: Level[];
+  responseTypes: ResponseType[];
+  minItems: number;
+  maxItems: number;
+  maxPhysicalItems: number;
+  maxNonNegotiable: number;
+  minExplanationWords: number;
+};
+
+export type FlowView = {
+  matchId: string;
+  status: "ACTIVE" | "CLOSED" | "PASSED";
+  stage: "EXPECTATIONS_PENDING" | "RESPONSE_PENDING" | "COMPATIBILITY_REVIEW" | "NEXT_STAGE";
+  note?: string | null;
+  rules?: FlowRules;
+  progress?: {
+    you: { expectationsSubmitted: boolean; responsesSubmitted: boolean };
+    other: { expectationsSubmitted: boolean; responsesSubmitted: boolean };
+  };
+  myExpectations?: { category: string; statement: string; level: Level; compromiseNote: string | null }[];
+  theirExpectations?:
+    | null
+    | { id: string; category: string; statement: string; level: Level; compromiseNote: string | null; myResponse: null | { type: ResponseType; explanation: string } }[];
+  result?: null | {
+    counts: { aligned: number; needsDiscussion: number; conflict: number; preferenceDisagreements: number };
+    categories: { category: string; classification: Classification }[];
+    items: {
+      direction: "YOURS" | "THEIRS";
+      category: string;
+      statement: string;
+      level: Level;
+      classification: Classification;
+      response: null | { type: ResponseType; explanation: string };
+    }[];
+  };
+};
+
+export type CompatQueueItem = { matchId: string; createdAt: string; reasons: string[] };
+
+export type CompatDetail = {
+  matchId: string;
+  decided: boolean;
+  passed: boolean | null;
+  reasons: string[];
+  counts: { aligned: number; needsDiscussion: number; conflict: number; preferenceDisagreements: number };
+  categories: { category: string; classification: Classification }[];
+  items: {
+    author: string;
+    category: string;
+    statement: string;
+    level: Level;
+    compromiseNote: string | null;
+    response: null | { type: ResponseType; explanation: string };
+    classification: Classification;
+  }[];
+};
