@@ -12,6 +12,7 @@ import { EmailModule } from "./email/email.module";
 import { HealthModule } from "./health/health.module";
 import { MatchingModule } from "./matching/matching.module";
 import { NotificationsModule } from "./notifications/notifications.module";
+import { PostMatchModule } from "./postmatch/postmatch.module";
 import { PreferencesModule } from "./preferences/preferences.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ProfileModule } from "./profile/profile.module";
@@ -35,6 +36,7 @@ import { UsersModule } from "./users/users.module";
     AssessmentModule,
     PreferencesModule,
     MatchingModule,
+    PostMatchModule,
     NotificationsModule,
     HealthModule,
   ],

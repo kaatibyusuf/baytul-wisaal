@@ -546,7 +546,10 @@ model MatchExpectation {
   matchId     String
   match       Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
   authorId    String
+  /// When the author finalised their expectations. Drafts have no value here.
   submittedAt DateTime?
+  /// When the OTHER person finalised their responses to these expectations.
+  responsesSubmittedAt DateTime?
 
   items MatchExpectationItem[]
 
@@ -562,6 +565,8 @@ model MatchExpectationItem {
   level         PreferenceLevel
   isDealBreaker Boolean         @default(false)
   compromiseNote String?
+  /// Order the author wrote them in
+  position      Int             @default(0)
 
   response MatchResponse?
 }
@@ -581,11 +586,15 @@ model Compatibility {
   id         String   @id @default(cuid())
   matchId    String   @unique
   match      Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
-  /// [{ itemId, category, classification: ALIGNED | NEEDS_DISCUSSION | CONFLICT }]
+  /// { areas: [{ itemId, authorId, category, classification }], categories: [...], counts: {...} }
   areas      Json
+  /// null while a person is still reviewing a result that did not meet the requirements
   passed     Boolean?
+  /// Why the rules did not pass it, e.g. CONFLICT
+  reasons    String[] @default([])
   summary    String?
   decidedBy  String?
+  decidedAt  DateTime?
   createdAt  DateTime @default(now())
 }
 

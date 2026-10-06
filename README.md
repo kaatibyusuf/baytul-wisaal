@@ -168,3 +168,36 @@ To try the whole flow on your machine:
 3. For each of the two, finish the programme (placeholder days are short), then complete `/preferences`.
 4. As the administrator, open Matchmaking, preview a round, then create the matches.
 5. Sign in as each of the two to see the introduction, then close the pairing from one of them.
+
+## Post-match flow (Milestone 6, backend)
+
+After a match is created, each person writes what they are seeking, responds to the other's expectations,
+and the system compares the two (PRD sections 21 to 24).
+
+- `GET /api/v1/matches/:id`: where you are, the rules, your own expectations, and (only when allowed) the other person's.
+- `PUT /api/v1/matches/:id/expectations` `{ items, submit }`: save a draft, or submit. A submitted form is locked.
+- `PUT /api/v1/matches/:id/responses` `{ responses, submit }`: respond to every one of the other person's expectations.
+- **Blind first.** Neither person sees the other's expectations until both have submitted their own, so nobody tailors
+  what they write to what they have just read. The other person's responses to you stay hidden until the result is known.
+- Every response needs a real explanation (8 words by default, no stock phrases), except "not applicable".
+- Each expectation becomes Aligned, Needs discussion or Conflict. Only disagreeing with something the other person
+  marked non-negotiable is a Conflict.
+- The pairing meets the requirements when there is no Conflict, no more than 10 discussion points, and no more than 3
+  disagreements with preferences. All of these are settings (`compat.*`).
+- A result that does not meet the requirements goes to a reviewer before the pairing is closed
+  (`compat.requireReviewOnFail`, on by default). Reviewers use `GET /api/v1/admin/compatibility`,
+  `GET /api/v1/admin/compatibility/:matchId` and `POST /api/v1/admin/compatibility/:matchId/decision`
+  with `{ "decision": "PASS" | "CLOSE" }`. Reviewers see both sides without names and cannot review their own pairing.
+- Closing for compatibility is permanent for the pair, uses the PRD wording ("This pairing did not meet the requirements
+  for the next stage."), and nobody rests afterwards. Details of what was written are never shown once a pairing closes.
+- Physical expectations are limited to 2 and can never be non-negotiable.
+
+After pulling this milestone (PowerShell):
+
+```powershell
+pnpm install
+pnpm db:generate
+pnpm db:migrate --name postmatch
+pnpm db:seed
+pnpm test
+```

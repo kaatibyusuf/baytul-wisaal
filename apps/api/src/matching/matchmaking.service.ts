@@ -14,11 +14,10 @@ const CLOSED_NOTE = "This pairing has been closed.";
 const ref = (id: string) => `User ${id.slice(-6)}`;
 
 const WHAT_NEXT: Record<MatchStage, string> = {
-  EXPECTATIONS_PENDING:
-    "The next step is for each of you to say what you are seeking in a spouse. That step opens in the next release. Nothing is needed from you yet.",
-  RESPONSE_PENDING: "Waiting for responses.",
-  COMPATIBILITY_REVIEW: "Your expectations are being compared.",
-  NEXT_STAGE: "You have reached the next stage.",
+  EXPECTATIONS_PENDING: "Write what you are seeking in a spouse. Your words stay private until you have both submitted.",
+  RESPONSE_PENDING: "Read what the other person is seeking and respond to each point, explaining your position.",
+  COMPATIBILITY_REVIEW: "Your expectations are being compared. Our team may take a look before the next step. Nothing is needed from you.",
+  NEXT_STAGE: "Your expectations are compatible enough to move forward. The later steps open in a future release.",
 };
 
 @Injectable()
@@ -218,9 +217,10 @@ export class MatchmakingService {
     return { ok: true, availableAfter: new Date(Date.now() + settings.withdrawCooldownDays * DAY) };
   }
 
-  private async closeAndExclude(matchId: string, a: string, b: string, why: string, by: string) {
+  /** Closes a pairing and makes it permanent: the same two people are never matched again (PRD rule 9). */
+  async closeAndExclude(matchId: string, a: string, b: string, why: string, by: string, note: string = CLOSED_NOTE) {
     const [low, high] = a < b ? [a, b] : [b, a];
-    await this.prisma.match.update({ where: { id: matchId }, data: { status: "CLOSED", closedAt: new Date(), closureNote: CLOSED_NOTE } });
+    await this.prisma.match.update({ where: { id: matchId }, data: { status: "CLOSED", closedAt: new Date(), closureNote: note } });
     try {
       await this.prisma.matchExclusion.create({ data: { userLowId: low, userHighId: high, reason: why, createdBy: by } });
     } catch (e) {

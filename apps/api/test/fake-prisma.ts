@@ -156,6 +156,10 @@ export function createFakePrisma() {
   const prefItems = table("preferenceItem", { uniques: [["setId", "key"]], defaults: () => ({ note: null }) });
   const matches = table("match", { defaults: () => ({ status: "ACTIVE", stage: "EXPECTATIONS_PENDING", closedAt: null, closureNote: null }) });
   const exclusions = table("matchExclusion", { uniques: [["userLowId", "userHighId"]] });
+  const expectations = table("matchExpectation", { uniques: [["matchId", "authorId"]], defaults: () => ({ submittedAt: null, responsesSubmittedAt: null }) });
+  const expItems = table("matchExpectationItem", { defaults: () => ({ isDealBreaker: false, compromiseNote: null, position: 0 }) });
+  const responses = table("matchResponse", { uniques: [["itemId"]], defaults: () => ({ explanation: null }) });
+  const compat = table("compatibility", { uniques: [["matchId"]], defaults: () => ({ passed: null, reasons: [], summary: null, decidedBy: null, decidedAt: null }) });
 
   const withProfile = (u: Row | null, include?: Row) =>
     u && include?.profile ? { ...u, profile: profiles.rows.find((p) => p.userId === u.id) ?? null } : u;
@@ -164,7 +168,7 @@ export function createFakePrisma() {
     // Direct access for assertions in tests
     users, profiles, sessions, tokens, audit, settings, programme, days, activities, enrollments, progress, submissions, notifications,
     scenarios, scenarioVersions, rubrics, assessmentSessions: sessionsA, answers, evaluations, reviews, events,
-    prefSets, prefItems, matches, exclusions,
+    prefSets, prefItems, matches, exclusions, expectations, expItems, responses, compat,
 
     user: {
       async create({ data }: { data: Row }) {
@@ -208,7 +212,11 @@ export function createFakePrisma() {
     humanReview: { create: reviews.create, findMany: reviews.findMany, findUnique: reviews.findUnique, update: reviews.update },
     preferenceSet: { findUnique: prefSets.findUnique, findMany: prefSets.findMany, upsert: prefSets.upsert, update: prefSets.update },
     preferenceItem: { findMany: prefItems.findMany, deleteMany: prefItems.deleteMany, createMany: prefItems.createMany },
-    match: { create: matches.create, findUnique: matches.findUnique, findFirst: matches.findFirst, findMany: matches.findMany, update: matches.update },
+    match: { create: matches.create, findUnique: matches.findUnique, findFirst: matches.findFirst, findMany: matches.findMany, update: matches.update, updateMany: matches.updateMany },
+    matchExpectation: { create: expectations.create, findFirst: expectations.findFirst, update: expectations.update },
+    matchExpectationItem: { findMany: expItems.findMany, deleteMany: expItems.deleteMany, createMany: expItems.createMany },
+    matchResponse: { findMany: responses.findMany, upsert: responses.upsert },
+    compatibility: { create: compat.create, findUnique: compat.findUnique, findMany: compat.findMany, update: compat.update },
     matchExclusion: { create: exclusions.create, findMany: exclusions.findMany },
     integrityEvent: { create: events.create, findFirst: events.findFirst, findMany: events.findMany, count: events.count },
 

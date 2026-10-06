@@ -13,6 +13,7 @@ import "dotenv/config";
 import { ActivityType, Prisma, PrismaClient } from "@prisma/client";
 import { ASSESSMENT_DEFAULTS } from "./assessment/settings";
 import { MATCHING_DEFAULTS } from "./matching/settings";
+import { COMPAT_DEFAULTS } from "./postmatch/rules";
 import { DEFAULT_SETTINGS, SETTING_KEYS } from "./programme/rules";
 
 const prisma = new PrismaClient();
@@ -229,6 +230,11 @@ async function main() {
 
   for (const [k, v] of Object.entries(MATCHING_DEFAULTS)) {
     const key = `matching.${k}`;
+    await prisma.systemSetting.upsert({ where: { key }, update: {}, create: { key, value: v } });
+  }
+
+  for (const [k, v] of Object.entries(COMPAT_DEFAULTS)) {
+    const key = `compat.${k}`;
     await prisma.systemSetting.upsert({ where: { key }, update: {}, create: { key, value: v } });
   }
 
