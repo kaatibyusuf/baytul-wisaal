@@ -14,9 +14,11 @@ const isPlainObject = (v: unknown): v is Row => !!v && typeof v === "object" && 
 
 function matches(row: Row, where: Where = {}): boolean {
   return Object.entries(where).every(([k, v]) => {
+    if (k === "OR") return (v as Where[]).some((w) => matches(row, w));
     // Composite unique keys like { userId_programmeId: { userId, programmeId } }
     if (k.includes("_") && isPlainObject(v) && !(k in row)) return matches(row, v);
     if (isPlainObject(v)) {
+      if ("contains" in v) return String(row[k] ?? "").toLowerCase().includes(String(v.contains).toLowerCase());
       if ("in" in v) return (v.in as unknown[]).includes(row[k]);
       if ("not" in v) return row[k] !== v.not;
       if ("lt" in v) return row[k] < v.lt;
@@ -75,8 +77,9 @@ function table(name: string, opts: { uniques?: string[][]; defaults?: () => Row 
     async findFirst({ where, orderBy }: { where?: Where; orderBy?: Row } = {}) {
       return copy(sortRows(rows.filter((r) => matches(r, where)), orderBy)[0]) ?? null;
     },
-    async findMany({ where, orderBy }: { where?: Where; orderBy?: Row } = {}) {
-      return sortRows(rows.filter((r) => matches(r, where)), orderBy).map(copy);
+    async findMany({ where, orderBy, skip, take }: { where?: Where; orderBy?: Row; skip?: number; take?: number } = {}) {
+      const all = sortRows(rows.filter((r) => matches(r, where)), orderBy);
+      return all.slice(skip ?? 0, take === undefined ? undefined : (skip ?? 0) + take).map(copy);
     },
     async count({ where }: { where?: Where } = {}) {
       return rows.filter((r) => matches(r, where)).length;
@@ -124,7 +127,7 @@ export function createFakePrisma() {
   const settings = table("systemSetting");
   const programme = table("programme", { defaults: () => ({ isActive: true, totalDays: 30 }) });
   const days = table("programmeDay", { uniques: [["programmeId", "dayNumber"]] });
-  const activities = table("activity", { defaults: () => ({ required: true, position: 0 }) });
+  const activities = table("activity", { defaults: () => ({ required: true, position: 0, scenarioId: null }) });
   const enrollments = table("enrollment", {
     uniques: [["userId", "programmeId"]],
     defaults: () => ({ status: "IN_PROGRESS", startedAt: new Date(), completedAt: null, dueAt: null }),
@@ -135,7 +138,7 @@ export function createFakePrisma() {
   });
   const submissions = table("activitySubmission", { uniques: [["progressId", "attempt"]] });
   const notifications = table("notification", { defaults: () => ({ readAt: null }) });
-  const scenarios = table("scenario", { uniques: [["key"]] });
+  const scenarios = table("scenario", { uniques: [["key"]], defaults: () => ({ competency: null }) });
   const scenarioVersions = table("scenarioVersion", { defaults: () => ({ isActive: true }) });
   const rubrics = table("rubric", { defaults: () => ({ criticalCriteria: null, passThreshold: null }) });
   const sessionsA = table("assessmentSession", {
@@ -181,6 +184,7 @@ export function createFakePrisma() {
         return withProfile(await users.findUnique({ where }), include);
       },
       findMany: users.findMany,
+      count: users.count,
       update: users.update,
     },
     profile: { findUnique: profiles.findUnique, findMany: profiles.findMany, update: profiles.update },
@@ -194,16 +198,17 @@ export function createFakePrisma() {
       },
     },
     authToken: { create: tokens.create, findUnique: tokens.findUnique, update: tokens.update, updateMany: tokens.updateMany },
-    auditLog: { create: audit.create },
-    systemSetting: { findUnique: settings.findUnique },
-    programmeDay: { findMany: days.findMany, findUnique: days.findUnique },
-    activity: { findMany: activities.findMany, findUnique: activities.findUnique },
+    auditLog: { create: audit.create, findMany: audit.findMany, count: audit.count },
+    systemSetting: { findUnique: settings.findUnique, upsert: settings.upsert },
+    programmeDay: { findMany: days.findMany, findUnique: days.findUnique, findFirst: days.findFirst, create: days.create, update: days.update },
+    activity: { findMany: activities.findMany, findUnique: activities.findUnique, findFirst: activities.findFirst, create: activities.create, update: activities.update, count: activities.count },
     enrollment: { create: enrollments.create, findUnique: enrollments.findUnique, findFirst: enrollments.findFirst, findMany: enrollments.findMany, update: enrollments.update },
-    activityProgress: { findMany: progress.findMany, update: progress.update, upsert: progress.upsert },
+    activityProgress: { findMany: progress.findMany, update: progress.update, upsert: progress.upsert, count: progress.count },
     activitySubmission: { create: submissions.create, findFirst: submissions.findFirst },
     notification: { create: notifications.create, findMany: notifications.findMany, updateMany: notifications.updateMany },
-    scenarioVersion: { findFirst: scenarioVersions.findFirst, findUnique: scenarioVersions.findUnique },
-    rubric: { findFirst: rubrics.findFirst },
+    scenarioVersion: { findFirst: scenarioVersions.findFirst, findUnique: scenarioVersions.findUnique, create: scenarioVersions.create },
+    scenario: { findUnique: scenarios.findUnique, create: scenarios.create, update: scenarios.update },
+    rubric: { findFirst: rubrics.findFirst, create: rubrics.create },
     assessmentSession: {
       create: sessionsA.create, findUnique: sessionsA.findUnique, findMany: sessionsA.findMany, update: sessionsA.update,
     },
@@ -220,7 +225,7 @@ export function createFakePrisma() {
     matchExclusion: { create: exclusions.create, findMany: exclusions.findMany },
     integrityEvent: { create: events.create, findFirst: events.findFirst, findMany: events.findMany, count: events.count },
 
-    $transaction: (ops: Promise<unknown>[]) => Promise.all(ops),
+    $transaction: (arg: Promise<unknown>[] | ((tx: unknown) => unknown)) => (typeof arg === "function" ? arg(fake) : Promise.all(arg)),
     $queryRaw: async () => [{ "?column?": 1 }],
     $connect: async () => undefined,
     $disconnect: async () => undefined,

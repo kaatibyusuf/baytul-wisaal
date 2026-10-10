@@ -1,0 +1,155 @@
+{
+  "programme": {
+    "slug": "marriage-readiness",
+    "title": "Marriage Readiness Programme",
+    "totalDays": 30
+  },
+  "scenarios": [
+    {
+      "key": "job-loss-parent-treatment",
+      "competency": "Finance, family and communication",
+      "title": "A job loss and a parent's treatment",
+      "template": "You have been married for {{months}} months. Your spouse loses their job. Your {{parent}} urgently needs {{need}} for medical treatment. You have {{savings}} in savings. You have 48 hours to decide.",
+      "variables": {
+        "months": {
+          "type": "int",
+          "min": 10,
+          "max": 18
+        },
+        "need": {
+          "type": "int",
+          "min": 200000,
+          "max": 300000,
+          "step": 50000,
+          "format": "naira"
+        },
+        "savings": {
+          "type": "int",
+          "min": 800000,
+          "max": 1200000,
+          "step": 100000,
+          "format": "naira"
+        },
+        "parent": {
+          "type": "choice",
+          "options": [
+            "father",
+            "mother"
+          ]
+        }
+      },
+      "instructions": "Make a decision and explain it.",
+      "parts": [
+        {
+          "key": "decision",
+          "label": "What do you decide to do?",
+          "minWords": 12
+        },
+        {
+          "key": "reasoning",
+          "label": "Why did you decide this?",
+          "minWords": 12
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "financial_responsibility",
+            "label": "Financial responsibility",
+            "weight": 30,
+            "description": "Realistic, specific handling of the money."
+          },
+          {
+            "key": "communication",
+            "label": "Communication",
+            "weight": 30,
+            "description": "Concrete plans for what is said, to whom and when."
+          },
+          {
+            "key": "conflict_resolution",
+            "label": "Conflict resolution",
+            "weight": 20
+          },
+          {
+            "key": "consideration_of_spouse",
+            "label": "Consideration of spouse",
+            "weight": 20
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats or coercion against anyone."
+          }
+        ]
+      }
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "title": "Welcome",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "How this programme works",
+          "body": "## Why preparation comes first\n\nWrite your lesson as plain text. A blank line starts a new paragraph.\nLines that follow without a blank line join the same paragraph.\n\n> A line starting with this symbol becomes a quotation.\n\n## A second heading\n\nHeadings start with two hash signs and a space."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your starting point",
+          "prompt": "In your own words, what do you hope will be different about how you approach marriage?",
+          "minWords": 40
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Check your understanding",
+      "activities": [
+        {
+          "type": "QUIZ",
+          "title": "Questions",
+          "passMark": 67,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "What does the platform compare?",
+              "options": [
+                "Which person is better",
+                "Whether two people's expectations are compatible"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "What does a closed pairing mean?",
+              "options": [
+                "One person failed",
+                "That pairing did not meet the requirements for the next stage"
+              ],
+              "correctIndex": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "title": "A scenario",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "How scenarios work",
+          "body": "Say what you would actually do, in what order, and why."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: a job loss and a parent's treatment",
+          "scenarioKey": "job-loss-parent-treatment"
+        }
+      ]
+    }
+  ]
+}

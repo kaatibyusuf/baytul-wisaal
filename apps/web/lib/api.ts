@@ -278,3 +278,66 @@ export type CompatDetail = {
     classification: Classification;
   }[];
 };
+
+export type AdminUserItem = {
+  id: string;
+  email: string;
+  role: string;
+  status: string;
+  emailVerified: boolean;
+  createdAt: string;
+  fullName: string | null;
+  programme: string;
+};
+export type AdminUserList = { page: number; pageSize: number; total: number; items: AdminUserItem[] };
+
+export type AdminUserDetail = {
+  id: string;
+  email: string;
+  role: string;
+  status: string;
+  emailVerified: boolean;
+  createdAt: string;
+  lockedUntil: string | null;
+  profile: null | { fullName: string; gender: string; age: number; maritalStatus: string; location: string | null; phone: string | null };
+  programme: null | { enrollment: null | { status: string; startedAt: string; dueAt: string | null }; percentComplete: number; currentDay: number | null; programme: { totalDays: number } };
+  preferences: { submitted: boolean; availability: string | null };
+  hasActiveMatch: boolean;
+  recent: { createdAt: string; action: string; reason: string | null; asActor: boolean }[];
+};
+
+export type AuditItem = {
+  id: string;
+  createdAt: string;
+  actor: string;
+  action: string;
+  targetType: string;
+  targetId: string;
+  reason: string | null;
+  metadata: unknown;
+};
+export type AuditList = { page: number; pageSize: number; total: number; items: AuditItem[] };
+
+export type SettingItem = {
+  key: string;
+  group: string;
+  label: string;
+  description: string;
+  default: number;
+  min: number;
+  max: number;
+  integer: boolean;
+  boolean?: boolean;
+  sensitive?: boolean;
+  value: number;
+  isDefault: boolean;
+};
+
+export type ImportSummary = {
+  dryRun: boolean;
+  programme: string;
+  days: { created: number; updated: number; unchanged: number };
+  activities: { created: number; updated: number; unchanged: number };
+  scenarios: { created: number; newVersion: number; unchanged: number };
+  warnings: string[];
+};

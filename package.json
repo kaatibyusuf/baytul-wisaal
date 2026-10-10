@@ -15,7 +15,9 @@
     "db:generate": "prisma generate --schema prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema prisma/schema.prisma",
     "db:validate": "prisma validate --schema prisma/schema.prisma",
-    "db:seed": "pnpm --filter @bw/api seed"
+    "db:seed": "pnpm --filter @bw/api seed",
+    "db:import-curriculum": "pnpm --filter @bw/api import:curriculum",
+    "db:make-admin": "pnpm --filter @bw/api make-admin"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3"

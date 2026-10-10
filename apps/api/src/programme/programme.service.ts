@@ -190,6 +190,11 @@ export class ProgrammeService {
     };
   }
 
+  /** The same summary a person sees, for an administrator looking at their progress. */
+  summaryFor(userId: string) {
+    return this.summary(userId);
+  }
+
   async enroll(userId: string) {
     const programme = await this.activeProgramme();
     const existing = await this.findEnrollment(userId, programme.id);

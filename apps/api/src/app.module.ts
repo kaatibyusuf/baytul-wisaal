@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { AuditModule } from "./audit/audit.module";
+import { AdminModule } from "./admin/admin.module";
 import { AssessmentModule } from "./assessment/assessment.module";
 import { AuthModule } from "./auth/auth.module";
 import { SessionAuthGuard } from "./auth/guards";
@@ -38,6 +39,7 @@ import { UsersModule } from "./users/users.module";
     MatchingModule,
     PostMatchModule,
     NotificationsModule,
+    AdminModule,
     HealthModule,
   ],
   providers: [

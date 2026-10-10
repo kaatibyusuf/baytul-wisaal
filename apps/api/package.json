@@ -8,7 +8,9 @@
     "start": "node dist/main.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "jest --runInBand",
-    "seed": "tsx src/seed.ts"
+    "seed": "tsx src/seed.ts",
+    "import:curriculum": "tsx src/import-curriculum.ts",
+    "make-admin": "tsx src/make-admin.ts"
   },
   "dependencies": {
     "@bw/config": "workspace:*",

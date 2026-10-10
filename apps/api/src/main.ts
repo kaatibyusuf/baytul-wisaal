@@ -19,6 +19,8 @@ async function bootstrap() {
   app.setGlobalPrefix("api/v1");
 
   // PRD section 35: secure headers, cookie parsing, server-side validation, no trust in the client
+  // A whole curriculum can be larger than the 100kb default
+  app.useBodyParser("json", { limit: "5mb" });
   app.use(helmet());
   app.use(cookieParser());
   app.useGlobalPipes(

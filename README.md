@@ -218,3 +218,66 @@ To try it on your machine:
 3. Once both have submitted, each person sees the other's expectations. Respond to every one, with a real explanation.
 4. For an easy pass, agree with everything. For the review path, have one person mark something non-negotiable and the other disagree with it.
 5. As an administrator (or moderator who is not one of the two), open Reviews and look at the pairing.
+
+## Administration (Milestone 7, backend)
+
+All under `/api/v1/admin`, for ADMIN (and SUPER_ADMIN). Every change records who did it and why.
+
+- **Users:** `GET /admin/users?q=&status=&role=&page=` and `GET /admin/users/:id`. The detail view holds what is needed
+  to look after an account and no private answers, assessment responses or preferences.
+  `POST /admin/users/:id/status` (ACTIVE, RESTRICTED, SUSPENDED), `/verify-email`, `/programme/extend`, and
+  `/role` (SUPER_ADMIN only). Everything needs a reason of at least 5 characters.
+  - Suspending signs the person out everywhere and closes their current pairing neutrally for the other person.
+  - Restricting keeps the account working but stops matching.
+  - Nobody changes their own account here. An ADMIN looks after members and moderators. Another admin needs a SUPER_ADMIN.
+- **Audit log:** `GET /admin/audit?action=&actorId=&targetId=&page=`. Read-only: there is no way to edit or remove an entry.
+- **Settings:** `GET /admin/settings` lists every threshold with its limits. `PUT /admin/settings/:key`
+  `{ value, reason }` changes one, within its limits, and it takes effect straight away.
+- **Curriculum:** `GET /admin/programme/export` and `POST /admin/programme/import` `{ curriculum, dryRun }`.
+
+### Loading your curriculum
+
+The format is in `docs/curriculum.example.json`. Lessons can be written as plain text: a blank line starts a paragraph,
+`## ` starts a heading and `> ` starts a quotation. In PowerShell:
+
+```powershell
+# 1. Preview. Nothing is written.
+pnpm db:import-curriculum docs\my-curriculum.json --dry-run
+
+# 2. Import for real. All or nothing.
+pnpm db:import-curriculum docs\my-curriculum.json
+```
+
+- The whole file is checked first. Structural problems are listed together with where they are; deeper checks
+  (a quiz answer that does not exist, rubric weights that do not add to 100) appear once the structure is right.
+- Content is never deleted: days and activities missing from the file are left as they were.
+- Scenarios and rubrics are versioned. Changing one adds a new version and keeps the old one.
+- You can export what is there, edit it and import it again: it changes nothing until you change something.
+
+After pulling this milestone (PowerShell):
+
+```powershell
+pnpm install
+pnpm db:generate
+pnpm db:migrate --name admin
+pnpm test
+```
+
+### Administration screens (Milestone 7, web)
+
+- `/admin`: the hub. Members, Matchmaking, Reviews, Curriculum, Settings and Audit log.
+- `/admin/users` and `/admin/users/[id]`: search members, look after an account. Every action asks for a reason, and the
+  ones that cannot be undone ask you to confirm.
+- `/admin/audit`: the permanent record, filterable, with the details of each entry.
+- `/admin/settings`: every threshold with its limits. Sensitive ones warn and confirm.
+- `/admin/curriculum`: download the current curriculum, load a file or paste one, check it, review what would change, then import.
+
+**Making yourself an administrator** (PowerShell, from the project folder; sign up first):
+
+```powershell
+pnpm db:make-admin you@example.com
+```
+
+That makes the account a super administrator. Sign out and in again, and an **Admin** link appears in the menu.
+To give someone else a smaller role: `pnpm db:make-admin them@example.com --role=ADMIN` (or `MODERATOR`).
+After the first super administrator exists, roles can also be changed from a member's page.

@@ -42,11 +42,11 @@ export function AppShell({ children, width = "max-w-4xl" }: { children: ReactNod
             <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto" priority />
           </Link>
           <nav aria-label="Main" className="flex items-center gap-5 text-sm">
-            {[...links, ...(isReviewer ? [{ href: "/admin/reviews", label: "Reviews" }] : []), ...(isAdmin ? [{ href: "/admin/matchmaking", label: "Matchmaking" }] : [])].map((l) => (
+            {[...links, ...(isReviewer ? [{ href: "/admin/reviews", label: "Reviews" }] : []), ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : [])].map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                aria-current={path === l.href || path.startsWith(`${l.href}/`) ? "page" : undefined}
+                aria-current={path === l.href || (l.href !== "/admin" ? path.startsWith(`${l.href}/`) : path.startsWith("/admin/") && !path.startsWith("/admin/reviews") && !path.startsWith("/admin/compatibility")) ? "page" : undefined}
                 className="py-1 hover:underline aria-[current=page]:border-b-2 aria-[current=page]:border-turquoise"
               >
                 {l.label}
