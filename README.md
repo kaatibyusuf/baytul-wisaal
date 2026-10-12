@@ -281,3 +281,29 @@ pnpm db:make-admin you@example.com
 That makes the account a super administrator. Sign out and in again, and an **Admin** link appears in the menu.
 To give someone else a smaller role: `pnpm db:make-admin them@example.com --role=ADMIN` (or `MODERATOR`).
 After the first super administrator exists, roles can also be changed from a member's page.
+
+## Automation (Milestone 8)
+
+**Notification emails.** Every in-app notification (a match, expectations in, a result, a closed pairing, a programme or scenario
+outcome) is also emailed, a minute or so later. Emails are neutral: they say what happened and link to the dashboard, and never
+carry names, scores or anything private. Only notifications from the last 24 hours are emailed, so switching this on never floods
+anyone with old news. A failed email is retried up to 5 times and never affects the notification itself.
+
+- `EMAIL_NOTIFICATIONS=auto` (default): emails go out when `RESEND_API_KEY` is set. `on` forces it (in development the message
+  prints in the API terminal). `off` stops it.
+- To send real email: create a Resend account, verify a domain you own, create an API key, then in `apps/api/.env` set
+  `RESEND_API_KEY` and `EMAIL_FROM="Baytul Wisaal <noreply@yourdomain.com>"`. Without a verified domain, Resend's test sender
+  may only deliver to your own address (check their current rules).
+
+**Scheduled matching.** In Admin, Settings, set "Automatic matching (minutes between rounds)". `0` (default) means only when an
+administrator runs a round. Any other number runs a round on its own that often, with the same rules and safeguards as the admin
+button. Each run is recorded in the audit log as `MATCHMAKING_AUTO_RUN`.
+
+After pulling this milestone (PowerShell, from the project folder):
+
+```powershell
+pnpm install
+pnpm db:generate
+pnpm db:migrate --name notifications
+pnpm test
+```

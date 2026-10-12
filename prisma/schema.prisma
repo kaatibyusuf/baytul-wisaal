@@ -622,9 +622,13 @@ model Notification {
   title     String
   body      String?
   readAt    DateTime?
+  /// When the email copy was sent. null until then (the "outbox": a sweep sends what is waiting).
+  emailedAt DateTime?
+  emailAttempts Int   @default(0)
   createdAt DateTime  @default(now())
 
   @@index([userId, readAt])
+  @@index([emailedAt, createdAt])
 }
 
 /// Configurable thresholds and rules; nothing is hard-coded (PRD section 15).

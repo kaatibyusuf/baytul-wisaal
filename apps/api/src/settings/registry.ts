@@ -46,6 +46,8 @@ export const SETTING_DEFS: SettingDef[] = [
   def({ key: "matching.maxNonNegotiable", group: "Matching", label: "Most non-negotiables allowed", description: "How many things a person may mark as non-negotiable.", default: MATCHING_DEFAULTS.maxNonNegotiable, min: 0, max: 25, integer: true }),
   def({ key: "matching.withdrawCooldownDays", group: "Matching", label: "Rest after closing a pairing (days)", description: "How long a person waits before being matched again after closing a pairing.", default: MATCHING_DEFAULTS.withdrawCooldownDays, min: 0, max: 90, integer: true }),
 
+  def({ key: "matching.autoRunMinutes", group: "Matching", label: "Automatic matching (minutes between rounds)", description: "0 means matches are only made when an administrator runs a round. Anything else makes a round run on its own that often.", default: MATCHING_DEFAULTS.autoRunMinutes, min: 0, max: 1440, integer: true, sensitive: true }),
+
   def({ key: "compat.minItems", group: "Compatibility", label: "Fewest expectations to submit", description: "", default: COMPAT_DEFAULTS.minItems, min: 1, max: 25, integer: true }),
   def({ key: "compat.maxItems", group: "Compatibility", label: "Most expectations allowed", description: "", default: COMPAT_DEFAULTS.maxItems, min: 5, max: 60, integer: true }),
   def({ key: "compat.maxPhysicalItems", group: "Compatibility", label: "Most physical expectations allowed", description: "Kept small so people think beyond physique.", default: COMPAT_DEFAULTS.maxPhysicalItems, min: 0, max: 5, integer: true, sensitive: true }),

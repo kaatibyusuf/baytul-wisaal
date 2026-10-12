@@ -87,4 +87,19 @@ export const templates = {
       text: plain([...paragraphs, `Reset your password: ${url}`, "This link expires in 1 hour."]),
     };
   },
+
+  /** A neutral copy of an in-app notification. It never carries names, scores or anything private. */
+  notification(name: string, title: string, body: string | null, url: string): EmailContent {
+    const paragraphs = [`Assalamu alaikum ${name},`, body ?? title];
+    return {
+      subject: title,
+      html: layout({
+        heading: title,
+        paragraphs,
+        cta: { label: "Open Baytul Wisaal", url },
+        footnote: "You are receiving this because of activity on your Baytul Wisaal account. Nothing private is included in this email.",
+      }),
+      text: plain([...paragraphs, `Open Baytul Wisaal: ${url}`]),
+    };
+  },
 };

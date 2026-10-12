@@ -7,6 +7,8 @@ export interface MatchingSettings {
   minScore: number;
   maxNonNegotiable: number;
   withdrawCooldownDays: number;
+  /** Minutes between automatic matchmaking rounds. 0 means only when an administrator runs one. */
+  autoRunMinutes: number;
 }
 
 export const MATCHING_DEFAULTS: MatchingSettings = {
@@ -14,6 +16,7 @@ export const MATCHING_DEFAULTS: MatchingSettings = {
   minScore: 0.6,
   maxNonNegotiable: 6,
   withdrawCooldownDays: 7,
+  autoRunMinutes: 0,
 };
 
 export async function loadMatchingSettings(svc: SettingsService): Promise<MatchingSettings> {

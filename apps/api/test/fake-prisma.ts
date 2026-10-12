@@ -137,7 +137,7 @@ export function createFakePrisma() {
     defaults: () => ({ status: "NOT_STARTED", attempts: 0, startedAt: null, completedAt: null }),
   });
   const submissions = table("activitySubmission", { uniques: [["progressId", "attempt"]] });
-  const notifications = table("notification", { defaults: () => ({ readAt: null }) });
+  const notifications = table("notification", { defaults: () => ({ readAt: null, emailedAt: null, emailAttempts: 0 }) });
   const scenarios = table("scenario", { uniques: [["key"]], defaults: () => ({ competency: null }) });
   const scenarioVersions = table("scenarioVersion", { defaults: () => ({ isActive: true }) });
   const rubrics = table("rubric", { defaults: () => ({ criticalCriteria: null, passThreshold: null }) });
@@ -205,7 +205,7 @@ export function createFakePrisma() {
     enrollment: { create: enrollments.create, findUnique: enrollments.findUnique, findFirst: enrollments.findFirst, findMany: enrollments.findMany, update: enrollments.update },
     activityProgress: { findMany: progress.findMany, update: progress.update, upsert: progress.upsert, count: progress.count },
     activitySubmission: { create: submissions.create, findFirst: submissions.findFirst },
-    notification: { create: notifications.create, findMany: notifications.findMany, updateMany: notifications.updateMany },
+    notification: { create: notifications.create, findMany: notifications.findMany, updateMany: notifications.updateMany, update: notifications.update },
     scenarioVersion: { findFirst: scenarioVersions.findFirst, findUnique: scenarioVersions.findUnique, create: scenarioVersions.create },
     scenario: { findUnique: scenarios.findUnique, create: scenarios.create, update: scenarios.update },
     rubric: { findFirst: rubrics.findFirst, create: rubrics.create },
