@@ -4,6 +4,7 @@
     "dev": { "cache": false, "persistent": true },
     "build": {
       "dependsOn": ["^build"],
+      "env": ["API_INTERNAL_URL", "NEXT_PUBLIC_API_URL", "SESSION_COOKIE_NAME"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "typecheck": { "dependsOn": ["^typecheck"] }
