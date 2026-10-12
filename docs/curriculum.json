@@ -1,0 +1,1675 @@
+{
+  "programme": {
+    "slug": "marriage-readiness",
+    "title": "Marriage Readiness Programme",
+    "totalDays": 30
+  },
+  "scenarios": [
+    {
+      "key": "job-loss-parent-treatment",
+      "competency": "Financial responsibility under pressure and respect for family",
+      "title": "A job loss and a parent's treatment",
+      "template": "You and your spouse have been married for {{months}} months. Your combined monthly income was {{income}} before your spouse lost their job. Your spouse's {{parent}} needs {{need}} each month for treatment, and your savings stand at {{savings}}. Your spouse has been quiet and irritable since losing the job and said last night, in front of your family, that you do not respect their {{parent}}. Rent and food together come to more than half of your remaining income. Decide what to do.",
+      "variables": {
+        "months": {
+          "type": "int",
+          "min": 10,
+          "max": 18
+        },
+        "income": {
+          "type": "int",
+          "min": 500000,
+          "max": 800000,
+          "step": 50000,
+          "format": "naira"
+        },
+        "need": {
+          "type": "int",
+          "min": 200000,
+          "max": 300000,
+          "step": 50000,
+          "format": "naira"
+        },
+        "savings": {
+          "type": "int",
+          "min": 800000,
+          "max": 1200000,
+          "step": 100000,
+          "format": "naira"
+        },
+        "parent": {
+          "type": "choice",
+          "options": [
+            "father",
+            "mother"
+          ]
+        }
+      },
+      "instructions": "Make real decisions. Use the figures given. Say what you would do, in what order, with what words, and why. Answers such as 'it depends' or 'I would communicate' without detail do not pass. Write in your own words.",
+      "parts": [
+        {
+          "key": "money_plan",
+          "label": "State exactly how you would handle the monthly money for the next three months, using the figures above.",
+          "minWords": 30
+        },
+        {
+          "key": "parent_decision",
+          "label": "State how much you would contribute toward your spouse's parent's treatment and for how long, and why that amount.",
+          "minWords": 25
+        },
+        {
+          "key": "first_conversation",
+          "label": "Describe the first conversation you would have with your spouse: when, where, and the words you would use about last night's remark.",
+          "minWords": 30
+        },
+        {
+          "key": "job_search",
+          "label": "Say what practical steps you would take to help your spouse recover work, and what you would not do.",
+          "minWords": 20
+        },
+        {
+          "key": "worst_case",
+          "label": "Describe what you would do if savings fall below one month of essentials, and who you would ask for help.",
+          "minWords": 25
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "financial_responsibility",
+            "label": "Financial responsibility",
+            "weight": 30,
+            "description": "Realistic, specific handling of the figures, including a priority order and a safeguard."
+          },
+          {
+            "key": "communication",
+            "label": "Communication",
+            "weight": 25,
+            "description": "Concrete plans for what is said, to whom and when, with respect for the spouse's dignity."
+          },
+          {
+            "key": "consideration_of_spouse",
+            "label": "Consideration of spouse",
+            "weight": 20,
+            "description": "Recognises the spouse's stress and shame and responds with care without excusing hurtful behaviour."
+          },
+          {
+            "key": "family_obligation",
+            "label": "Family obligation",
+            "weight": 15,
+            "description": "Honours the parent's need in a proportionate way without ruining the household."
+          },
+          {
+            "key": "contingency",
+            "label": "Contingency planning",
+            "weight": 10,
+            "description": "Gives a credible fallback and names a real source of support."
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats, intimidation or coercion against anyone."
+          },
+          {
+            "key": "abandonment_of_duty",
+            "label": "Abandonment of duty",
+            "description": "Plans to leave the spouse or abandon the parent's care without any plan or discussion."
+          },
+          {
+            "key": "reckless_finance",
+            "label": "Reckless finance",
+            "description": "Proposes ruinous or deceptive financial steps such as hidden loans, gambling or fraud."
+          }
+        ]
+      }
+    },
+    {
+      "key": "hidden-debt-discovered",
+      "competency": "Honesty, trust and shared money",
+      "title": "A debt discovered after the wedding",
+      "template": "You have been married for {{months}} months. While paying a bill you discover that your spouse owes {{debt}} to a lender and to a friend, and has been paying {{repay}} each month from their salary without telling you. Your combined household income is {{income}} a month. Your spouse said before the wedding that they had no debts. When you raise it, your spouse says they were afraid you would cancel the wedding, and begs you not to tell either family.",
+      "variables": {
+        "months": {
+          "type": "int",
+          "min": 3,
+          "max": 9
+        },
+        "debt": {
+          "type": "int",
+          "min": 600000,
+          "max": 1500000,
+          "step": 100000,
+          "format": "naira"
+        },
+        "repay": {
+          "type": "int",
+          "min": 40000,
+          "max": 90000,
+          "step": 10000,
+          "format": "naira"
+        },
+        "income": {
+          "type": "int",
+          "min": 450000,
+          "max": 750000,
+          "step": 50000,
+          "format": "naira"
+        }
+      },
+      "instructions": "Make real decisions. Use the figures given. Say what you would do, in what order, with what words, and why. Answers such as 'it depends' or 'I would communicate' without detail do not pass. Write in your own words.",
+      "parts": [
+        {
+          "key": "immediate_response",
+          "label": "Describe what you would say and do in the first conversation, and what you would refuse to do that night.",
+          "minWords": 30
+        },
+        {
+          "key": "full_disclosure",
+          "label": "State what you would require your spouse to disclose, and by when, to know that nothing else is hidden.",
+          "minWords": 25
+        },
+        {
+          "key": "repayment_plan",
+          "label": "Set out a repayment plan with figures: monthly amount, who pays what, how long it takes, and what in the budget changes.",
+          "minWords": 35
+        },
+        {
+          "key": "telling_families",
+          "label": "Decide whether to tell either family and elders. Say who, when and why, or why not.",
+          "minWords": 25
+        },
+        {
+          "key": "trust_terms",
+          "label": "State the specific conditions under which you would stay and rebuild trust, and what would make you reconsider the marriage.",
+          "minWords": 30
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "financial_planning",
+            "label": "Financial planning",
+            "weight": 30,
+            "description": "A workable repayment plan using the figures, with budget changes and a timeline."
+          },
+          {
+            "key": "honesty_and_disclosure",
+            "label": "Honesty and disclosure",
+            "weight": 25,
+            "description": "Insists on complete disclosure and sets a way to verify it."
+          },
+          {
+            "key": "trust_repair",
+            "label": "Trust repair",
+            "weight": 20,
+            "description": "Clear, fair conditions for rebuilding trust that include accountability and mercy."
+          },
+          {
+            "key": "emotional_maturity",
+            "label": "Emotional maturity",
+            "weight": 15,
+            "description": "Responds to betrayal without humiliation, threats or silent punishment."
+          },
+          {
+            "key": "use_of_counsel",
+            "label": "Use of counsel",
+            "weight": 10,
+            "description": "Involves families or elders in a proportionate and dignified way, or explains why not."
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats, intimidation or coercion against anyone."
+          },
+          {
+            "key": "public_shaming",
+            "label": "Public shaming",
+            "description": "Plans to expose or shame the spouse publicly or on social media."
+          },
+          {
+            "key": "deception_in_response",
+            "label": "Deception in response",
+            "description": "Plans to hide money, mislead the spouse or conceal matters in return."
+          }
+        ]
+      }
+    },
+    {
+      "key": "relative-moves-in",
+      "competency": "Boundaries, family and shared decisions",
+      "title": "A relative asks to live with you",
+      "template": "You and your spouse live in a {{rooms}} bedroom flat paying {{rent}} a month in rent, and your joint income is {{income}} a month. Your {{relative}} has been asked to leave their home and asks to stay with you 'for a short while'. You want to say yes. Your spouse says nothing in front of your relative, but later tells you quietly that they feel uncomfortable and that last time a relative stayed, it lasted eight months.",
+      "variables": {
+        "rooms": {
+          "type": "choice",
+          "options": [
+            "one",
+            "two"
+          ]
+        },
+        "rent": {
+          "type": "int",
+          "min": 150000,
+          "max": 300000,
+          "step": 50000,
+          "format": "naira"
+        },
+        "income": {
+          "type": "int",
+          "min": 450000,
+          "max": 800000,
+          "step": 50000,
+          "format": "naira"
+        },
+        "relative": {
+          "type": "choice",
+          "options": [
+            "brother",
+            "sister",
+            "uncle",
+            "aunt"
+          ]
+        }
+      },
+      "instructions": "Make real decisions. Use the figures given. Say what you would do, in what order, with what words, and why. Answers such as 'it depends' or 'I would communicate' without detail do not pass. Write in your own words.",
+      "parts": [
+        {
+          "key": "decision",
+          "label": "Say whether the relative stays, and if so for exactly how long, and where in the home.",
+          "minWords": 25
+        },
+        {
+          "key": "conversation_with_spouse",
+          "label": "Describe your conversation with your spouse tonight, including how you would acknowledge their discomfort and what you would ask of them.",
+          "minWords": 30
+        },
+        {
+          "key": "house_rules",
+          "label": "State the specific rules you would give your relative: costs, chores, privacy, visitors, and the end date. Say who tells them.",
+          "minWords": 30
+        },
+        {
+          "key": "cost",
+          "label": "Work out the extra monthly cost and how it will be covered without harming the budget.",
+          "minWords": 20
+        },
+        {
+          "key": "if_it_overruns",
+          "label": "Describe what you would do if the end date arrives and the relative says they cannot leave.",
+          "minWords": 25
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "shared_decision",
+            "label": "Shared decision",
+            "weight": 25,
+            "description": "Treats the decision as joint and gives real weight to the spouse's concern."
+          },
+          {
+            "key": "clear_boundaries",
+            "label": "Clear boundaries",
+            "weight": 25,
+            "description": "Gives a specific duration, rules and a named way of enforcing them."
+          },
+          {
+            "key": "budget_realism",
+            "label": "Budget realism",
+            "weight": 20,
+            "description": "Estimates costs plausibly and says how they will be paid."
+          },
+          {
+            "key": "respect_for_relative",
+            "label": "Respect for the relative",
+            "weight": 15,
+            "description": "Keeps the relative's dignity while holding the line."
+          },
+          {
+            "key": "follow_through",
+            "label": "Follow through",
+            "weight": 15,
+            "description": "Has a credible plan for when the arrangement overruns."
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats, intimidation or coercion against anyone."
+          },
+          {
+            "key": "overrides_spouse",
+            "label": "Overrides spouse",
+            "description": "Decides unilaterally and dismisses the spouse's concern entirely, or forces the spouse to accept."
+          },
+          {
+            "key": "cruelty_to_relative",
+            "label": "Cruelty to relative",
+            "description": "Plans to humiliate or abandon the relative with no safe alternative."
+          }
+        ]
+      }
+    },
+    {
+      "key": "argument-escalates",
+      "competency": "Anger control and repair",
+      "title": "An argument that escalates",
+      "template": "It is {{hour}} at night. You and your spouse are arguing about money that was sent to {{recipient}} without discussion. Voices are raised. Your spouse says something deeply insulting about your family and picks up their keys to leave the house. You are furious and shaking. Your {{child_or_guest}} is in the next room and can hear everything.",
+      "variables": {
+        "hour": {
+          "type": "choice",
+          "options": [
+            "10 pm",
+            "11 pm",
+            "midnight"
+          ]
+        },
+        "recipient": {
+          "type": "choice",
+          "options": [
+            "your spouse's brother",
+            "your spouse's mother",
+            "a friend of your spouse"
+          ]
+        },
+        "child_or_guest": {
+          "type": "choice",
+          "options": [
+            "child",
+            "elderly relative",
+            "house guest"
+          ]
+        }
+      },
+      "instructions": "Make real decisions. Use the figures given. Say what you would do, in what order, with what words, and why. Answers such as 'it depends' or 'I would communicate' without detail do not pass. Write in your own words.",
+      "parts": [
+        {
+          "key": "next_sixty_seconds",
+          "label": "Describe exactly what you do and say in the next minute.",
+          "minWords": 25
+        },
+        {
+          "key": "physical_conduct",
+          "label": "State what you would not do physically and verbally, even if provoked, and how you would stop yourself.",
+          "minWords": 25
+        },
+        {
+          "key": "tonight",
+          "label": "Decide what happens for the rest of the night, including whether your spouse leaves and what you do about the person in the next room.",
+          "minWords": 25
+        },
+        {
+          "key": "tomorrow",
+          "label": "Describe the conversation the next day: who raises it, when, the words you would use to apologise for your part, and how you would address the insult.",
+          "minWords": 35
+        },
+        {
+          "key": "pattern_plan",
+          "label": "Describe the agreement you would propose so that the next argument does not reach this point, including what happens if it does.",
+          "minWords": 30
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "self_control",
+            "label": "Self control",
+            "weight": 30,
+            "description": "Uses a specific method to stop escalation and takes responsibility for own conduct."
+          },
+          {
+            "key": "safety_and_dependants",
+            "label": "Safety and dependants",
+            "weight": 20,
+            "description": "Protects the person in the next room and the safety of both spouses."
+          },
+          {
+            "key": "repair_and_apology",
+            "label": "Repair and apology",
+            "weight": 25,
+            "description": "Offers a genuine apology for their own part and a plan to address the insult fairly."
+          },
+          {
+            "key": "addressing_the_issue",
+            "label": "Addressing the issue",
+            "weight": 15,
+            "description": "Returns to the money problem with a practical way to resolve it."
+          },
+          {
+            "key": "prevention_plan",
+            "label": "Prevention plan",
+            "weight": 10,
+            "description": "Proposes concrete rules and signals for next time."
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats, intimidation or coercion against anyone."
+          },
+          {
+            "key": "revenge",
+            "label": "Revenge",
+            "description": "Plans retaliation, humiliation or punishment of the spouse."
+          },
+          {
+            "key": "endangering_others",
+            "label": "Endangering others",
+            "description": "Ignores or endangers the child, relative or guest in the next room."
+          }
+        ]
+      }
+    },
+    {
+      "key": "caught-in-a-lie",
+      "competency": "Honesty, proportion and mercy",
+      "title": "A spouse who has not told the truth",
+      "template": "Eight months into marriage you learn that your spouse told you they were at work on {{count}} evenings this month, but was in fact meeting a former {{former}} at a cafe. Your spouse says it was only talking and that they hid it to avoid a fight, because you had told them to cut contact before the wedding. Your spouse also spent {{spent}} on gifts and meals without telling you. Your spouse has been warm and attentive since, and is now crying.",
+      "variables": {
+        "count": {
+          "type": "choice",
+          "options": [
+            "four",
+            "five",
+            "six"
+          ]
+        },
+        "former": {
+          "type": "choice",
+          "options": [
+            "colleague",
+            "classmate",
+            "friend"
+          ]
+        },
+        "spent": {
+          "type": "int",
+          "min": 80000,
+          "max": 200000,
+          "step": 20000,
+          "format": "naira"
+        }
+      },
+      "instructions": "Make real decisions. Use the figures given. Say what you would do, in what order, with what words, and why. Answers such as 'it depends' or 'I would communicate' without detail do not pass. Write in your own words.",
+      "parts": [
+        {
+          "key": "evidence",
+          "label": "State how you would confirm what happened before you decide anything, and what you would not do (for example, going through their phone in secret).",
+          "minWords": 25
+        },
+        {
+          "key": "conversation",
+          "label": "Describe the conversation you would have, including your exact opening sentence and what you would ask.",
+          "minWords": 30
+        },
+        {
+          "key": "what_matters_most",
+          "label": "Say which parts of this are most serious to you and which are less serious, and justify the difference.",
+          "minWords": 30
+        },
+        {
+          "key": "conditions",
+          "label": "State the specific changes and safeguards you would require from your spouse, with timelines, and what you would offer in return.",
+          "minWords": 30
+        },
+        {
+          "key": "line_in_the_sand",
+          "label": "State what you would do if you later learned that more was hidden, or that the contact continued.",
+          "minWords": 25
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "fair_investigation",
+            "label": "Fair investigation",
+            "weight": 20,
+            "description": "Establishes facts calmly and avoids accusations or secret surveillance."
+          },
+          {
+            "key": "proportionate_response",
+            "label": "Proportionate response",
+            "weight": 25,
+            "description": "Distinguishes the contact, the lie and the spending, and responds to each fairly."
+          },
+          {
+            "key": "clear_conditions",
+            "label": "Clear conditions",
+            "weight": 25,
+            "description": "Names concrete, reasonable safeguards with timelines and reciprocity."
+          },
+          {
+            "key": "mercy_with_accountability",
+            "label": "Mercy with accountability",
+            "weight": 20,
+            "description": "Offers the possibility of forgiveness while holding the spouse accountable."
+          },
+          {
+            "key": "boundary_for_future",
+            "label": "Boundary for the future",
+            "weight": 10,
+            "description": "States what would end the trust and what the response would be."
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats, intimidation or coercion against anyone."
+          },
+          {
+            "key": "public_exposure",
+            "label": "Public exposure",
+            "description": "Plans to expose the spouse publicly or contact the third party with threats."
+          },
+          {
+            "key": "condones_serious_deceit",
+            "label": "Condones serious deceit",
+            "description": "Treats ongoing hidden contact and lying as acceptable with no response."
+          }
+        ]
+      }
+    },
+    {
+      "key": "spouse-long-illness",
+      "competency": "Sacrifice, care and sustainability",
+      "title": "A spouse's long illness",
+      "template": "Two years into your marriage your spouse is diagnosed with a long term illness. They can work only part time for the next {{years}} years. Treatment costs {{treatment}} a month. Your own income is {{income}} a month and your savings are {{savings}}. Your spouse's family lives in another city and offers prayers but little money. You are exhausted, and you have just been offered a better paid job in another city.",
+      "variables": {
+        "years": {
+          "type": "choice",
+          "options": [
+            "two",
+            "three"
+          ]
+        },
+        "treatment": {
+          "type": "int",
+          "min": 80000,
+          "max": 200000,
+          "step": 20000,
+          "format": "naira"
+        },
+        "income": {
+          "type": "int",
+          "min": 350000,
+          "max": 600000,
+          "step": 50000,
+          "format": "naira"
+        },
+        "savings": {
+          "type": "int",
+          "min": 500000,
+          "max": 1000000,
+          "step": 100000,
+          "format": "naira"
+        }
+      },
+      "instructions": "Make real decisions. Use the figures given. Say what you would do, in what order, with what words, and why. Answers such as 'it depends' or 'I would communicate' without detail do not pass. Write in your own words.",
+      "parts": [
+        {
+          "key": "money_plan",
+          "label": "Set out the monthly money plan and how long the savings last, using the figures.",
+          "minWords": 30
+        },
+        {
+          "key": "the_job_offer",
+          "label": "Decide what you do about the job offer in another city, and justify it.",
+          "minWords": 30
+        },
+        {
+          "key": "care_and_dignity",
+          "label": "Describe how you would care for your spouse day to day while preserving their dignity and involving them in decisions.",
+          "minWords": 30
+        },
+        {
+          "key": "your_own_limits",
+          "label": "Say how you would protect your own health and what support you would ask for, from whom and in what words.",
+          "minWords": 25
+        },
+        {
+          "key": "family_and_community",
+          "label": "Describe what you would ask of both families and your community, and what you would do if they do not help.",
+          "minWords": 25
+        }
+      ],
+      "rubric": {
+        "passThreshold": 70,
+        "criteria": [
+          {
+            "key": "financial_realism",
+            "label": "Financial realism",
+            "weight": 25,
+            "description": "Uses the figures to build a plan with timelines and contingencies."
+          },
+          {
+            "key": "commitment_and_sacrifice",
+            "label": "Commitment and sacrifice",
+            "weight": 25,
+            "description": "Shows steady commitment without martyrdom or neglect."
+          },
+          {
+            "key": "dignity_of_spouse",
+            "label": "Dignity of spouse",
+            "weight": 20,
+            "description": "Involves the spouse in decisions and speaks of them with respect."
+          },
+          {
+            "key": "sustainability",
+            "label": "Sustainability",
+            "weight": 15,
+            "description": "Protects the carer's health and uses help from others."
+          },
+          {
+            "key": "sound_judgement",
+            "label": "Sound judgement on the job offer",
+            "weight": 15,
+            "description": "Weighs the offer against care needs and decides with reasons."
+          }
+        ],
+        "criticalCriteria": [
+          {
+            "key": "violence_or_coercion",
+            "label": "Violence or coercion",
+            "description": "Willingness to use violence, threats, intimidation or coercion against anyone."
+          },
+          {
+            "key": "abandonment",
+            "label": "Abandonment",
+            "description": "Plans to leave the sick spouse without arrangements, or to treat them as a burden."
+          },
+          {
+            "key": "neglect_of_care",
+            "label": "Neglect of care",
+            "description": "Plans that would deny necessary medical care or put the spouse's health at risk."
+          }
+        ]
+      }
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "title": "Why marriage deserves preparation",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Welcome: marriage is a serious undertaking",
+          "body": "## Why this programme exists\n\nMost people spend more time preparing for a job interview than for marriage. We plan the wedding for months and the marriage for an afternoon. This programme reverses that. Over thirty days you will think carefully about what marriage asks of you, what you can honestly offer, and what you need from another person.\n\n## What a marriage is\n\nIn Islam, marriage is described as a firm covenant. It is an act of worship, a place of rest, and a partnership in which two people carry responsibility for each other and for any children they raise. The Qur'an speaks of affection and mercy placed between spouses. Notice that these are things two people build through daily conduct. They do not arrive automatically with the wedding.\n\n> Marriage is not a prize you receive when you find the right person. It is a responsibility you accept, and a skill you keep learning.\n\n## What the next thirty days involve\n\nEach day has a short lesson. Most days then ask you to reflect in writing, answer a short quiz, or work through a realistic scenario in which you must make real decisions. Days open in order, and each one opens only after the one before it is finished.\n\n## How to get the most from it\n\nBe honest rather than impressive. No one is grading whether you are a good person. The point is to find out where you are strong, where you are unprepared, and what you are really looking for, so that any introduction you are given later rests on truth.\n\nWrite in your own words. Short, specific answers beat long, polished ones. If you notice that you would rather not answer a question, that is usually the question to spend the most time on."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your reasons",
+          "prompt": "In your own words, why do you want to marry, and why do you want to do it now rather than in five years? Be specific. Avoid answers that could belong to anyone, and say what you honestly hope marriage will give you and what you are ready to give.",
+          "minWords": 60
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Compatibility, not perfection",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Looking for a workable partnership",
+          "body": "## The myth of the perfect spouse\n\nMany people begin with a list of qualities and an unspoken belief that somewhere there is a person who matches every line. Such a person does not exist, and a search for one produces two results: endless rejection, or disappointment as soon as the real person appears.\n\n## What compatibility actually means\n\nCompatibility is not sameness. Two people can be different in temperament, background and interests and still do very well together. What matters is whether their expectations on the important matters can live side by side. These include faith and practice, money, children, family involvement, where to live, and how each handles stress and disagreement.\n\n> The aim is not to find a perfect spouse, but a workable partnership between two real people.\n\n## Requirements and preferences\n\nIt helps to separate two kinds of wishes.\n\nA requirement is something you cannot do without, because its absence would damage your faith, safety, health, dignity or the stability of the home. A preference is something you would enjoy but could live without: height, hometown, a favourite hobby.\n\nProblems arise when preferences are treated as requirements, because good people are rejected for reasons that will not matter in ten years. Problems also arise when real requirements are treated as preferences, because people hope that a serious difference will disappear after the wedding. It usually does not.\n\n## Why a pairing that stops says nothing about you\n\nWhen two people are not matched, or a pairing does not move forward, this does not mean either person is lacking. It means that one particular combination did not meet the requirements for the next stage. Treat every outcome in that light. It protects your dignity and the other person's."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: compatibility",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "What does compatibility mainly mean in this programme?",
+              "options": [
+                "The two people are very similar in every way",
+                "Expectations on important matters can live side by side",
+                "The two people never disagree",
+                "The two people share the same hobbies"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "Which of these is best described as a requirement rather than a preference?",
+              "options": [
+                "A partner who supports the same football club",
+                "A partner of a particular height",
+                "A partner who enjoys the same food",
+                "A shared commitment to honesty and basic faith practice"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "What is the usual result of treating a serious difference as a preference and hoping it will fade after the wedding?",
+              "options": [
+                "It disappears once the couple lives together",
+                "It tends to remain and cause strain",
+                "It becomes the other person's problem only",
+                "It improves automatically with time"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "If a pairing does not move forward, what is the correct way to understand it?",
+              "options": [
+                "That one person failed and the other succeeded",
+                "That the person is unfit for marriage",
+                "That the platform has judged one person to be bad",
+                "That one combination did not meet the requirements for the next stage"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "Why is a search for a perfect spouse unhelpful?",
+              "options": [
+                "Because standards should not exist at all",
+                "Because everyone is a perfect match for someone",
+                "No such person exists, so it leads to endless rejection or disappointment",
+                "Because only appearance matters"
+              ],
+              "correctIndex": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Beyond appearance: what shows character",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "What lasts after the first year",
+          "body": "## What attracts and what sustains\n\nAppearance, charm and chemistry are real, and there is nothing wrong with wanting to be attracted to your spouse. The difficulty is that they are visible quickly and tell us very little about the ordinary days of a marriage. Those days are decided by different things: who stays calm when tired, who tells the truth when it is costly, who is generous when money is short, who apologises first.\n\n## A well known guidance\n\nThe Prophet, peace be upon him, taught that people marry for wealth, lineage, beauty or religion, and advised choosing the one with religion. He also said that when a person whose religion and character you are pleased with comes to you, you should marry them. Two words carry the weight here: religion and character. Both are shown in conduct over time, not in descriptions.\n\n> The best of you are those who are best to their families.\n\n## How character shows itself\n\nCharacter is rarely visible in how someone behaves when things go well. Look instead for patterns in the following.\n\nHow they speak about people who are not present, including former partners and difficult relatives. How they react when plans change or they are told no. How they treat people who can do nothing for them, such as waiters, drivers and junior colleagues. Whether their words and actions match over months, not days. How they handle money and promises when no one is checking.\n\n## A caution about yourself\n\nYou are also being seen. Everything above applies to you. The honest question is not only what you want to find, but what someone who looked closely at you would find."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Noticing character",
+          "prompt": "Think of two people you know well, one whose character you admire and one who impressed you at first but proved harder to be around. Describe the specific behaviours that separate them. Then name two of those qualities that you want to find in a spouse and two that you will need to strengthen in yourself.",
+          "minWords": 70
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "title": "A first hard decision",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Making decisions under pressure",
+          "body": "## Why the programme uses scenarios\n\nReading about patience or responsibility is easy. Practising them is different. Marriage regularly puts two people in situations where there is no perfect option, money or time is short, and other people have opinions. Scenarios let you rehearse these moments in a safe place and show how you actually think.\n\n## How to answer a scenario well\n\nA good answer makes decisions. It states what you would do, in what order, and why, and it shows that you have thought about everyone affected, including your spouse, the family and your own conscience.\n\nAnswers such as \"it depends\" or \"I would communicate\" are not accepted on their own. They are not wrong, but they do not tell anyone what you would really do. If something depends on a fact, choose the most reasonable version of that fact and decide.\n\n## What a strong answer includes\n\nFigures where figures are given. Use the numbers in the scenario and say what you would cut, keep, borrow or ask for. Names of people and the words you would use with them. A sequence: what happens first, what happens this week, what happens this month. An honest account of the cost of your own choice, and of what you would do if it fails.\n\n## How it is assessed\n\nThe scenario is shown only inside a protected session with a time limit and cannot be copied. Leaving the page is noted for a person to consider, and is not treated as proof of anything. Your answers are reviewed against a published set of criteria. If you do not pass, a person may review it and you may be asked to try a different version. Write in your own words."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: a job loss and a parent's treatment",
+          "scenarioKey": "job-loss-parent-treatment"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "title": "Intention and readiness",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Are you ready, and for what?",
+          "body": "## Intention comes first\n\nEvery action in Islam begins with intention. For marriage, intention is worth examining because the reasons people marry are mixed. Some are good: companionship, faith, family, protecting your chastity. Some are fragile: pressure from relatives, fear of being left behind, wanting to escape a hard home, wanting someone to fix a lonely life.\n\n> A marriage built to solve one problem will struggle when a different problem arrives.\n\n## Four kinds of readiness\n\nSpiritual readiness: you have a prayer life and a relationship with your faith that you did not borrow from someone else.\n\nEmotional readiness: you can sit with discomfort, hear criticism without collapsing or attacking, and take responsibility for your mood.\n\nPractical readiness: you can earn, or are on a credible path to earning, and you can run a basic household. You can budget, cook or arrange food, and look after your own health and belongings.\n\nRelational readiness: you can keep promises, speak honestly, and put another person's needs next to your own without resentment.\n\n## Readiness is not perfection\n\nNo one is fully ready. The question is whether you are ready enough, and whether you know your gaps. Someone who knows their weakness in managing money and is learning is more ready than someone who believes they have none.\n\n## A word on pressure\n\nAge, family expectation and community talk are real. They are poor reasons to rush and poor reasons to delay. Decide for reasons you could explain calmly to yourself."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your readiness",
+          "prompt": "Rate yourself honestly, from one to ten, on spiritual, emotional, practical and relational readiness. For each, give one piece of evidence from your actual life for the score. Then choose the one area where you are weakest and describe one concrete step you will take in the next three months.",
+          "minWords": 80
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "title": "Rights and duties in marriage",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "What each spouse owes the other",
+          "body": "## A partnership with defined responsibilities\n\nIslamic teaching gives each spouse real rights and real duties. Understanding them before marriage prevents many later disputes, because most conflict comes from unspoken assumptions about who is responsible for what.\n\n## Core ideas\n\nThe husband is responsible for maintaining his wife and household according to his means. This is an obligation on him, whatever the wife earns. The wife's wealth and earnings are her own. She has no duty to spend them on the household, though she may choose to, and a husband should be grateful when she does.\n\nThe mahr is a gift from the husband to the wife that belongs to her. It is hers to keep and use as she wishes. It is not a payment to her family and not a formality to be skipped.\n\nBoth spouses owe each other kindness, fidelity, honesty and good company. The Qur'an instructs living together with kindness, and describes spouses as garments for each other, meaning closeness, protection and covering of each other's faults.\n\n> Live with them in kindness.\n\n## Consultation\n\nImportant decisions are made through shared counsel. Neither spouse is meant to be a silent party. A spouse who is obeyed through fear has not been obeyed in the way marriage intends.\n\n## Where scholars and families differ\n\nSome matters, such as how obedience, travel, work outside the home and household labour are balanced, are understood differently across communities and scholars. Do not assume your picture is the only one. Learn what you believe, learn its basis, and discuss it openly before marriage."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: rights and duties",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "Who is responsible for maintaining the household according to their means?",
+              "options": [
+                "Whoever earns more",
+                "The husband, whatever the wife earns",
+                "Both equally by default",
+                "The wife's family"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "Whose property is the mahr?",
+              "options": [
+                "The wife's family",
+                "The husband's family",
+                "It is shared by both families",
+                "The wife's"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "What is a wife's duty regarding her own earnings?",
+              "options": [
+                "She must hand them to her husband",
+                "She must spend half on the household",
+                "They are her own and she has no obligation to spend them on the household",
+                "She must give them to her parents"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "How should important decisions in a marriage be made?",
+              "options": [
+                "By whoever is eldest",
+                "By whoever earns more",
+                "By the in-laws",
+                "Through shared counsel between the spouses"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "What should you do about matters where communities differ?",
+              "options": [
+                "Assume everyone agrees with you",
+                "Learn your own position and its basis, then discuss it openly beforehand",
+                "Avoid the subject until after the wedding",
+                "Let family decide without discussion"
+              ],
+              "correctIndex": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "title": "Week one review",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Taking stock after the first week",
+          "body": "## What you have covered\n\nThis week you looked at why marriage deserves preparation, what compatibility means, why character matters more than appearance, how to make real decisions under pressure, what readiness involves, and the rights and duties each spouse carries.\n\n## Three ideas to carry forward\n\nFirst, marriage is a partnership of two real people. It is not a search for a perfect one.\n\nSecond, requirements and preferences are different. Know which of your wishes are which, and be honest about it.\n\nThird, you will be known by your conduct over time. Character is shown in ordinary behaviour and promises kept, not in descriptions of yourself.\n\n## The next three weeks\n\nWeek two covers money and the household. Week three covers family, children and communication. Week four covers faith, honesty, hardship and how to make the final decision well. These are the areas where marriages most often meet trouble, and where early honesty helps the most.\n\n> It is easier to discuss a hard topic with a stranger who has a plan than with a spouse who has been surprised.\n\n## A suggestion\n\nBefore starting week two, set aside half an hour to write down your three most important requirements in a spouse, and three preferences you could let go. You will use them again."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Looking back",
+          "prompt": "Name the one idea from this week that challenged you most, and explain why. Then write your three most important requirements in a spouse (things you cannot do without) and three preferences you could let go. Say briefly why each requirement is a requirement.",
+          "minWords": 80
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "title": "Money values",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "What money means to each of us",
+          "body": "## Money is rarely only about money\n\nCouples seldom argue about money itself. They argue about what it stands for: safety, status, freedom, generosity, control, or the fear of being like their parents. Two people with identical salaries can feel completely differently about the same purchase because their childhoods taught them different lessons.\n\n## Your money story\n\nMost of us have a story we absorbed early. Some grew up with scarcity and learned to save every kobo and fear any spending. Some grew up with plenty and learned that money is easy. Some watched money become a weapon between parents. These stories shape your instincts long after you stop noticing them.\n\n## Questions worth answering before marriage\n\nHow much do you earn, save and owe, and are you willing to say so plainly? What would you refuse to spend money on, and what would you spend on without guilt? How do you think about helping parents and relatives, and what limit would you set? Who will pay which bills, and how will you decide big purchases together?\n\n> A couple that can speak plainly about money has solved a large part of marriage in advance.\n\n## Islamic guidance in brief\n\nProvision is a duty of the husband. Waste and extravagance are discouraged, and so is miserliness. Honest earning matters, as does avoiding interest and anything deceptive. Gifts to parents and relatives are encouraged, within what the household can bear.\n\n## Honesty is the foundation\n\nHiding debt, income or obligations before marriage is a serious breach of trust. Disclosure early, with calm explanation, is almost always forgiven. Discovery later almost never is."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your money story",
+          "prompt": "Describe how money was handled in the home you grew up in, and what lesson you took from it. Then say how that lesson shows up in your own habits today, including one habit you would like to change. Be specific.",
+          "minWords": 80
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "title": "Income, provision and a household budget",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Making a household budget that works",
+          "body": "## Start from real numbers\n\nA budget begins with what comes in and what must go out. Many couples skip this and rely on goodwill, which works until the first month that goes wrong. A plain budget is a form of respect: both of you can see the truth.\n\n## A simple structure\n\nFixed essentials: rent, food, transport, utilities, data, school fees, health costs. Obligations: debt repayments, family support you have committed to. Savings: an emergency fund and money set aside for known future costs. Everything else: gifts, outings, personal spending.\n\nA common guide is to aim for at least three to six months of essential expenses saved as an emergency fund. If that is not yet possible, begin with one month and build from there.\n\n## Personal allowance\n\nEach spouse benefits from a small amount of money they can spend without explaining. It prevents small resentments and respects dignity.\n\n## Irregular and uncertain income\n\nIn Nigeria many people earn irregularly. Budget on your lowest realistic month, not your best. Treat good months as a way to build the emergency fund first.\n\n> Plan for the month you hope for, but write the budget for the month you fear.\n\n## Review it\n\nA budget is not a contract carved in stone. Sit together once a month for thirty minutes. Check what happened, adjust, and agree on the next month. The habit matters more than the spreadsheet."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: budgeting",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "What is the best basis for a household budget when income is irregular?",
+              "options": [
+                "Your best month",
+                "An average that includes bonuses",
+                "Your lowest realistic month",
+                "Whatever you hope to earn next year"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "How large should an emergency fund aim to be?",
+              "options": [
+                "One week of spending",
+                "Three to six months of essential expenses",
+                "Exactly one year of income",
+                "It is not needed if you have family"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "Why is a personal allowance for each spouse useful?",
+              "options": [
+                "It prevents small resentments and respects dignity",
+                "It lets one spouse hide income",
+                "It replaces the household budget",
+                "It avoids the need to talk about money"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "How often should a couple review their budget?",
+              "options": [
+                "Monthly, for a short focused conversation",
+                "Only when there is a crisis",
+                "Once in a lifetime",
+                "Only the husband reviews it"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "What should happen in an unusually good month?",
+              "options": [
+                "Spend it all on celebrations",
+                "Build the emergency fund before raising spending",
+                "Lend it out without discussion",
+                "Keep it secret from your spouse"
+              ],
+              "correctIndex": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "title": "Debt, savings and generosity",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Borrowing, saving and giving wisely",
+          "body": "## Debt is a commitment\n\nA debt is a promise that someone else holds. The Prophet, peace be upon him, sought refuge from the burden of debt, and taught that it should be taken seriously. Taking on debt is not forbidden when it is necessary and lawful, but it should never be careless.\n\n## Interest\n\nInterest-based borrowing is prohibited in Islam. Modern life makes avoiding it difficult, and families often face genuine questions about loans, mortgages and cards. Speak with a qualified scholar about your own situation. For the purposes of this programme, the point is to know where each of you stands and to agree on a plan.\n\n## Disclosing debt\n\nEverything you owe should be disclosed before marriage: loans, informal borrowing from friends, instalments, family loans, and money you have promised to others. Include the amount, who is owed, the repayment plan, and whether you are current.\n\n## Saving\n\nSavings are not selfishness. They protect the household when work is lost, health fails or a relative needs urgent help. Even a small, steady amount, kept consistently, builds security and the habit of planning.\n\n## Generosity\n\nGiving is encouraged, including regular charity and gifts to family. The question is whether the giving is agreed. One spouse quietly sending large sums to relatives without the other knowing will harm trust, even if the cause is good.\n\n> Generosity that is hidden from your spouse is not yet generosity; it is a secret that costs them."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Debt and giving",
+          "prompt": "List every financial obligation you currently have to anyone (loans, instalments, promises of support), or write that you have none and explain how you know. Then explain what limit you would set on regular help to relatives after marriage, and how you would decide that limit together with a spouse.",
+          "minWords": 80
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "title": "Scenario: a hidden debt",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "When honesty about money is tested",
+          "body": "## A common and painful situation\n\nOne of the most frequent causes of early marital crisis is the discovery of a debt the other spouse did not know about. It may be a loan for a relative, a business that failed, or borrowing to cover a poor decision. The amount may be modest or large. The injury is almost always about trust.\n\n## Two separate questions\n\nThe first question is practical: how will the debt be paid and what changes in the household budget? The second is relational: what was hidden, why, and how will trust be rebuilt?\n\nTreating only the practical question leaves a wound. Treating only the relational question leaves a creditor waiting.\n\n## What helps\n\nStaying calm long enough to hear the whole account before reacting. Asking for full disclosure now, including anything else that is outstanding. Agreeing on a written repayment plan with dates. Agreeing what will change in how money is shared and reported. Deciding who else, such as a trusted elder, needs to be told, and who does not.\n\n## What does not help\n\nUsing the discovery as a weapon in later arguments. Telling friends and relatives before agreeing on the facts. Punishing silently. Pretending nothing happened.\n\n> Forgiveness does not mean pretending there was no harm. It means choosing to rebuild with open eyes.\n\n## This scenario\n\nIn the scenario you will be asked to deal with exactly this situation. Give figures, steps, words and dates."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: a debt discovered after the wedding",
+          "scenarioKey": "hidden-debt-discovered"
+        }
+      ]
+    },
+    {
+      "day": 12,
+      "title": "Household roles",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Who does what at home",
+          "body": "## Fairness and assumptions\n\nThe household is where most daily friction lives. Cooking, cleaning, laundry, childcare, shopping, repairs, caring for elderly relatives, paying bills, arranging travel. If no one has talked about it, each person assumes the other will do the part they dislike.\n\n## What the example of the Prophet teaches\n\nThe Prophet, peace be upon him, was reported to help his family at home, mending his clothes and serving himself and his household. A husband who treats household work as beneath him is not following that example.\n\n## Different homes, different arrangements\n\nSome families divide tasks along traditional lines. Some share. Some pay for help. All can work if the arrangement is agreed, felt to be fair, and open to revision when circumstances change, such as a new baby, a new job or an illness.\n\n## A practical method\n\nList every recurring task. Mark who does it now and who would prefer to. Discuss tasks that nobody wants and decide how they will rotate or be paid for. Agree what happens when one of you is sick or overloaded.\n\n## Invisible work\n\nMental load matters: remembering birthdays, noticing the almost empty fuel tank, tracking school forms. Name this kind of work too, or it will fall on one person unseen.\n\n> A fair home is not one where everything is equal. It is one where nobody feels unseen."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your picture of the home",
+          "prompt": "Describe a normal weekday in the home you hope to have. Say who wakes first, who prepares food, who handles cleaning, money and errands, and what happens when one of you is exhausted. Then say which household tasks you are genuinely willing to do and which you would find difficult.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 13,
+      "title": "Work, ambition and a spouse's career",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Working, studying and ambition in marriage",
+          "body": "## Different ambitions\n\nPeople bring plans into marriage: a career, further study, a business, travel, ministry or community work. Some plans are shared. Others are one spouse's. Surprise is the enemy here. A spouse who thought a partner would give up work, or who thought a partner would relocate, will feel betrayed even if no one ever lied.\n\n## Questions to settle\n\nWill both of you work? Is that a preference, a necessity or an assumption? If a spouse is to study, how will the household cope financially and in time? If one has a job that requires travel or unusual hours, what is the agreement about it? What happens if the best opportunity is in another city or country?\n\n## Islamic considerations\n\nA wife's work is her choice within what is lawful, and her earnings are hers. A husband remains responsible for provision. Families and scholars differ about details, so these should be discussed in advance, not discovered afterwards.\n\n## Support, not competition\n\nThe healthiest picture is of spouses who are each other's supporters. When one succeeds, the other is glad. When one is failing, the other helps without humiliation.\n\n> A spouse's success is not your loss. A spouse's failure is not your victory.\n\n## Compromise has a cost\n\nAny plan involves trade-offs. Whoever makes the larger sacrifice for the other's career should have that sacrifice recognised and, where it can be, repaid by the other later."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: work and ambition",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "What is the main risk of unspoken assumptions about careers?",
+              "options": [
+                "Both spouses become more ambitious",
+                "The household earns less",
+                "Nothing, because it sorts itself out",
+                "A spouse feels betrayed even if no one lied"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "In the Islamic framework described, whose earnings are a wife's?",
+              "options": [
+                "Her own",
+                "Her husband's",
+                "Her father's",
+                "The household's by default"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "Which is the healthiest way to view a spouse's career success?",
+              "options": [
+                "As a threat",
+                "As irrelevant to the marriage",
+                "As a competition to be won",
+                "As a shared gladness and a form of support"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "When one spouse makes a larger career sacrifice, what should happen?",
+              "options": [
+                "It should be ignored",
+                "It should be assumed as a duty",
+                "It should be recognised and, where possible, repaid later",
+                "It should be mentioned only during arguments"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "When should relocation or study plans be discussed?",
+              "options": [
+                "Only after children arrive",
+                "Only if a problem occurs",
+                "Before marriage, in specific terms",
+                "Never, because it creates conflict"
+              ],
+              "correctIndex": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 14,
+      "title": "Week two review",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Taking stock of money and home",
+          "body": "## What you covered\n\nThis week you looked at what money means, how to build a household budget, how to handle debt, saving and giving, what to do if a hidden debt surfaces, how household tasks are shared, and how ambition and work fit into a marriage.\n\n## The common thread\n\nAlmost everything this week comes back to one habit: say the thing early, with figures, and write it down. Vague agreements (\"we will manage\", \"we will share\") feel gentle but fail when pressure arrives. Specific agreements (\"rent comes first, we each keep ten percent, we review on the first Sunday\") hold.\n\n## Three questions to hold on to\n\nWhat do I owe, to whom, and have I said so? What do I expect the household to look like, and have I said so? What am I willing to give up for the other person's work, and what am I not?\n\n> Clarity is a kindness. Vagueness postpones the argument and makes it worse.\n\n## Looking ahead\n\nNext week moves from money to people: in-laws, children, parenting and the way you talk when you disagree. These are the topics that most often decide whether a marriage feels like a home or a battlefield."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Looking back at money and home",
+          "prompt": "Write the three most important agreements about money and household you would want in writing before marriage, stated with specific numbers or rules where possible. Then name one agreement that you expect to be hard to reach and say how you would approach the conversation.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 15,
+      "title": "In-laws and family boundaries",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Marrying a person and a family",
+          "body": "## You marry into a network\n\nIn most Nigerian and Muslim communities, marriage joins two families as well as two people. Parents, siblings, uncles, aunts and elders will have opinions, expectations and sometimes claims on your time and money. This can be a great source of support. It can also become the most persistent source of conflict.\n\n## Honouring parents without surrendering the marriage\n\nKindness to parents is a core duty and is never cancelled by marriage. At the same time, the new household has its own decisions to make. A mature spouse can honour parents deeply while still saying a respectful no to a specific demand.\n\n> Honouring your parents does not require handing them the keys to your marriage.\n\n## Principles that help\n\nPresent a united front. A couple that disagrees in front of relatives gives relatives a way to divide them. Disagree in private, decide together, then speak with one voice.\n\nEach person manages their own family. If a parent is being unreasonable, the child of that parent should address it, not the spouse. This protects the in-law relationship from becoming a front line.\n\nAgree on defaults in advance: how often you visit, how much money goes to relatives, where you will live, whether relatives may stay long, how childcare help is arranged.\n\nTreat your spouse's family with the courtesy you would want shown to yours. Complaints about them, when needed, are made privately and kindly.\n\n## When it goes wrong\n\nSome families are controlling, dismissive or hostile. That does not make your spouse a bad person, and it does not make boundaries disloyal. It does mean you need a plan, and you need to act on it consistently."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Family expectations",
+          "prompt": "Describe what your family expects from you after marriage (money, time, living arrangements, decisions). Then describe where you would hold a boundary, where you would give way, and exactly what you would say to a parent who demanded something you had decided against.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 16,
+      "title": "Scenario: a relative moves in",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "When family needs space in your home",
+          "body": "## A very common test\n\nA relative needing somewhere to stay is among the most common stresses in a young marriage. A parent in poor health, a sibling in school, an unemployed cousin, an in-law who has fallen out with their own home. The request is usually reasonable on its face, and refusing feels cruel.\n\n## The real questions\n\nHow long will it last, and who decides when it ends? What does it cost, and who pays? Whose room, privacy and routine are affected? What are the house rules, and who will state them to the guest? What does the spouse who did not choose this guest feel about it, and can they say so?\n\n## Avoid these mistakes\n\nAgreeing in the moment because refusing feels rude, and resenting it later. Letting the guest's host handle every complaint on their own. Leaving the end date open. Allowing the guest to give instructions to the spouse in their own house.\n\n## Good practice\n\nDecide together before answering the relative. State the arrangement in plain words, including the duration and what is expected of the guest. Review after a month. Protect the marriage's private time. Make sure the spouse who is less connected to the guest is not the one doing the unseen labour.\n\n> Hospitality is a virtue, but it should be offered by the household, not extracted from one half of it.\n\n## This scenario\n\nYou will decide how to respond when a relative's need collides with your spouse's comfort and your budget. Be specific about dates and amounts."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: a relative asks to live with you",
+          "scenarioKey": "relative-moves-in"
+        }
+      ]
+    },
+    {
+      "day": 17,
+      "title": "Children: wanting, timing and uncertainty",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Talking honestly about children",
+          "body": "## One of the biggest topics, and one of the most avoided\n\nWhether to have children, how many, how soon, and what to do if they do not come easily are questions that should be discussed before marriage. Many couples assume agreement and discover otherwise years later.\n\n## Questions to ask\n\nDo you both want children? How soon? How many, roughly? How will you feel if it takes longer than expected? How will you feel about medical investigation or treatment, and what would you refuse? Who will care for the baby in the first years, and how will work and money adapt? How will you cope with a pregnancy complication or the loss of a child?\n\n## Fertility and difficulty\n\nMany couples face delay or difficulty, and it can be a source of shame and blame. Delay is not a verdict on anyone's worth. It is a medical and spiritual difficulty to face together. Blaming one spouse, or allowing relatives to blame one spouse, is unjust and harmful.\n\n> A child is a gift, not a contract. A marriage built only on producing children will be fragile when they do not come.\n\n## Two honest truths\n\nChildren bring great joy and also great strain. Sleep, money, privacy and time with each other all shrink for a while. Couples who talk about this before it happens handle it better.\n\n## Connecting to faith\n\nDua, patience and trust in Allah's wisdom are central. They do not replace seeking proper medical advice and honest conversation between spouses."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Children and uncertainty",
+          "prompt": "State honestly what you hope for regarding children (whether, when and how many). Then explain how you would respond if conception took several years, including how you would treat your spouse and how you would respond to relatives who pressed or blamed.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 18,
+      "title": "Parenting and upbringing",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "What kind of parent do you plan to be",
+          "body": "## You are already modelling something\n\nBefore you have a child, you carry a picture of parenting, taken largely from how you were raised. Some of it you will want to repeat. Some you will want to avoid. If you have not examined it, you will repeat both without noticing.\n\n## Core goals of Islamic upbringing\n\nTo nurture faith and good character together. To teach by example more than by words. To balance firmness with mercy. The Prophet, peace be upon him, was known for gentleness with children and warned against harshness and favouritism.\n\n## Matters to discuss\n\nHow discipline will be done and what is never acceptable. Hitting children, humiliating them or shaming them is harmful and should be ruled out. How religious teaching will happen at home and in school. What language the children will speak. What education you value and can afford. How much freedom and privacy older children will have. How you will handle grandparents who contradict your decisions.\n\n## Consistency\n\nChildren learn from adults who agree. When parents contradict each other in front of a child, the child learns to play one against the other and loses a feeling of safety. Settle differences privately.\n\n> Children do what they see far more than what they are told.\n\n## Your own repair\n\nIf you carry wounds from your own upbringing, do not wait until you have children to deal with them. Talk, read, seek counsel. Healing is part of being ready."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: parenting",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "What should parents do when they disagree about discipline?",
+              "options": [
+                "Argue in front of the children so they understand",
+                "Let the stricter parent decide silently",
+                "Settle it privately and present a consistent approach",
+                "Let the children choose"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "Which approach to discipline should be ruled out?",
+              "options": [
+                "Explaining expectations clearly",
+                "Humiliating or shaming a child",
+                "Consistent consequences",
+                "Praising good behaviour"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "What do children mainly learn from?",
+              "options": [
+                "What adults model in their behaviour",
+                "Only what they are told",
+                "Only what they are taught in school",
+                "Only punishment"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "Why should you examine your own upbringing before having children?",
+              "options": [
+                "Otherwise you may repeat unhelpful patterns without noticing",
+                "Because your parents were certainly wrong",
+                "Because upbringing does not matter",
+                "Because it removes the need to plan"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "How should grandparents who contradict your parenting decisions be handled?",
+              "options": [
+                "Let them decide everything",
+                "Cut off contact immediately",
+                "Agree as a couple on your position and respectfully hold it",
+                "Ignore the issue until the child is older"
+              ],
+              "correctIndex": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 19,
+      "title": "Communication and listening",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Talking so that you are understood",
+          "body": "## Most arguments are two people not hearing each other\n\nMarriage means thousands of small conversations. Most go well. A few go badly, and a pattern of bad ones erodes the relationship quietly. The good news is that communication is a skill that can be learned.\n\n## Listening\n\nListening is not waiting for your turn. It is understanding what the other person means, and showing that you have. A useful habit is to restate what you heard before you reply: \"You are saying that you felt ignored when I came home late without calling. Is that right?\"\n\n## Speaking\n\nSpeak about your experience, not about the other person's character. \"I felt anxious when the money was not mentioned\" is heard differently from \"You are secretive\". Be specific about the event and the request. Avoid the words \"always\" and \"never\".\n\n## Timing and place\n\nRaise serious matters when both of you are rested and not rushed. A conversation started at midnight, in the middle of a party, or in front of children rarely goes well. It is allowed to say, \"This matters and I want to give it proper time. Can we talk tomorrow evening?\"\n\n> The Prophet, peace be upon him, said to speak good or remain silent.\n\n## Silence is not peace\n\nGoing quiet and swallowing resentment feels peaceful, but it only postpones and enlarges the problem. Decide to raise things early, while they are small.\n\n## Tone\n\nHarsh speech, sarcasm, contempt and mocking leave lasting damage. A request made kindly is more likely to be granted than the same request made with contempt."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "How you communicate",
+          "prompt": "Describe how you usually behave when someone close to you upsets you: what you do, what you say and what you avoid. Then rewrite one specific complaint you have had in the past as a calm, respectful request that states the event, the effect on you and what you want.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 20,
+      "title": "Conflict and repair",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Disagreeing well",
+          "body": "## Conflict is normal\n\nEvery marriage includes disagreement. The question is not whether you will quarrel but how, and whether you repair afterwards. Research on couples shows that how a couple fights predicts the future of the marriage better than how often they fight.\n\n## What makes conflict destructive\n\nContempt: sneering, mocking, calling names. Defensiveness: refusing any responsibility. Stonewalling: shutting down and refusing to engage. Criticism of the person rather than the behaviour. Bringing up old grievances. Involving relatives or friends as judges.\n\n## What makes it productive\n\nStay on one topic. Take breaks when angry, and promise to return. Accept a share of responsibility. Look for what the other person needs underneath their position. Aim for a solution both can live with, not a win.\n\n## Anger\n\nThe Prophet, peace be upon him, said the strong person is not the one who defeats others but the one who controls himself in anger. If you feel rage rising, leave the room, change posture, perform wudu, or pray. Do not speak until you are able to speak without harm.\n\n> Never make a decision, send a message or say words you cannot take back while furious.\n\n## Repair\n\nAfter a fight, repair matters more than who was right. Apologise for your part without a \"but\". Say what you will do differently. Offer physical or emotional warmth. Move on, and do not reopen it later as ammunition.\n\n## Absolute limits\n\nViolence, threats, intimidation and controlling behaviour are never acceptable in a marriage. These are not conflict. They are harm, and they call for outside help and, where needed, protection."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: conflict",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "Which best predicts the health of a marriage?",
+              "options": [
+                "Whether they ever disagree",
+                "Who wins most arguments",
+                "How loud the arguments are",
+                "How the couple handles disagreement and repairs afterwards"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "What is the right thing to do when anger is rising to a point of harm?",
+              "options": [
+                "Say everything while it is fresh",
+                "Step away and return when you can speak without causing harm",
+                "Send a long message immediately",
+                "Ask relatives to take sides"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "Which is a sign of destructive conflict?",
+              "options": [
+                "Contempt, such as mocking or name calling",
+                "Taking a short break",
+                "Staying on one topic",
+                "Accepting your share of the blame"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "What makes an apology effective?",
+              "options": [
+                "Explaining why the other person caused it",
+                "Taking responsibility for your part without adding a 'but'",
+                "Apologising only if you were clearly right",
+                "Apologising only in public"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "How should violence or intimidation in a marriage be understood?",
+              "options": [
+                "As a normal part of conflict",
+                "As a private matter that must never be discussed",
+                "As harm that is never acceptable and that calls for protection and outside help",
+                "As acceptable if provoked"
+              ],
+              "correctIndex": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 21,
+      "title": "Scenario: when an argument escalates",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "The hardest ten minutes",
+          "body": "## Most couples will face this\n\nIt begins as a small disagreement: a late arrival, a comment about a parent, a bill. Within minutes voices rise, old injuries come out, and one person says something cruel or walks out. What happens next determines whether the argument is a bump or a wound.\n\n## The moment of decision\n\nAt the height of an argument, you have a few choices. You can escalate, withdraw, or pause and take responsibility for your own part. Only the last helps. It is also the hardest, because it asks you to behave better than you feel.\n\n## What a mature response looks like\n\nNaming that things are getting heated and asking for a pause with a specific time to return. Not leaving the home in a way that frightens or punishes the other person. Not saying things aimed at a person's family, past or deepest insecurities. Not touching, blocking, throwing or threatening. Returning when you said you would.\n\n## Afterwards\n\nAn honest apology for the specific words or actions. A calm review of what the argument was really about. A plan for next time: a signal, a break rule, an agreed way to return.\n\n> You are not responsible for how the other person behaves. You are fully responsible for how you do.\n\n## Outside help\n\nIf arguments repeatedly end in fear, intimidation or physical harm, that is not a communication issue. Seek trusted elders, counsellors or professionals, and prioritise safety.\n\n## This scenario\n\nYou will be placed in a heated moment and asked what you would do in the next minutes, hours and days."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: an argument that escalates",
+          "scenarioKey": "argument-escalates"
+        }
+      ]
+    },
+    {
+      "day": 22,
+      "title": "Faith in the home",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Practising together",
+          "body": "## Shared faith, honestly described\n\nMany people say they are practising and mean very different things. One person means five daily prayers, no interest, and modest dress. Another means attending Friday prayer and fasting in Ramadan. Another means a deep inner faith and few outward practices. These differences matter in a home.\n\n## Questions to settle\n\nHow important is prayer on time, and will you encourage each other? How will Ramadan, Eid and Hajj be observed? What are your expectations on dress, hijab, beards and public behaviour? What music, entertainment and social settings are acceptable? Which school of thought or community do you follow, and how flexible are you? What will children be taught?\n\n## Faith without force\n\nReligion cannot be forced on a spouse. Pressure produces resentment and show. Encouragement, example and patience produce sincerity. Do not marry someone planning to change their practice dramatically afterwards.\n\n> Do not treat a spouse as a project to be corrected. Treat them as a companion on the road.\n\n## Humility\n\nBe careful with judging the faith of others. Only Allah knows hearts. Your task is to be honest about your own standards and to seek someone whose standards you can live with.\n\n## Differences that need real thought\n\nIf one of you is much more or much less practising than the other, discuss how the household would look in daily terms. A difference that seems small in conversation becomes large when you decide where children go to school or whether a gathering is acceptable."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Faith day to day",
+          "prompt": "Describe your current practice honestly, including your strengths and your struggles. Then describe what you need in a spouse's practice (as a requirement, not a preference), and what you would do if, after marriage, your spouse's practice turned out to be weaker than you expected.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 23,
+      "title": "Honesty and trust",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Truthfulness as the base of the home",
+          "body": "## Why honesty carries so much weight\n\nMarriage depends on trust. Each spouse relies on the other's word about money, whereabouts, health, past and intentions. When trust is broken, the relationship can survive but it takes time and intention. When it is broken repeatedly, it usually does not.\n\n## The Islamic emphasis\n\nTruthfulness is among the most praised qualities, and lying among the most condemned. Scholars have discussed narrow exceptions, such as saying kind words to reconcile. These exceptions are not licences to conceal debt, past, health or serious facts from a spouse.\n\n## Kinds of dishonesty\n\nOutright lies. Omission: not saying what the other person would obviously want to know. Exaggeration and image management. Secrecy about money, phones, friendships or past relationships. Promises made without intention to keep them.\n\n## What should be disclosed before marriage\n\nDebts and financial obligations. Serious health conditions that affect marriage or children, shared with discretion and at the right stage. Previous marriages or children. Legal issues. Major commitments to others. Whatever you know the other person would call decisive if they knew.\n\n> If you would be ashamed for your spouse to find it out later, it is a sign you should say it now.\n\n## Rebuilding trust\n\nWhen trust is damaged, the person who broke it needs to offer full disclosure, accept consequences, and be patient with the other person's pace. The person who was hurt needs to decide whether they are willing to rebuild, and to say so clearly. Both need support."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: honesty",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "Which of these counts as dishonesty in marriage?",
+              "options": [
+                "Keeping a surprise gift secret",
+                "Concealing a debt that your spouse would obviously want to know about",
+                "Taking a quiet moment alone to pray",
+                "Choosing not to repeat a rumour"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "When is the best time to disclose a serious fact about yourself?",
+              "options": [
+                "Never, to avoid conflict",
+                "Only if asked directly",
+                "Before marriage, at the right stage and with care",
+                "After the first child is born"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "What does rebuilding trust require from the person who broke it?",
+              "options": [
+                "A quick apology and a request to forget it",
+                "Blaming the other person's reaction",
+                "Waiting for the other person to move on",
+                "Full disclosure, accepting consequences and patience"
+              ],
+              "correctIndex": 3
+            },
+            {
+              "text": "What does repeated breaking of trust usually do to a marriage?",
+              "options": [
+                "It makes the marriage stronger",
+                "It has little effect",
+                "It often makes the relationship unsustainable",
+                "It only affects the first year"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "What is a useful test for whether to disclose something?",
+              "options": [
+                "Whether it is legally required",
+                "Whether you would be ashamed if your spouse found out later",
+                "Whether anyone else knows",
+                "Whether it is comfortable to say"
+              ],
+              "correctIndex": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 24,
+      "title": "Scenario: caught in a lie",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "When you discover your spouse has not told you the truth",
+          "body": "## A hard moment\n\nSooner or later, one spouse may discover that the other has not told the full truth. Perhaps about where they were, who they spoke to, what they spent, or a plan they pursued without consulting. Sometimes the lie is small, sometimes it hides something serious. In either case, the discovery shakes the ground under the relationship.\n\n## Handling the discovery\n\nGather the facts before you accuse. Choose a private moment. Describe exactly what you found and ask for an honest explanation. Listen all the way through. Decide what you need: an apology, a change in behaviour, transparency, counselling, time.\n\n## Handling being caught\n\nIf you are the one who lied, resist excuses, minimising and blaming. Own it plainly. Offer full disclosure, including what you have not been asked. Accept that trust will return slowly. Agree to concrete safeguards.\n\n## Seriousness matters\n\nA white lie about a surprise is not the same as hiding money, relationships or harm. Be honest about the scale. A response proportionate to the offence preserves justice. Overreacting to small things teaches people to hide, and underreacting to serious ones teaches them it is safe.\n\n> Mercy and justice are not opposites. A fair response holds both.\n\n## This scenario\n\nYou will deal with a spouse who has been dishonest about something that matters. Decide how you would act, in what order, and what would make you stay or leave."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: a spouse who has not told the truth",
+          "scenarioKey": "caught-in-a-lie"
+        }
+      ]
+    },
+    {
+      "day": 25,
+      "title": "Hardship, illness and sacrifice",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "When life gets heavy",
+          "body": "## Marriage vows are tested in hard seasons\n\nMany people marry expecting ease. Life brings illness, job loss, bereavement, a difficult child, financial loss and the care of elderly parents. These seasons are when you find out whether your marriage is a partnership or a convenience.\n\n## Sacrifice\n\nSacrifice means giving up something you value for the sake of someone you love. It should be freely given and gratefully received. Resentment builds when sacrifice is demanded, unacknowledged or one sided. Both spouses will sometimes give more than they receive. Over a lifetime it should be roughly mutual.\n\n## The Qur'anic perspective\n\nThe Qur'an teaches that trials are a part of life, and that patience, gratitude and turning to Allah bring reward and ease. Patience is not passive. It includes taking steps, seeking help, and supporting each other.\n\n> With hardship comes ease.\n\n## Practical preparation\n\nTalk about what you would do if one of you became seriously ill or disabled. Who would give up work, if anyone? How would you pay? Which relatives would help? What are your expectations about caring for elderly parents on both sides? Do you have insurance or savings that could cushion a shock?\n\n## Keeping love alive in difficulty\n\nSmall acts count: a kind word, a shared meal, prayer together, honest thanks. During hard times it is easy to treat each other as the source of the problem. Choose, deliberately, to face the problem together."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your capacity for sacrifice",
+          "prompt": "Describe a time you gave up something important for another person and how you felt about it afterwards. Then describe what you would be willing and unwilling to give up if your spouse became seriously ill for a long period, and how you would ask for help rather than resent it.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 26,
+      "title": "Scenario: long term illness",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Caring for someone you love",
+          "body": "## A question few people ask in advance\n\nWhat if the person you marry becomes unwell for a long time? A chronic illness, a serious accident, a mental health condition, or a disability can change a household's life in a single day. Whether you rise to this moment is a mark of character and of the strength of the partnership.\n\n## What the marriage is\n\nA marriage is not only a source of comfort. It is also a commitment to be present when the other cannot give anything back. The Qur'an and the example of the Prophet, peace be upon him, emphasise mercy, patience and visiting and caring for the sick.\n\n## Practical issues\n\nMedical decisions, costs and who attends appointments. Changes in income and responsibilities. The emotional load on the carer, who also needs rest, support and permission to feel tired. The role of extended family, which may be generous or may complicate things. Intimacy, dignity and privacy for the person who is unwell.\n\n## Caring without losing yourself\n\nCarers must protect their own health. A spouse who collapses cannot help anyone. Share responsibility with relatives, accept help, take breaks, and speak honestly about limits.\n\n> Compassion that has no boundaries burns out. Compassion with a plan lasts.\n\n## Dignity of the one who is ill\n\nDo not speak about them as a burden, in front of them or elsewhere. Include them in decisions as far as they are able.\n\n## This scenario\n\nYou will be placed in a situation involving a spouse's long illness and asked to make real choices about money, time and support."
+        },
+        {
+          "type": "SCENARIO",
+          "title": "Scenario: a spouse's long illness",
+          "scenarioKey": "spouse-long-illness"
+        }
+      ]
+    },
+    {
+      "day": 27,
+      "title": "Respect, modesty and intimacy",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "A respectful intimacy",
+          "body": "## An honest, dignified subject\n\nMarital intimacy is a part of the blessings of marriage, and Islam speaks of it with dignity and without shame. Many people enter marriage with little accurate knowledge, and some with fear, misinformation or past hurt. That is a reason to prepare, not to avoid the subject.\n\n## Consent and care\n\nIntimacy in marriage is based on mutual consent, kindness, and attention to the other person's comfort. Pressure, coercion and violence are never acceptable. A spouse's body is not property. Each has the right to say they are unwell, afraid or not ready, and to be heard with respect.\n\n## Talking about it\n\nCouples benefit from speaking honestly, privately and gently about expectations, fears and needs, ideally before and soon after marriage. Learn from reliable sources, such as a qualified doctor, a marriage counsellor or trusted and knowledgeable people, not from pornography or rumour. Pornography gives false pictures and damages real relationships.\n\n## Health\n\nKnow basic reproductive health. Be willing to consult a doctor if there is pain, fear, difficulty or past trauma. Seeking help is a sign of care.\n\n> Care in small moments builds trust for intimate ones.\n\n## Modesty and privacy\n\nModesty includes the protection of your spouse's dignity. What happens between spouses is private. Discussing it with friends or on social media is a betrayal.\n\n## Past experiences\n\nIf either of you carries a history of harm or confusion, a counsellor or a qualified professional can help. This is nothing to be ashamed of."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: respect and intimacy",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "What must intimacy in marriage always be based on?",
+              "options": [
+                "Mutual consent, kindness and attention to comfort",
+                "Whatever one spouse demands",
+                "Silence about expectations",
+                "Rumour and online material"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "Where should a couple learn about intimacy and reproductive health?",
+              "options": [
+                "From pornography",
+                "From jokes and rumours",
+                "From reliable sources such as a qualified doctor or counsellor",
+                "From strangers on social media"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "Is coercion acceptable in a marriage?",
+              "options": [
+                "Yes, if the other spouse has duties",
+                "No, it is never acceptable",
+                "Yes, once a year",
+                "Yes, if the family agrees"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "What should be done with private matters between spouses?",
+              "options": [
+                "Shared with friends for advice",
+                "Posted to gain sympathy",
+                "Kept private and not shared with friends or on social media",
+                "Discussed with every relative"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "If a spouse has a history of harm, what is a wise step?",
+              "options": [
+                "Hide it permanently",
+                "Seek a qualified counsellor or professional, without shame",
+                "Blame the spouse for asking",
+                "Wait until it disappears"
+              ],
+              "correctIndex": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 28,
+      "title": "Friends, social media and privacy",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Protecting your marriage in public",
+          "body": "## Your marriage has an audience\n\nFriends, family and social media all want a window into your life. Some of this is healthy: friendship and community help a marriage. Some of it undermines it. The line is often between support and exposure.\n\n## Friends\n\nKeep friends who respect your marriage. Be wary of those who encourage you to complain, compare or doubt. Venting to a trusted person is human, but regular airing of your spouse's faults trains your mind to see only faults and breaches your spouse's dignity.\n\n## Relationships with the opposite sex\n\nBoundaries should be agreed together and kept honestly. Private messaging, late night conversations, emotional confiding or secrecy with someone of the opposite sex can damage trust even without any physical act. Ask: would I be comfortable if my spouse read this?\n\n## Social media\n\nDo not post your spouse's mistakes, arguments or private moments. Do not compare your marriage to curated pictures of others. Agree what is shared about your family, particularly children, and ask permission before posting about your spouse.\n\n> What you would not say to your spouse's face, do not say to the world.\n\n## Phones and devices\n\nAgree on norms. Some couples share passcodes as a sign of openness, others prefer privacy with trust. The point is not surveillance but the absence of secrecy.\n\n## Seeking help properly\n\nWhen you need advice, go to a mature, trustworthy person who will help you reconcile, not to someone who will take your side for the sake of it."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Boundaries in public",
+          "prompt": "Describe the boundaries you would want about friends, relationships with the opposite sex, phones and social media, and explain why each matters to you. Then say how you would respond if you found that your spouse had broken one of these agreements.",
+          "minWords": 90
+        }
+      ]
+    },
+    {
+      "day": 29,
+      "title": "Making the decision well",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "How to know, and how to decide",
+          "body": "## Decisions made well\n\nChoosing a spouse is a serious decision. Islam encourages three things together: consultation, prayer and careful reasoning. No single one is enough.\n\n## Consultation\n\nSeek counsel from people who know you and are honest, mature and have no stake in a particular outcome. Ask them for concerns as well as praise. Listen especially to a concern raised by more than one person.\n\n## Istikhara\n\nThe prayer of istikhara asks Allah to guide you to what is good for your religion, life and outcome. It is not a dream interpretation game. It is a sincere request, followed by taking the decision with a calm heart and a clear mind, trusting that the way will be made easy or turned away.\n\n## Reasoning\n\nReview the facts. Compare what you learned about their character, faith, finances, family, goals and communication with your requirements. Take your time. Meet in proper settings with family involvement. Ask direct questions and notice whether answers stay consistent.\n\n## Red flags that deserve serious weight\n\nViolence, threats or controlling behaviour. Dishonesty about important matters. Contempt toward you or others. Refusal to discuss money, children or religion. Unwillingness to accept any boundary. Cruelty to people with less power. A pattern of blaming everyone else.\n\n> Do not explain away a red flag because you are tired of searching.\n\n## Green flags\n\nKindness when inconvenienced. Consistency. Accountability. Respect for your family and your boundaries. Curiosity about your views. Peace in your own heart when you are with them.\n\n## And if it is not right\n\nDeclining respectfully is not cruelty. It is kinder than a marriage you cannot sustain."
+        },
+        {
+          "type": "QUIZ",
+          "title": "Check your understanding: deciding well",
+          "passMark": 75,
+          "maxAttempts": 3,
+          "questions": [
+            {
+              "text": "Which three things does Islam encourage together when making this decision?",
+              "options": [
+                "Only prayer",
+                "Only family opinion",
+                "Consultation, prayer and careful reasoning",
+                "Only attraction"
+              ],
+              "correctIndex": 2
+            },
+            {
+              "text": "Which is a serious red flag?",
+              "options": [
+                "Violence, threats or controlling behaviour",
+                "Different taste in food",
+                "Support for a different team",
+                "Preferring a quiet evening"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "How should istikhara be understood?",
+              "options": [
+                "As a sincere request for guidance followed by a calm, reasoned decision",
+                "As a replacement for asking questions",
+                "As a method to interpret dreams only",
+                "As unnecessary"
+              ],
+              "correctIndex": 0
+            },
+            {
+              "text": "What should you do if several honest people raise the same concern?",
+              "options": [
+                "Ignore it if you are attracted",
+                "Take it seriously and investigate it",
+                "Assume they are jealous",
+                "Stop consulting people"
+              ],
+              "correctIndex": 1
+            },
+            {
+              "text": "Is declining a proposal respectfully unkind?",
+              "options": [
+                "Yes, it is always unkind",
+                "Yes, it harms the family forever",
+                "It must never be done",
+                "No, it is kinder than a marriage you cannot sustain"
+              ],
+              "correctIndex": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 30,
+      "title": "Your covenant",
+      "activities": [
+        {
+          "type": "LESSON",
+          "title": "Completing the programme",
+          "body": "## What you have done\n\nOver thirty days you have thought about why you want to marry, what compatibility means, how character shows itself, how to decide under pressure, how to handle money, debt, home, family, children, conflict, faith, honesty, hardship and the decision itself. That is a substantial amount of thinking. Most people never do it before they marry.\n\n## What this does and does not mean\n\nCompleting the programme does not guarantee a marriage and does not promise a match. It means you have taken the preparation seriously, and that you can speak about marriage with clarity. If you are introduced to someone later, you will be doing it with honesty and with your requirements known.\n\n## Carry these forward\n\nBe truthful early. Say what you need, with specifics. Treat a pairing that does not proceed as a mismatch, not a judgment. Choose character over appearance. Write your agreements down. Face hard seasons together. Seek counsel. Make dua.\n\n> Marriage is a worship carried out in ordinary days. May yours be built on sincerity, mercy and truth.\n\n## One last reminder\n\nYou will make mistakes in marriage, as everyone does. What matters is returning to each other with humility. Keep learning, keep apologising well, and keep choosing your spouse each day.\n\n## What to do next\n\nReview your answers from the past thirty days, especially your requirements and boundaries. Bring them into every conversation with the people you meet through the platform, and into your prayers."
+        },
+        {
+          "type": "REFLECTION",
+          "title": "Your covenant",
+          "prompt": "Write your own commitment to a future spouse: the five promises you intend to keep, with at least one about money, one about honesty, one about family and one about how you will handle conflict. Then name the single thing from the past thirty days that changed your mind most.",
+          "minWords": 120
+        }
+      ]
+    }
+  ]
+}

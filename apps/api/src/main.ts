@@ -38,8 +38,9 @@ async function bootstrap() {
     .build();
   SwaggerModule.setup("api/docs", app, SwaggerModule.createDocument(app, config));
 
-  const port = Number(process.env.API_PORT ?? 4000);
-  await app.listen(port);
+  // Hosts such as Railway and Render provide PORT. API_PORT wins if set, and 4000 is the local default.
+  const port = Number(process.env.API_PORT ?? process.env.PORT ?? 4000);
+  await app.listen(port, "0.0.0.0");
   console.log(`Baytul Wisaal API listening on http://localhost:${port}/api/v1`);
 }
 
