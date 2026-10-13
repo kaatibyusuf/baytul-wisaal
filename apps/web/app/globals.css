@@ -245,6 +245,75 @@
 .rise-2 { animation-delay: 0.15s; }
 .rise-3 { animation-delay: 0.3s; }
 
+/* Buttons: lift on hover, press on click, a light sweep across the face */
+.btn-anim {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-anim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.btn-anim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -8px rgba(2, 211, 203, 0.55);
+}
+.btn-anim:hover::after {
+  transform: translateX(120%);
+  transition: transform 0.7s ease;
+}
+.btn-anim:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+/* Slow ring that draws the eye to the main call to action */
+@keyframes ring {
+  0% { box-shadow: 0 0 0 0 rgba(2, 211, 203, 0.55); }
+  70%, 100% { box-shadow: 0 0 0 16px rgba(2, 211, 203, 0); }
+}
+.btn-pulse { animation: ring 2.8s ease-out infinite; }
+.btn-pulse:hover { animation: none; }
+
+/* Scroll reveal. Stays visible without script (see noscript rule on the page). */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease var(--d, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+}
+.reveal[data-in] { opacity: 1; transform: none; }
+
+/* Stage badges: outlined at first, then fill and pop as the stage arrives */
+.stage-badge {
+  border: 2px solid var(--nile-blue);
+  color: var(--nile-blue);
+  background-color: transparent;
+  transition: background-color 0.5s ease calc(var(--d, 0ms) + 0.35s), color 0.5s ease calc(var(--d, 0ms) + 0.35s), transform 0.3s ease;
+}
+.reveal[data-in] .stage-badge {
+  background-color: var(--nile-blue);
+  color: #fff;
+  animation: pop 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) calc(var(--d, 0ms) + 0.35s) backwards;
+}
+@keyframes pop {
+  0% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+.stage[data-in]:hover .stage-badge { background-color: var(--turquoise); color: var(--nile-blue); border-color: var(--turquoise); transform: translateY(-4px); }
+.stage h3 { transition: color 0.2s ease; }
+.stage:hover h3 { color: var(--aqua-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+  .btn-pulse { animation: none; }
+  .btn-anim:hover { transform: none; }
+}
+
 /* Milestone highlight: subtle gold, readable ink */
 .milestone {
   background-color: var(--gold-tint);

@@ -38,7 +38,7 @@ export function ScenarioTeaser() {
               type="button"
               aria-pressed={picked === i}
               onClick={() => setPicked(i)}
-              className="block w-full rounded-md border border-white/25 px-4 py-3 text-left text-[0.95rem] leading-snug text-white transition-colors hover:border-turquoise hover:bg-white/5 aria-pressed:border-turquoise aria-pressed:bg-turquoise aria-pressed:text-nile"
+              className="block w-full rounded-md border border-white/25 px-4 py-3 text-left text-[0.95rem] leading-snug text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-turquoise hover:bg-white/5 active:scale-[0.98] aria-pressed:border-turquoise aria-pressed:bg-turquoise aria-pressed:text-nile"
             >
               {o}
             </button>
@@ -55,7 +55,7 @@ export function ScenarioTeaser() {
             </p>
             <Link
               href="/register"
-              className="mt-4 inline-block rounded-md bg-soft-gold-on-dark px-5 py-2.5 text-sm font-semibold text-nile transition-colors hover:bg-white"
+              className="mt-4 btn-anim inline-block rounded-md bg-soft-gold-on-dark px-5 py-2.5 text-sm font-semibold text-nile hover:bg-white"
             >
               Start the 30 days
             </Link>
