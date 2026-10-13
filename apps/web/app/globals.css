@@ -288,6 +288,15 @@
 }
 .reveal[data-in] { opacity: 1; transform: none; }
 
+/* Slow reveal for closing words: rise, unblur and fade over a couple of seconds */
+.reveal.reveal-slow {
+  filter: blur(6px);
+  transform: translateY(18px);
+  transition: opacity 1.8s ease var(--d, 0ms), transform 1.8s ease var(--d, 0ms), filter 1.8s ease var(--d, 0ms);
+}
+.reveal.reveal-slow[data-in] { filter: none; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal.reveal-slow { filter: none; } }
+
 /* Stage badges: outlined at first, then fill and pop as the stage arrives */
 .stage-badge {
   border: 2px solid var(--nile-blue);
@@ -312,6 +321,62 @@
   .reveal { opacity: 1; transform: none; }
   .btn-pulse { animation: none; }
   .btn-anim:hover { transform: none; }
+}
+
+/* Hero scenario: a squared field that is slowly revealed behind the card */
+.square-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 0%, #000 var(--r, 0%), transparent calc(var(--r, 0%) + 30%));
+  mask-image: radial-gradient(circle at 50% 55%, #000 0%, #000 var(--r, 0%), transparent calc(var(--r, 0%) + 30%));
+  animation: field-reveal 6s cubic-bezier(0.3, 0.1, 0.2, 1) 0.4s both;
+}
+@property --r { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+@keyframes field-reveal { from { --r: 0%; } to { --r: 75%; } }
+.square-field i {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  opacity: 0;
+  animation: cell 7s ease-in-out infinite;
+}
+@keyframes cell {
+  0%, 100% { opacity: 0; }
+  45%, 60% { opacity: var(--o, 0.35); }
+}
+
+/* Stage steps: a line draws down to the next step as each one arrives */
+.step-line {
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 0.9s ease calc(var(--d, 0ms) + 0.5s);
+}
+.reveal[data-in] .step-line { transform: scaleY(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .square-field { animation: none; --r: 75%; }
+  .step-line { transform: none; }
+}
+
+/* Private by design: deep gradient with a faint doorway */
+.privacy-bg {
+  background:
+    radial-gradient(60rem 30rem at 85% 10%, rgba(2, 211, 203, 0.22), transparent 60%),
+    radial-gradient(40rem 26rem at 0% 100%, rgba(217, 164, 65, 0.14), transparent 60%),
+    linear-gradient(135deg, #0f2234 0%, #14506a 55%, #19687e 100%);
+}
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(6px);
+  }
 }
 
 /* Milestone highlight: subtle gold, readable ink */

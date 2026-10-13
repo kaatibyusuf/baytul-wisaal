@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 const options = [
   "Pay your father's bill from the emergency fund, then tell your spouse.",
@@ -14,7 +14,9 @@ export function ScenarioTeaser() {
   const [picked, setPicked] = useState<number | null>(null);
 
   return (
-    <div className="arch mx-auto w-full max-w-md bg-night px-6 pb-8 pt-24 shadow-2xl shadow-black/30 sm:px-9 sm:pt-32">
+    <div className="relative isolate px-2 py-8 sm:px-10">
+      <div aria-hidden className="square-field -z-10 rounded-3xl"><i style={{ left: 44, top: 44, animationDelay: "0.0s", background: "#d9a441", "--o": 0.35 } as CSSProperties} /><i style={{ left: 132, top: 0, animationDelay: "1.2s", background: "#02d3cb", "--o": 0.3 } as CSSProperties} /><i style={{ left: 264, top: 88, animationDelay: "2.4s", background: "#02d3cb", "--o": 0.4 } as CSSProperties} /><i style={{ left: 352, top: 44, animationDelay: "0.6s", background: "#d9a441", "--o": 0.3 } as CSSProperties} /><i style={{ left: 0, top: 176, animationDelay: "3.1s", background: "#02d3cb", "--o": 0.35 } as CSSProperties} /><i style={{ left: 308, top: 220, animationDelay: "1.8s", background: "#02d3cb", "--o": 0.4 } as CSSProperties} /><i style={{ left: 88, top: 352, animationDelay: "4.0s", background: "#d9a441", "--o": 0.3 } as CSSProperties} /><i style={{ left: 352, top: 396, animationDelay: "2.9s", background: "#02d3cb", "--o": 0.35 } as CSSProperties} /><i style={{ left: 220, top: 484, animationDelay: "0.9s", background: "#02d3cb", "--o": 0.3 } as CSSProperties} /><i style={{ left: 44, top: 528, animationDelay: "3.6s", background: "#d9a441", "--o": 0.4 } as CSSProperties} /><i style={{ left: 308, top: 572, animationDelay: "2.2s", background: "#02d3cb", "--o": 0.3 } as CSSProperties} /><i style={{ left: 176, top: 660, animationDelay: "4.4s", background: "#02d3cb", "--o": 0.35 } as CSSProperties} /></div>
+    <div className="arch mx-auto w-full max-w-md bg-gradient-to-b from-[#1f4a66] to-night px-6 pb-8 pt-24 shadow-2xl shadow-black/40 ring-1 ring-white/15 sm:px-9 sm:pt-32">
       <p className="text-center text-sm font-semibold text-soft-gold-on-dark">
         48 hours to decide
       </p>
@@ -62,6 +64,7 @@ export function ScenarioTeaser() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
