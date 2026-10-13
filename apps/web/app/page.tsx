@@ -250,7 +250,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="lattice bg-night text-white">
+      </main>
+
+      <div className="lattice bg-nile text-white">
+        <section>
           <div className="mx-auto max-w-6xl px-6 py-24 lg:py-32">
             <p className="editorial max-w-3xl text-balance text-2xl leading-snug sm:text-4xl">
               {[
@@ -275,14 +278,14 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
-      </main>
 
-      <footer className="lattice bg-nile text-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-          <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto" />
+      <footer className="border-t border-white/10">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+          <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto self-start object-contain" />
           <p className="text-sm text-white/70">Marriage is a big deal, and we are going to treat it as such.</p>
         </div>
       </footer>
+      </div>
     </>
   );
 }
