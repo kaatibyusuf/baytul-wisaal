@@ -73,7 +73,7 @@ export function Button({
   ...props
 }: { variant?: "primary" | "secondary" | "quiet" } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const styles = {
-    primary: "bg-nile text-white hover:bg-aqua",
+    primary: "bg-nile text-white shadow-sm hover:bg-aqua",
     secondary: "border border-nile text-nile hover:bg-aqua-tint",
     quiet: "text-aqua-ink underline underline-offset-4 hover:text-nile",
   }[variant];
@@ -113,19 +113,28 @@ export function AuthShell({
   footer?: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-surface">
-      <header className="bg-nile">
-        <div className="mx-auto max-w-6xl px-6 py-4">
+    <div className="min-h-screen bg-surface lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <aside className="lattice bg-nile text-white lg:flex lg:min-h-screen lg:flex-col lg:justify-between lg:px-12 lg:py-10">
+        <div className="flex px-6 py-4 lg:px-0 lg:py-0">
           <Link href="/" aria-label="Baytul Wisaal home" className="inline-block">
-            <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto" priority />
+            <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto lg:h-14" priority />
           </Link>
         </div>
-      </header>
-      <main id="main" className="mx-auto max-w-xl px-6 py-10 sm:py-14">
-        <h1 className="text-3xl font-semibold leading-tight text-nile">{title}</h1>
-        {intro && <p className="editorial mt-3 text-lg text-nile/90">{intro}</p>}
-        <div className="mt-8 rounded-lg border border-border bg-white p-6 sm:p-8">{children}</div>
-        {footer && <div className="mt-6 text-center text-sm text-text-muted">{footer}</div>}
+        <div className="hidden lg:block">
+          <div className="arch mb-8 h-24 w-16 border-2 border-turquoise/70" aria-hidden />
+          <p className="editorial max-w-sm text-3xl leading-snug">
+            Prepare for the home first. Meet someone second.
+          </p>
+        </div>
+        <p className="hidden text-sm text-white/60 lg:block">A 30-day marriage-readiness programme.</p>
+      </aside>
+      <main id="main" className="px-6 py-10 sm:py-14 lg:flex lg:items-center lg:justify-center">
+        <div className="mx-auto w-full max-w-md">
+          <h1 className="editorial text-3xl font-semibold leading-tight text-nile sm:text-4xl">{title}</h1>
+          {intro && <p className="mt-3 text-base leading-relaxed text-text-muted">{intro}</p>}
+          <div className="mt-8 rounded-xl border border-border bg-white p-6 shadow-sm sm:p-8">{children}</div>
+          {footer && <div className="mt-6 text-center text-sm text-text-muted">{footer}</div>}
+        </div>
       </main>
     </div>
   );

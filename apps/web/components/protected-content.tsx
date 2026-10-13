@@ -29,7 +29,7 @@ export function ProtectedContent({
 
   return (
     <div
-      className="protected-content relative overflow-hidden rounded-lg border border-border bg-white p-6 sm:p-8"
+      className="protected-content relative overflow-hidden rounded-xl border border-border bg-white p-6 sm:p-8"
       onContextMenu={stop}
       onCopy={stop}
       onCut={stop}

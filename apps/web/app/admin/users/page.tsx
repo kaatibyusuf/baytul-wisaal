@@ -20,9 +20,9 @@ export default function AdminUsersPage() {
 
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">Members</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Members</h1>
       <form
-        className="mt-6 grid gap-4 rounded-lg border border-border bg-white p-5 sm:grid-cols-[1fr_11rem_11rem_auto] sm:items-end"
+        className="mt-6 grid gap-4 rounded-xl border border-border bg-white p-5 sm:grid-cols-[1fr_11rem_11rem_auto] sm:items-end"
         onSubmit={(e) => {
           e.preventDefault();
           setApplied(form);
@@ -51,7 +51,7 @@ export default function AdminUsersPage() {
         <p className="mt-6 text-text-muted">No one matches.</p>
       ) : (
         <>
-          <ul className="mt-6 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+          <ul className="mt-6 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
             {data.items.map((u) => (
               <li key={u.id}>
                 <Link href={`/admin/users/${u.id}`} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 transition-colors hover:bg-aqua-tint">

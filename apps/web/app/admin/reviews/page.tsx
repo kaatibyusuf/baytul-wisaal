@@ -23,14 +23,14 @@ export default function ReviewsPage() {
 
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">Responses awaiting review</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Responses awaiting review</h1>
       <p className="editorial mt-3 text-lg text-nile/90">
         Judge the response in front of you, not the person. Identity is hidden on purpose.
       </p>
       {data.length === 0 ? (
         <p className="mt-8 text-text-muted">Nothing is waiting.</p>
       ) : (
-        <ul className="mt-8 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+        <ul className="mt-8 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
           {data.map((r) => (
             <li key={r.id}>
               <Link href={`/admin/reviews/${r.id}`} className="block px-5 py-4 transition-colors hover:bg-aqua-tint">
@@ -51,7 +51,7 @@ export default function ReviewsPage() {
       ) : pairings.data.length === 0 ? (
         <p className="mt-4 text-text-muted">Nothing is waiting.</p>
       ) : (
-        <ul className="mt-4 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+        <ul className="mt-4 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
           {pairings.data.map((c) => (
             <li key={c.matchId}>
               <Link href={`/admin/compatibility/${c.matchId}`} className="block px-5 py-4 transition-colors hover:bg-aqua-tint">

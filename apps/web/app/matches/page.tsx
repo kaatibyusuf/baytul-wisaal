@@ -47,15 +47,16 @@ export default function MatchesPage() {
 
   return (
     <AppShell width="max-w-3xl">
-      <h1 className="text-3xl font-semibold text-nile">Your match</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Your match</h1>
       {closedNote && <div className="mt-6"><FormMessage tone="info">{closedNote}</FormMessage></div>}
 
       {current ? (
-        <section className="mt-8 rounded-lg border border-border bg-white p-6 sm:p-8" aria-labelledby="intro">
-          <p className="text-sm text-text-muted">Introduced {day(current.createdAt)}</p>
+        <section className="lattice mt-8 overflow-hidden rounded-2xl bg-night p-7 text-white sm:p-10" aria-labelledby="intro">
+          <div aria-hidden className="arch mb-6 h-16 w-11 border-2 border-turquoise/60" />
+          <p className="text-sm text-white/70">Introduced {day(current.createdAt)}</p>
           {current.introduction ? (
             <>
-              <h2 id="intro" className="mt-1 text-2xl font-semibold text-nile">{current.introduction.name}</h2>
+              <h2 id="intro" className="editorial mt-1 text-4xl font-semibold">{current.introduction.name}</h2>
               <dl className="mt-5 grid gap-4 sm:grid-cols-2">
                 {[
                   ["Age", String(current.introduction.age)],
@@ -65,35 +66,35 @@ export default function MatchesPage() {
                   ["Occupation", current.introduction.occupation],
                 ].filter(([, v]) => v).map(([k, v]) => (
                   <div key={k}>
-                    <dt className="text-sm text-text-muted">{k}</dt>
-                    <dd className="font-semibold text-nile">{v}</dd>
+                    <dt className="text-sm text-white/70">{k}</dt>
+                    <dd className="font-semibold">{v}</dd>
                   </div>
                 ))}
               </dl>
             </>
           ) : (
-            <h2 id="intro" className="mt-1 text-2xl font-semibold text-nile">A match</h2>
+            <h2 id="intro" className="editorial mt-1 text-4xl font-semibold">A match</h2>
           )}
-          <div className="mt-6 rounded-md bg-surface p-4">
-            <p className="text-sm font-semibold text-nile">What happens next</p>
-            <p className="mt-1 text-text-muted">{current.whatNext}</p>
+          <div className="mt-7 border-l-2 border-soft-gold-on-dark pl-4">
+            <p className="text-sm font-semibold text-soft-gold-on-dark">What happens next</p>
+            <p className="mt-1 text-white/90">{current.whatNext}</p>
           </div>
-          <p className="mt-4 text-sm text-text-muted">
+          <p className="mt-5 text-sm text-white/70">
             This is a deliberately short introduction. There is no photo at this stage, because we want you to think beyond appearance.
           </p>
 
           <Link
             href={`/matches/${current.id}`}
-            className="mt-6 inline-block rounded-md bg-nile px-5 py-3 font-semibold text-white transition-colors hover:bg-aqua"
+            className="mt-7 inline-block rounded-md bg-turquoise px-6 py-3 font-semibold text-nile transition-colors hover:bg-white"
           >
             {{ EXPECTATIONS_PENDING: "Write what you are seeking", RESPONSE_PENDING: "Respond to their expectations", COMPATIBILITY_REVIEW: "See where things stand", NEXT_STAGE: "See how you compare" }[current.stage] ?? "Continue"}
           </Link>
 
-          <div className="mt-6 border-t border-border pt-5">
+          <div className="mt-8 border-t border-white/20 pt-5">
             {!confirming ? (
-              <Button variant="secondary" onClick={() => setConfirming(true)}>Close this pairing</Button>
+              <button onClick={() => setConfirming(true)} className="text-sm font-semibold text-white/80 underline underline-offset-4 hover:text-white">Close this pairing</button>
             ) : (
-              <div className="space-y-3" role="alertdialog" aria-labelledby="close-title">
+              <div className="space-y-3 rounded-xl bg-white p-5 text-nile" role="alertdialog" aria-labelledby="close-title">
                 <p id="close-title" className="font-semibold text-nile">Close this pairing?</p>
                 <p className="text-sm text-text-muted">
                   This cannot be undone, and you will not be introduced to each other again. They will be told only that the pairing is closed. You will
@@ -111,26 +112,27 @@ export default function MatchesPage() {
           </div>
         </section>
       ) : (
-        <section className="mt-8 rounded-lg border border-border bg-white p-6 sm:p-8">
+        <section className="mt-8 rounded-2xl border border-border bg-white p-7 sm:p-10">
+          <div aria-hidden className="arch mb-5 h-14 w-10 border-2 border-turquoise" />
           {!p.eligible ? (
             <>
-              <p className="editorial text-lg text-nile/90">Matching opens once you have finished the programme.</p>
+              <p className="editorial text-xl text-nile">Matching opens once you have finished the programme.</p>
               <Link href="/programme" className="mt-4 inline-block font-semibold text-aqua-ink underline underline-offset-4">Go to the programme</Link>
             </>
           ) : !p.submittedAt ? (
             <>
-              <p className="editorial text-lg text-nile/90">Tell us what you are seeking, and we will look for someone whose expectations fit yours.</p>
+              <p className="editorial text-xl text-nile">Tell us what you are seeking, and we will look for someone whose expectations fit yours.</p>
               <Link href="/preferences" className="mt-4 inline-block rounded-md bg-nile px-5 py-3 font-semibold text-white hover:bg-aqua">Complete your preferences</Link>
             </>
           ) : resting ? (
-            <p className="editorial text-lg text-nile/90">You are resting until {day(p.availableAfter!)}. After that we will look for a new match.</p>
+            <p className="editorial text-xl text-nile">You are resting until {day(p.availableAfter!)}. After that we will look for a new match.</p>
           ) : p.availability === "PAUSED" ? (
             <>
-              <p className="editorial text-lg text-nile/90">You have paused matching.</p>
+              <p className="editorial text-xl text-nile">You have paused matching.</p>
               <Link href="/preferences" className="mt-4 inline-block font-semibold text-aqua-ink underline underline-offset-4">Resume on the preferences page</Link>
             </>
           ) : (
-            <p className="editorial text-lg text-nile/90">
+            <p className="editorial text-xl text-nile">
               Your preferences are in and you are available. We will notify you as soon as we find someone whose expectations fit yours. There is nothing you need to do.
             </p>
           )}
@@ -140,7 +142,7 @@ export default function MatchesPage() {
       {history.length > 0 && (
         <section className="mt-10" aria-labelledby="history">
           <h2 id="history" className="text-lg font-semibold text-nile">Previous matches</h2>
-          <ul className="mt-3 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+          <ul className="mt-3 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
             {history.map((h) => (
               <li key={h.id} className="flex items-center justify-between gap-4 px-5 py-4">
                 <div>

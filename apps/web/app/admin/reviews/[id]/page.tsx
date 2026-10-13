@@ -56,7 +56,7 @@ export default function ReviewPage() {
       <Link href="/admin/reviews" className="text-sm text-aqua-ink underline underline-offset-4">
         All reviews
       </Link>
-      <h1 className="mt-3 text-3xl font-semibold text-nile">{data.candidate}</h1>
+      <h1 className="editorial mt-3 text-4xl font-semibold leading-tight text-nile">{data.candidate}</h1>
       <ul className="mt-3 flex flex-wrap gap-2">
         {data.triggers.map((t) => (
           <li key={t} className="rounded-full border border-border bg-white px-3 py-1 text-sm text-nile">
@@ -66,17 +66,17 @@ export default function ReviewPage() {
       </ul>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-lg border border-border bg-white p-6">
+        <section className="rounded-xl border border-border bg-white p-6">
           <h2 className="font-semibold text-nile">The scenario</h2>
           <p className="editorial mt-3 text-nile/90">{data.scenario}</p>
         </section>
-        <section className="rounded-lg border border-border bg-white p-6">
+        <section className="rounded-xl border border-border bg-white p-6">
           <h2 className="font-semibold text-nile">The response, as written</h2>
           <p className="mt-3 whitespace-pre-wrap text-nile/90">{data.answer}</p>
         </section>
       </div>
 
-      <section className="mt-6 rounded-lg border border-border bg-white p-6">
+      <section className="mt-6 rounded-xl border border-border bg-white p-6">
         <h2 className="font-semibold text-nile">Assessment</h2>
         {!combined ? (
           <p className="mt-3 text-text-muted">No AI assessment is available for this response. Please assess it directly.</p>
@@ -121,7 +121,7 @@ export default function ReviewPage() {
         )}
       </section>
 
-      <section className="mt-6 rounded-lg border border-border bg-white p-6">
+      <section className="mt-6 rounded-xl border border-border bg-white p-6">
         <h2 className="font-semibold text-nile">Session activity</h2>
         <p className="mt-1 text-sm text-text-muted">
           Signal level {data.integrityScore} of 100. These signals have ordinary explanations and are not evidence of anything on their own.
@@ -138,7 +138,7 @@ export default function ReviewPage() {
       </section>
 
       {open ? (
-        <section className="mt-6 rounded-lg border border-border bg-white p-6">
+        <section className="mt-6 rounded-xl border border-border bg-white p-6">
           <h2 className="font-semibold text-nile">Your decision</h2>
           <fieldset className="mt-3 space-y-2">
             <legend className="sr-only">Decision</legend>

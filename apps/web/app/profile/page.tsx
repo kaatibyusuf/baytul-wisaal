@@ -88,12 +88,12 @@ export default function ProfilePage() {
 
   return (
     <AppShell width="max-w-3xl">
-      <h1 className="text-3xl font-semibold text-nile">Your profile</h1>
-      <p className="editorial mt-3 text-lg text-nile/90">
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Your profile</h1>
+      <p className="mt-3 max-w-[60ch] text-lg text-text-muted">
         Add details gradually. Nothing here is visible to anyone else, and only what a stage needs is ever shared with a match.
       </p>
 
-      <section aria-label="Details fixed at registration" className="mt-8 rounded-lg border border-border bg-white p-6">
+      <section aria-label="Details fixed at registration" className="mt-8 rounded-xl bg-aqua-tint p-6">
         <h2 className="font-semibold text-nile">Fixed at registration</h2>
         <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-3">
           <div><dt className="text-text-muted">Full name</dt><dd className="font-semibold text-nile">{data.fullName}</dd></div>
@@ -104,8 +104,8 @@ export default function ProfilePage() {
       </section>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-8">
-        <section className="space-y-5 rounded-lg border border-border bg-white p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-nile">About you</h2>
+        <section className="space-y-5 rounded-xl border border-border bg-white p-6 sm:p-8">
+          <h2 className="editorial text-2xl font-semibold text-nile">About you</h2>
           <TextField label="Preferred name" autoComplete="nickname" {...register("preferredName")} />
           <div className="grid gap-5 sm:grid-cols-2">
             <TextField label="Country you live in" autoComplete="country-name" hint="Needed if you want to match with people in the same country." {...register("country")} />
@@ -127,8 +127,8 @@ export default function ProfilePage() {
           </SelectField>
         </section>
 
-        <section className="space-y-5 rounded-lg border border-border bg-white p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-nile">Faith</h2>
+        <section className="space-y-5 rounded-xl border border-border bg-white p-6 sm:p-8">
+          <h2 className="editorial text-2xl font-semibold text-nile">Faith</h2>
           <TextField label="Religious practice" hint="In your own words." {...register("practice")} />
           <TextField label="Qur'an and Islamic study" {...register("quranStudy")} />
           <div>
@@ -137,8 +137,8 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        <section className="space-y-5 rounded-lg border border-border bg-white p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-nile">Family</h2>
+        <section className="space-y-5 rounded-xl border border-border bg-white p-6 sm:p-8">
+          <h2 className="editorial text-2xl font-semibold text-nile">Family</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             <TextField label="Number of siblings" type="number" min={0} max={30} inputMode="numeric" {...register("siblings")} />
             <TextField label="Parents" hint="For example: both living, or one living." {...register("parents")} />

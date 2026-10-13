@@ -223,6 +223,28 @@
   --border: #2a4a63;
 }
 
+/* Doorway motif: arched top, used for the hero scenario and stage badges */
+.arch {
+  border-top-left-radius: 999px;
+  border-top-right-radius: 999px;
+}
+
+/* Quiet diamond lattice for dark sections. Decorative only. */
+.lattice {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 44px);
+}
+
+/* One orchestrated entrance for the hero, and the reveal after answering */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.rise-2 { animation-delay: 0.15s; }
+.rise-3 { animation-delay: 0.3s; }
+
 /* Milestone highlight: subtle gold, readable ink */
 .milestone {
   background-color: var(--gold-tint);
@@ -233,6 +255,7 @@
 /* SoftGold as text is only used on NileBlue-family backgrounds (5.8:1 on #17334B) */
 @theme inline {
   --color-soft-gold-on-dark: #d9a441;
+  --color-night: #0f2234;
 }
 
 

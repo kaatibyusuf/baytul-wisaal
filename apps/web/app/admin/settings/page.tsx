@@ -34,7 +34,7 @@ function Row({ s, onSaved }: { s: SettingItem; onSaved: () => void }) {
   }
 
   return (
-    <li className="rounded-lg border border-border bg-white p-5">
+    <li className="rounded-xl border border-border bg-white p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="max-w-xl">
           <p className="font-semibold text-nile">{s.label}</p>
@@ -85,7 +85,7 @@ export default function SettingsPage() {
   const groups = [...new Set(data.map((s) => s.group))];
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">Settings</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Settings</h1>
       <p className="editorial mt-3 text-lg text-nile/90">
         These decide how the programme, the assessment and matching behave. Each has limits, every change needs a reason, and it takes effect straight away.
         If you run more than one server, others can take up to 30 seconds to catch up.

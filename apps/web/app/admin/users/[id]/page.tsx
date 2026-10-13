@@ -41,14 +41,14 @@ export default function AdminUserPage() {
     <AppShell width="max-w-5xl">
       <Link href="/admin/users" className="text-sm text-aqua-ink underline underline-offset-4">All members</Link>
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <h1 className="text-3xl font-semibold text-nile">{data.profile?.fullName ?? data.email}</h1>
+        <h1 className="editorial text-4xl font-semibold leading-tight text-nile">{data.profile?.fullName ?? data.email}</h1>
         <Badge className={STATUS_STYLE[data.status] ?? ""}>{pretty(data.status)}</Badge>
         {data.role !== "USER" && <Badge className="border-nile text-nile">{pretty(data.role)}</Badge>}
       </div>
       <p className="mt-1 text-text-muted">{data.email} · {data.emailVerified ? "email verified" : "email not verified"} · joined {when(data.createdAt)}</p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-lg border border-border bg-white p-5" aria-labelledby="about">
+        <section className="rounded-xl border border-border bg-white p-5" aria-labelledby="about">
           <h2 id="about" className="font-semibold text-nile">About</h2>
           {data.profile ? (
             <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
@@ -59,7 +59,7 @@ export default function AdminUserPage() {
           <p className="mt-4 text-xs text-text-muted">Private answers, assessment responses and preferences are deliberately not shown here.</p>
         </section>
 
-        <section className="rounded-lg border border-border bg-white p-5" aria-labelledby="progress">
+        <section className="rounded-xl border border-border bg-white p-5" aria-labelledby="progress">
           <h2 id="progress" className="font-semibold text-nile">Progress</h2>
           <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
             <div><dt className="text-text-muted">Programme</dt><dd className="font-semibold text-nile">{p?.enrollment ? `${pretty(p.enrollment.status)}, ${p.percentComplete}%` : "Not started"}</dd></div>
@@ -135,7 +135,7 @@ export default function AdminUserPage() {
         </div>
       )}
 
-      <section className="mt-8 rounded-lg border border-border bg-white p-5" aria-labelledby="recent">
+      <section className="mt-8 rounded-xl border border-border bg-white p-5" aria-labelledby="recent">
         <h2 id="recent" className="font-semibold text-nile">Recent activity on this account</h2>
         {data.recent.length === 0 ? (
           <p className="mt-3 text-text-muted">Nothing recorded yet.</p>

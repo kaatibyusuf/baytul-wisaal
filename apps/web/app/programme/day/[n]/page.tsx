@@ -32,7 +32,7 @@ export default function DayPage() {
     const locked = error.code === "DAY_LOCKED_TIME" || error.code === "DAY_LOCKED_PREVIOUS";
     return (
       <AppShell>
-        <h1 className="text-3xl font-semibold text-nile">Day {n}</h1>
+        <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Day {n}</h1>
         <div className="mt-6">
           <FormMessage tone={locked ? "info" : "error"}>{error.message}</FormMessage>
         </div>
@@ -49,14 +49,16 @@ export default function DayPage() {
       <Link href="/programme" className="text-sm text-aqua-ink underline underline-offset-4">
         All days
       </Link>
-      <h1 className="mt-3 text-3xl font-semibold text-nile">
-        Day {data.dayNumber}: {data.title}
-      </h1>
-      <ul className="mt-8 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+      <p className="mt-6 text-sm font-semibold text-aqua-ink">Day {data.dayNumber}</p>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile sm:text-5xl">{data.title}</h1>
+      <ol className="mt-8 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
         {data.activities.map((a) => (
           <li key={a.id}>
-            <Link href={`/programme/activity/${a.id}`} className="flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-aqua-tint">
-              <div>
+            <Link href={`/programme/activity/${a.id}`} className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-aqua-tint">
+              <span aria-hidden className={`arch flex h-11 w-8 shrink-0 items-end justify-center pb-1 text-sm font-bold ${a.status === "PASSED" ? "bg-nile text-white" : a.status === "NOT_STARTED" ? "border-2 border-border text-text-muted" : "bg-turquoise text-nile"}`}>
+                {a.status === "PASSED" ? "✓" : ""}
+              </span>
+              <div className="min-w-0 flex-1">
                 <p className="text-sm text-text-muted">{typeLabel[a.type] ?? a.type}</p>
                 <p className="font-semibold text-nile">{a.title}</p>
               </div>
@@ -67,7 +69,7 @@ export default function DayPage() {
             </Link>
           </li>
         ))}
-      </ul>
+      </ol>
     </AppShell>
   );
 }

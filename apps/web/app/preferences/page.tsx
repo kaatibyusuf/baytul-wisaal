@@ -63,7 +63,7 @@ export default function PreferencesPage() {
   if (!data.eligible) {
     return (
       <AppShell width="max-w-3xl">
-        <h1 className="text-3xl font-semibold text-nile">What you are seeking</h1>
+        <h1 className="editorial text-4xl font-semibold leading-tight text-nile">What you are seeking</h1>
         <div className="mt-6"><FormMessage tone="info">{data.ineligibleReason}</FormMessage></div>
         <Link href="/programme" className="mt-6 inline-block rounded-md bg-nile px-5 py-3 font-semibold text-white hover:bg-aqua">Go to the programme</Link>
       </AppShell>
@@ -114,14 +114,14 @@ export default function PreferencesPage() {
 
   return (
     <AppShell width="max-w-3xl">
-      <h1 id="q-top" className="text-3xl font-semibold text-nile">What you are seeking</h1>
-      <p className="editorial mt-3 text-lg text-nile/90">
+      <h1 id="q-top" className="editorial text-4xl font-semibold leading-tight text-nile">What you are seeking</h1>
+      <p className="mt-3 max-w-[60ch] text-lg text-text-muted">
         The month should have changed how you answer. Take your time. For each question, tell us about yourself, then which answers you would accept in a
         spouse and how firmly you feel. Keep &ldquo;non-negotiable&rdquo; for what you truly cannot live without.
       </p>
 
       {data.submittedAt && (
-        <section className="mt-6 rounded-lg border border-border bg-white p-5">
+        <section className="mt-6 rounded-xl border border-border bg-white p-5">
           <h2 className="font-semibold text-nile">Your availability</h2>
           {resting ? (
             <p className="mt-2 text-text-muted">You are resting until {when(data.availableAfter!)}. You will not be matched before then.</p>
@@ -150,17 +150,17 @@ export default function PreferencesPage() {
       <fieldset disabled={locked || busy} className="mt-8 space-y-12">
         {data.categories.map((c) => (
           <section key={c.key} aria-labelledby={`cat-${c.key}`}>
-            <h2 id={`cat-${c.key}`} className="text-2xl font-semibold text-nile">{c.title}</h2>
+            <h2 id={`cat-${c.key}`} className="editorial text-3xl font-semibold text-nile">{c.title}</h2>
             <p className="mt-1 text-text-muted">{c.intro}</p>
             <div className="mt-5 space-y-5">
               {data.questions.filter((q) => q.category === c.key).map((q) => {
                 const cur = seek[q.key] ?? { accept: [], level: "PREFERENCE" as Level };
                 return (
-                  <div key={q.key} id={`q-${q.key}`} role="group" aria-labelledby={`${q.key}-prompt`} className={`rounded-lg border bg-white p-5 sm:p-6 ${errors[q.key] ? "border-destructive" : "border-border"}`}>
-                    <p id={`${q.key}-prompt`} className="text-lg font-semibold text-nile">{q.prompt}</p>
+                  <div key={q.key} id={`q-${q.key}`} role="group" aria-labelledby={`${q.key}-prompt`} className={`rounded-xl border bg-white p-5 sm:p-7 ${errors[q.key] ? "border-destructive" : "border-border"}`}>
+                    <p id={`${q.key}-prompt`} className="editorial text-xl font-semibold leading-snug text-nile">{q.prompt}</p>
                     <div className="mt-3 space-y-1.5">
                       {q.options.map((o) => (
-                        <label key={o.value} className="flex cursor-pointer items-start gap-3 rounded-md px-2 py-1.5 hover:bg-aqua-tint">
+                        <label key={o.value} className="flex cursor-pointer items-start gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-aqua-tint has-[:checked]:bg-aqua-tint">
                           <input type="radio" name={`self-${q.key}`} checked={self[q.key] === o.value} onChange={() => setSelf((s) => ({ ...s, [q.key]: o.value }))} className="mt-1.5 h-4 w-4 accent-[#19687e]" />
                           <span className="text-nile">{o.label}</span>
                         </label>
@@ -180,7 +180,7 @@ export default function PreferencesPage() {
                       </div>
                       <div className="mt-2 space-y-1.5">
                         {q.options.map((o) => (
-                          <label key={o.value} className="flex cursor-pointer items-start gap-3 rounded-md px-2 py-1.5 hover:bg-aqua-tint">
+                          <label key={o.value} className="flex cursor-pointer items-start gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-aqua-tint has-[:checked]:bg-aqua-tint">
                             <input type="checkbox" checked={cur.accept.includes(o.value)} onChange={() => toggle(q, o.value)} className="mt-1.5 h-4 w-4 accent-[#19687e]" />
                             <span className="text-nile">{o.label}</span>
                           </label>
@@ -205,8 +205,8 @@ export default function PreferencesPage() {
           </section>
         ))}
 
-        <section id="q-filters" aria-labelledby="filters-title" className={`rounded-lg border bg-white p-5 sm:p-6 ${errors.filters ? "border-destructive" : "border-border"}`}>
-          <h2 id="filters-title" className="text-2xl font-semibold text-nile">Who we may introduce</h2>
+        <section id="q-filters" aria-labelledby="filters-title" className={`rounded-xl border bg-white p-5 sm:p-7 ${errors.filters ? "border-destructive" : "border-border"}`}>
+          <h2 id="filters-title" className="editorial text-3xl font-semibold text-nile">Who we may introduce</h2>
           <p className="mt-1 text-text-muted">These are firm limits. We will not introduce anyone outside them.</p>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2">

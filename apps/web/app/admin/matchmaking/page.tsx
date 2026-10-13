@@ -53,7 +53,7 @@ export default function MatchmakingAdminPage() {
 
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">Matchmaking</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Matchmaking</h1>
       <p className="editorial mt-3 text-lg text-nile/90">Preview a round first. Nothing is created until you confirm.</p>
 
       {error && <div className="mt-6"><FormMessage tone="error">{error.message}</FormMessage></div>}
@@ -76,7 +76,7 @@ export default function MatchmakingAdminPage() {
       )}
 
       {result && (
-        <section className="mt-8 rounded-lg border border-border bg-white p-6" aria-live="polite">
+        <section className="mt-8 rounded-xl border border-border bg-white p-6" aria-live="polite">
           <h2 className="font-semibold text-nile">{result.dryRun ? "Preview" : `Created ${result.created} match${result.created === 1 ? "" : "es"}`}</h2>
           <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
             {([
@@ -112,7 +112,7 @@ export default function MatchmakingAdminPage() {
         </section>
       )}
 
-      <section className="mt-10 rounded-lg border border-border bg-white p-6" aria-labelledby="ex-title">
+      <section className="mt-10 rounded-xl border border-border bg-white p-6" aria-labelledby="ex-title">
         <h2 id="ex-title" className="font-semibold text-nile">Prevent a pairing</h2>
         <p className="mt-1 text-sm text-text-muted">Two people who must never be introduced (for example, they know each other). If they are currently matched, that pairing is closed.</p>
         <div className="mt-4 space-y-4">

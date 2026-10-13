@@ -21,11 +21,11 @@ function Audit() {
 
   return (
     <AppShell width="max-w-5xl">
-      <h1 className="text-3xl font-semibold text-nile">Audit log</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Audit log</h1>
       <p className="editorial mt-3 text-lg text-nile/90">A permanent record. Entries cannot be edited or removed by anyone, including administrators.</p>
 
       <form
-        className="mt-6 grid gap-4 rounded-lg border border-border bg-white p-5 sm:grid-cols-[1fr_1fr_auto] sm:items-end"
+        className="mt-6 grid gap-4 rounded-xl border border-border bg-white p-5 sm:grid-cols-[1fr_1fr_auto] sm:items-end"
         onSubmit={(e) => { e.preventDefault(); setApplied(form); setPage(1); }}
       >
         <label className="block text-sm font-semibold text-nile">Action (exact, for example USER_STATUS_CHANGED)<input value={form.action} onChange={(e) => setForm({ ...form, action: e.target.value })} className={input} /></label>
@@ -39,7 +39,7 @@ function Audit() {
         <p className="mt-6 text-text-muted">Nothing matches.</p>
       ) : (
         <>
-          <ul className="mt-6 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+          <ul className="mt-6 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
             {data.items.map((a) => (
               <li key={a.id} className="px-5 py-4">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">

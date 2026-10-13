@@ -75,7 +75,7 @@ export function ActionCard({
 
   const ready = canSubmit && reason.trim().length >= 5;
   return (
-    <section className="rounded-lg border border-border bg-white p-5">
+    <section className="rounded-xl border border-border bg-white p-5">
       <h3 className="font-semibold text-nile">{title}</h3>
       {help && <p className="mt-1 text-sm text-text-muted">{help}</p>}
       <div className="mt-3 space-y-3">

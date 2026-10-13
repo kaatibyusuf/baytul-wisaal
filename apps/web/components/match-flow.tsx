@@ -314,7 +314,7 @@ export function ResultView({ view }: { view: FlowView }) {
       <h3 id={`h-${direction}`} className="text-lg font-semibold text-nile">{heading}</h3>
       <ul className="mt-3 space-y-4">
         {r.items.filter((i) => i.direction === direction).map((i, n) => (
-          <li key={n} className="rounded-lg border border-border bg-white p-5">
+          <li key={n} className="rounded-xl border border-border bg-white p-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm text-text-muted">{title(i.category)} · {LEVEL_TITLE[i.level]}</p>
               <span className={`rounded-full border px-3 py-0.5 text-sm ${CLASS_STYLE[i.classification]}`}>{CLASS_LABEL[i.classification]}</span>
@@ -340,7 +340,7 @@ export function ResultView({ view }: { view: FlowView }) {
       </div>
       <dl className="mt-6 grid gap-3 sm:grid-cols-3">
         {([["Aligned", r.counts.aligned], ["Needs discussion", r.counts.needsDiscussion], ["Conflict", r.counts.conflict]] as [string, number][]).map(([k, v]) => (
-          <div key={k} className="rounded-lg border border-border bg-white p-4">
+          <div key={k} className="rounded-xl border border-border bg-white p-4">
             <dt className="text-sm text-text-muted">{k}</dt>
             <dd className="text-2xl font-semibold tabular-nums text-nile">{v}</dd>
           </div>

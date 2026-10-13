@@ -187,7 +187,7 @@ export function ScenarioRunner({ activityId, sessionMinutes, dayNumber }: { acti
   if (phase === "intro" || phase === "starting") {
     return (
       <div className="mt-6 space-y-6">
-        <div className="rounded-lg border border-border bg-white p-6 sm:p-8">
+        <div className="rounded-xl border border-border bg-white p-6 sm:p-8">
           <h2 className="text-lg font-semibold text-nile">Before you begin</h2>
           <ul className="editorial mt-4 list-disc space-y-2 pl-5 text-lg text-nile/90">
             <li>You have {sessionMinutes} minutes once you start.</li>
@@ -252,9 +252,11 @@ export function ScenarioRunner({ activityId, sessionMinutes, dayNumber }: { acti
       </div>
 
       <ProtectedContent watermark={q.watermark} away={away}>
-        <h2 className="text-xl font-semibold text-nile">{q.title}</h2>
-        <p className="editorial mt-4 text-lg leading-relaxed text-nile/95">{q.text}</p>
-        {q.instructions && <p className="mt-4 text-sm font-semibold text-aqua-ink">{q.instructions}</p>}
+        <div className="lattice rounded-2xl bg-night p-7 text-white sm:p-10">
+          <h2 className="editorial text-2xl font-semibold">{q.title}</h2>
+          <p className="editorial prose-measure mt-5 text-lg leading-relaxed text-white/95">{q.text}</p>
+          {q.instructions && <p className="mt-5 border-t border-white/20 pt-4 text-sm font-semibold text-soft-gold-on-dark">{q.instructions}</p>}
+        </div>
       </ProtectedContent>
 
       {error && (
@@ -283,7 +285,7 @@ export function ScenarioRunner({ activityId, sessionMinutes, dayNumber }: { acti
           const words = wordCount(text);
           const id = `part-${p.key}`;
           return (
-            <div key={p.key} className="rounded-lg border border-border bg-white p-5 sm:p-6">
+            <div key={p.key} className="rounded-xl border border-border bg-white p-5 sm:p-6">
               <label htmlFor={id} className="block font-semibold text-nile">
                 {i + 1}. {p.label}
               </label>

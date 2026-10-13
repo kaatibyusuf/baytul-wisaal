@@ -25,7 +25,7 @@ export default function MatchFlowPage() {
   if (data.status !== "ACTIVE") {
     return (
       <AppShell width="max-w-3xl">
-        <h1 className="text-3xl font-semibold text-nile">This pairing is closed</h1>
+        <h1 className="editorial text-4xl font-semibold leading-tight text-nile">This pairing is closed</h1>
         <div className="mt-6"><FormMessage tone="info">{data.note ?? "This pairing has been closed."} You remain eligible for other matches.</FormMessage></div>
         <Link href="/matches" className="mt-6 inline-block text-aqua-ink underline underline-offset-4">Back to your match</Link>
       </AppShell>
@@ -38,7 +38,7 @@ export default function MatchFlowPage() {
   return (
     <AppShell width="max-w-3xl">
       <Link href="/matches" className="text-sm text-aqua-ink underline underline-offset-4">Your match</Link>
-      <h1 className="mt-3 text-3xl font-semibold text-nile">
+      <h1 className="editorial mt-3 text-4xl font-semibold leading-tight text-nile">
         {data.stage === "EXPECTATIONS_PENDING" && "What you are seeking"}
         {data.stage === "RESPONSE_PENDING" && "Responding to each other"}
         {data.stage === "COMPATIBILITY_REVIEW" && "Comparing your expectations"}

@@ -112,65 +112,73 @@ export default function DashboardPage() {
     notes.reload();
   }
 
+  const current = j.steps.find((s) => s.state === "current");
+
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">Assalamu alaikum, {name}.</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile sm:text-5xl">Assalamu alaikum, {name}.</h1>
 
       {unread.length > 0 && (
-        <section aria-labelledby="updates" className="mt-8 rounded-lg border border-aqua/40 bg-aqua-tint p-6">
+        <section aria-labelledby="updates" className="milestone mt-8 rounded-xl p-6">
           <div className="flex items-center justify-between gap-4">
-            <h2 id="updates" className="text-lg font-semibold text-nile">New for you</h2>
-            <button onClick={markRead} className="text-sm text-aqua-ink underline underline-offset-4">Mark as read</button>
+            <h2 id="updates" className="text-lg font-semibold">New for you</h2>
+            <button onClick={markRead} className="text-sm font-semibold underline underline-offset-4">Mark as read</button>
           </div>
           <ul className="mt-3 space-y-3">
             {unread.map((n) => (
               <li key={n.id}>
-                <p className="font-semibold text-nile">{n.title}</p>
-                {n.body && <p className="text-sm text-nile/90">{n.body}</p>}
+                <p className="font-semibold">{n.title}</p>
+                {n.body && <p className="text-sm">{n.body}</p>}
               </li>
             ))}
           </ul>
         </section>
       )}
 
-      <section aria-labelledby="journey" className="mt-10 rounded-lg border border-border bg-white p-6 sm:p-8">
-        <h2 id="journey" className="text-lg font-semibold text-nile">
-          Your Baytul Wisaal journey
+      <section aria-labelledby="now" className="lattice relative mt-8 overflow-hidden rounded-2xl bg-night p-7 text-white sm:p-10">
+        <div aria-hidden className="arch absolute -right-4 top-0 hidden h-40 w-28 border-2 border-turquoise/50 sm:block" />
+        {current && <p className="text-sm font-semibold text-turquoise">{current.label}</p>}
+        <h2 id="now" className="editorial mt-2 max-w-[22ch] text-balance text-3xl font-semibold leading-tight sm:text-4xl">
+          {j.todo}
         </h2>
-        <ol className="mt-5 space-y-3">
+        <p className="mt-4 max-w-[52ch] text-white/80">{j.where}</p>
+        {j.cta && (
+          <Link href={j.cta.href} className="mt-7 inline-block rounded-md bg-turquoise px-6 py-3 font-semibold text-nile transition-colors hover:bg-white">
+            {j.cta.label}
+          </Link>
+        )}
+      </section>
+
+      <section aria-labelledby="journey" className="mt-12">
+        <h2 id="journey" className="text-lg font-semibold text-nile">Your Baytul Wisaal journey</h2>
+        <ol className="mt-6 grid gap-5 sm:grid-cols-3 lg:grid-cols-6">
           {j.steps.map((s) => (
-            <li key={s.label} className="flex items-center gap-3 text-nile">
+            <li key={s.label} className="flex items-start gap-3 sm:flex-col sm:gap-2">
               <span
                 aria-hidden
-                className={`flex h-6 w-6 items-center justify-center rounded-full border text-xs font-bold ${
-                  s.state === "done" ? "border-nile bg-nile text-white" : s.state === "current" ? "border-turquoise bg-turquoise text-nile" : "border-border bg-white text-text-muted"
+                className={`arch flex h-12 w-9 shrink-0 items-end justify-center pb-1.5 text-sm font-bold ${
+                  s.state === "done" ? "bg-nile text-white" : s.state === "current" ? "bg-turquoise text-nile" : "border-2 border-border text-text-muted"
                 }`}
               >
-                {s.state === "done" ? "✓" : s.state === "current" ? "→" : ""}
+                {s.state === "done" ? "✓" : ""}
               </span>
-              <span className={s.state === "todo" ? "text-text-muted" : "font-semibold"}>
+              <span className={`text-sm leading-snug ${s.state === "todo" ? "text-text-muted" : "font-semibold text-nile"}`}>
                 {s.label}
                 <span className="sr-only"> ({s.state === "done" ? "complete" : s.state === "current" ? "current step" : "not started"})</span>
               </span>
             </li>
           ))}
         </ol>
-        {j.cta && (
-          <Link href={j.cta.href} className="mt-7 inline-block rounded-md bg-nile px-6 py-3 font-semibold text-white transition-colors hover:bg-aqua">
-            {j.cta.label}
-          </Link>
-        )}
       </section>
 
-      <section className="mt-6 grid gap-6 sm:grid-cols-3">
+      <section className="mt-12 grid gap-8 border-t border-border pt-8 sm:grid-cols-2">
         {[
-          ["Where am I?", j.where],
           ["What do I need to do?", j.todo],
           ["What happens next?", j.next],
         ].map(([q, a]) => (
-          <div key={q} className="rounded-lg border border-border bg-white p-6">
+          <div key={q}>
             <h3 className="font-semibold text-nile">{q}</h3>
-            <p className="mt-2 text-text-muted">{a}</p>
+            <p className="mt-2 max-w-[44ch] text-text-muted">{a}</p>
           </div>
         ))}
       </section>

@@ -89,18 +89,18 @@ export default function CurriculumPage() {
 
   return (
     <AppShell width="max-w-4xl">
-      <h1 className="text-3xl font-semibold text-nile">Curriculum</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Curriculum</h1>
       <p className="editorial mt-3 text-lg text-nile/90">
         Load the 30-day programme from a file. It is checked first and nothing is written until you confirm. Nothing is ever deleted: anything missing from the file stays as it was.
       </p>
 
-      <section className="mt-8 rounded-lg border border-border bg-white p-5" aria-labelledby="export">
+      <section className="mt-8 rounded-xl border border-border bg-white p-5" aria-labelledby="export">
         <h2 id="export" className="font-semibold text-nile">What is there now</h2>
         <p className="mt-1 text-sm text-text-muted">Download the current programme in the same format. Edit it and load it back to change it.</p>
         <Button variant="secondary" className="mt-3" onClick={download}>Download current curriculum</Button>
       </section>
 
-      <section className="mt-6 rounded-lg border border-border bg-white p-5" aria-labelledby="load">
+      <section className="mt-6 rounded-xl border border-border bg-white p-5" aria-labelledby="load">
         <h2 id="load" className="font-semibold text-nile">Load a curriculum</h2>
         <label className="mt-3 block text-sm font-semibold text-nile">Choose a .json file
           <input type="file" accept=".json,application/json" onChange={(e) => onFile(e.target.files?.[0])} className="mt-1.5 block w-full text-sm text-nile" />
@@ -128,7 +128,7 @@ export default function CurriculumPage() {
       )}
 
       {summary && (
-        <section className="mt-6 rounded-lg border border-border bg-white p-5" aria-labelledby="summary" aria-live="polite">
+        <section className="mt-6 rounded-xl border border-border bg-white p-5" aria-labelledby="summary" aria-live="polite">
           <h2 id="summary" className="font-semibold text-nile">{summary.dryRun ? "What would change" : "What changed"}</h2>
           <p className="mt-1 text-sm text-text-muted">Programme: {summary.programme}</p>
           <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-3">

@@ -49,7 +49,7 @@ export default function CompatibilityReviewPage() {
   return (
     <AppShell width="max-w-4xl">
       <Link href="/admin/reviews" className="text-sm text-aqua-ink underline underline-offset-4">All reviews</Link>
-      <h1 className="mt-3 text-3xl font-semibold text-nile">A pairing to review</h1>
+      <h1 className="editorial mt-3 text-4xl font-semibold leading-tight text-nile">A pairing to review</h1>
       <p className="editorial mt-3 text-lg text-nile/90">Judge the pairing, never the people. Names are hidden on purpose.</p>
 
       <ul className="mt-4 flex flex-wrap gap-2">
@@ -58,7 +58,7 @@ export default function CompatibilityReviewPage() {
 
       <dl className="mt-6 grid gap-3 sm:grid-cols-4">
         {([["Aligned", data.counts.aligned], ["Needs discussion", data.counts.needsDiscussion], ["Conflict", data.counts.conflict], ["Preferences disagreed with", data.counts.preferenceDisagreements]] as [string, number][]).map(([k, v]) => (
-          <div key={k} className="rounded-lg border border-border bg-white p-4"><dt className="text-sm text-text-muted">{k}</dt><dd className="text-2xl font-semibold tabular-nums text-nile">{v}</dd></div>
+          <div key={k} className="rounded-xl border border-border bg-white p-4"><dt className="text-sm text-text-muted">{k}</dt><dd className="text-2xl font-semibold tabular-nums text-nile">{v}</dd></div>
         ))}
       </dl>
       <ul className="mt-4 flex flex-wrap gap-2">
@@ -70,7 +70,7 @@ export default function CompatibilityReviewPage() {
           <h2 id={`h-${who}`} className="text-lg font-semibold text-nile">{who} wrote</h2>
           <ul className="mt-3 space-y-4">
             {data.items.filter((i) => i.author === who).map((i, n) => (
-              <li key={n} className="rounded-lg border border-border bg-white p-5">
+              <li key={n} className="rounded-xl border border-border bg-white p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="text-sm text-text-muted">{AREA[i.category] ?? i.category} · {LEVEL_TITLE[i.level]}</p>
                   <span className={`rounded-full border px-3 py-0.5 text-sm ${CLASS_STYLE[i.classification]}`}>{CLASS_LABEL[i.classification]}</span>
@@ -92,7 +92,7 @@ export default function CompatibilityReviewPage() {
       {data.decided ? (
         <div className="mt-8"><FormMessage tone="info">This has been decided ({data.passed ? "allowed to proceed" : "pairing closed"}).</FormMessage></div>
       ) : (
-        <section className="mt-8 rounded-lg border border-border bg-white p-6">
+        <section className="mt-8 rounded-xl border border-border bg-white p-6">
           <h2 className="font-semibold text-nile">Your decision</h2>
           <fieldset className="mt-3 space-y-2">
             <legend className="sr-only">Decision</legend>

@@ -16,7 +16,7 @@ function stateText(d: ProgrammeSummary["days"][number], prev: number): string {
     case "COMPLETE":
       return "Complete";
     case "OPEN":
-      return counts ? `Open · ${counts}` : "Open";
+      return counts ? `Open, ${counts}` : "Open";
     case "LOCKED_TIME":
       return d.unlocksAt ? `Opens ${when(d.unlocksAt)}` : "Not open yet";
     case "LOCKED_PREVIOUS":
@@ -53,11 +53,11 @@ export default function ProgrammePage() {
 
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">{data.programme.title}</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile sm:text-5xl">{data.programme.title}</h1>
 
       {!enrolled && (
-        <div className="mt-6 rounded-lg border border-border bg-white p-6 sm:p-8">
-          <p className="editorial prose-measure text-lg text-nile/90">
+        <div className="lattice mt-6 rounded-2xl bg-night p-7 text-white sm:p-10">
+          <p className="editorial prose-measure text-xl leading-relaxed">
             {data.programme.totalDays} days of short lessons, written reflections and questions. One day opens at a time, and each opens only when the one before it is finished.
           </p>
           {startError && <div className="mt-4"><FormMessage tone="error">{startError}</FormMessage></div>}
@@ -81,8 +81,8 @@ export default function ProgrammePage() {
             </FormMessage>
           )}
           <div className="mt-5" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={data.percentComplete} aria-label="Programme progress">
-            <div className="h-2 w-full rounded-full bg-border">
-              <div className="h-2 rounded-full bg-turquoise transition-all" style={{ width: `${data.percentComplete}%` }} />
+            <div className="h-3 w-full rounded-full bg-border">
+              <div className="h-3 rounded-full bg-turquoise transition-all" style={{ width: `${data.percentComplete}%` }} />
             </div>
             <p className="mt-2 text-sm text-text-muted">{data.percentComplete}% complete</p>
           </div>
@@ -92,21 +92,28 @@ export default function ProgrammePage() {
       <div className="mt-8 space-y-8">
         {weeks.map((week, wi) => (
           <section key={wi} aria-labelledby={`week-${wi}`}>
-            <h2 id={`week-${wi}`} className="text-lg font-semibold text-nile">
+            <h2 id={`week-${wi}`} className="editorial text-2xl font-semibold text-nile">
               Week {wi + 1}
             </h2>
-            <ul className="mt-3 divide-y divide-border overflow-hidden rounded-lg border border-border bg-white">
+            <ul className="mt-4 divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
               {week.map((d) => {
                 const clickable = d.state === "OPEN" || d.state === "COMPLETE";
                 const row = (
-                  <div className="flex items-center justify-between gap-4 px-5 py-4">
-                    <div>
+                  <div className="flex items-center gap-4 px-5 py-4">
+                    <span
+                      aria-hidden
+                      className={`arch flex h-11 w-8 shrink-0 items-end justify-center pb-1 text-sm font-bold ${
+                        d.state === "COMPLETE" ? "bg-nile text-white" : d.state === "OPEN" ? "bg-turquoise text-nile" : "border-2 border-border text-text-muted"
+                      }`}
+                    >
+                      {d.state === "COMPLETE" ? "✓" : d.dayNumber}
+                    </span>
+                    <div className="min-w-0 flex-1">
                       <p className={`font-semibold ${clickable ? "text-nile" : "text-text-muted"}`}>
                         Day {d.dayNumber}: {d.title}
                       </p>
                       <p className="mt-0.5 text-sm text-text-muted">{enrolled ? stateText(d, d.dayNumber - 1) : ""}</p>
                     </div>
-                    {d.state === "COMPLETE" && <span aria-hidden className="text-aqua-ink">✓</span>}
                     {d.state === "OPEN" && <span aria-hidden className="text-nile">→</span>}
                   </div>
                 );

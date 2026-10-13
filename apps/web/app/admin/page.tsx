@@ -23,12 +23,12 @@ export default function AdminHome() {
   }
   return (
     <AppShell>
-      <h1 className="text-3xl font-semibold text-nile">Administration</h1>
+      <h1 className="editorial text-4xl font-semibold leading-tight text-nile">Administration</h1>
       <p className="editorial mt-3 text-lg text-nile/90">Everything here is recorded. Where you change something about a person, you will be asked why.</p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {SECTIONS.map((s) => (
           <li key={s.href}>
-            <Link href={s.href} className="block h-full rounded-lg border border-border bg-white p-5 transition-colors hover:bg-aqua-tint">
+            <Link href={s.href} className="block h-full rounded-xl border border-border bg-white p-5 transition-colors hover:bg-aqua-tint">
               <p className="font-semibold text-nile">{s.title}</p>
               <p className="mt-1 text-sm text-text-muted">{s.text}</p>
             </Link>

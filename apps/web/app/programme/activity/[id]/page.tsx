@@ -64,13 +64,13 @@ function Lesson({ a, onDone }: { a: Extract<ActivityView, { type: "LESSON" }>; o
 
   return (
     <>
-      <article className="mt-6 rounded-lg border border-border bg-white p-6 sm:p-10">
-        <div className="editorial prose-measure space-y-5 text-lg text-nile/95">
+      <article className="mt-8">
+        <div className="editorial prose-measure space-y-6 text-[1.2rem] leading-[1.85] text-nile">
           {a.content.blocks.map((b, i) =>
             b.type === "h" ? (
-              <h2 key={i} className="!mt-8 font-sans text-xl font-semibold text-nile">{b.text}</h2>
+              <h2 key={i} className="!mt-12 font-sans text-2xl font-semibold leading-snug text-nile">{b.text}</h2>
             ) : b.type === "quote" ? (
-              <blockquote key={i} className="border-l-4 border-gold pl-5 text-xl italic text-nile">{b.text}</blockquote>
+              <blockquote key={i} className="!my-10 border-l-4 border-gold bg-gold-tint py-5 pl-6 pr-5 text-[1.35rem] italic leading-snug text-nile">{b.text}</blockquote>
             ) : (
               <p key={i}>{b.text}</p>
             ),
@@ -80,7 +80,12 @@ function Lesson({ a, onDone }: { a: Extract<ActivityView, { type: "LESSON" }>; o
       {a.status === "PASSED" ? (
         <p className="mt-6 font-semibold text-aqua-ink">✓ You have completed this lesson.</p>
       ) : (
-        <div className="mt-6 space-y-3">
+        <div className="mt-10 space-y-3 border-t border-border pt-6">
+          {a.minReadSeconds > 0 && (
+            <div aria-hidden className="h-1.5 w-full max-w-xs rounded-full bg-border">
+              <div className="h-1.5 rounded-full bg-turquoise transition-all duration-1000 ease-linear" style={{ width: `${Math.round(((a.minReadSeconds - Math.max(left, 0)) / a.minReadSeconds) * 100)}%` }} />
+            </div>
+          )}
           {error && <FormMessage tone="info">{error}</FormMessage>}
           <Button onClick={complete} disabled={busy || left > 0}>
             {left > 0 ? `Mark as complete (${left}s)` : busy ? "Saving..." : "Mark as complete"}
@@ -111,7 +116,7 @@ function Reflection({ a, onDone }: { a: Extract<ActivityView, { type: "REFLECTIO
   }
 
   return (
-    <div className="mt-6 rounded-lg border border-border bg-white p-6 sm:p-8">
+    <div className="mt-6 rounded-xl border border-border bg-white p-6 sm:p-8">
       <label htmlFor="reflection" className="editorial block text-xl text-nile">
         {a.content.prompt}
       </label>
@@ -121,7 +126,7 @@ function Reflection({ a, onDone }: { a: Extract<ActivityView, { type: "REFLECTIO
         onChange={(e) => setText(e.target.value)}
         readOnly={done}
         rows={10}
-        className="mt-4 block w-full rounded-md border border-border px-4 py-3 text-base leading-relaxed text-nile focus:border-aqua focus:outline-none focus:ring-2 focus:ring-turquoise read-only:bg-surface"
+        className="editorial mt-4 block w-full rounded-md border border-border px-4 py-3 text-lg leading-relaxed text-nile focus:border-aqua focus:outline-none focus:ring-2 focus:ring-turquoise read-only:bg-surface"
         aria-describedby="reflection-count"
       />
       <p id="reflection-count" className="mt-2 text-sm text-text-muted">
@@ -174,13 +179,13 @@ function Quiz({ a, onDone }: { a: Extract<ActivityView, { type: "QUIZ" }>; onDon
         </FormMessage>
       )}
       {a.content.questions.map((q, qi) => (
-        <fieldset key={qi} className="rounded-lg border border-border bg-white p-6">
-          <legend className="px-1 text-lg font-semibold text-nile">
+        <fieldset key={qi} className="rounded-xl border border-border bg-white p-6">
+          <legend className="editorial px-1 text-xl font-semibold text-nile">
             {qi + 1}. {q.text}
           </legend>
           <div className="mt-3 space-y-2">
             {q.options.map((opt, oi) => (
-              <label key={oi} className="flex cursor-pointer items-start gap-3 rounded-md px-3 py-2.5 hover:bg-aqua-tint">
+              <label key={oi} className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors hover:bg-aqua-tint ${answers[qi] === oi ? "border-aqua bg-aqua-tint" : "border-border"}`}>
                 <input
                   type="radio"
                   name={`q${qi}`}
@@ -240,7 +245,7 @@ export default function ActivityPage() {
       <Link href={`/programme/day/${data.dayNumber}`} className="text-sm text-aqua-ink underline underline-offset-4">
         Day {data.dayNumber}
       </Link>
-      <h1 className="mt-3 text-3xl font-semibold text-nile">{data.title}</h1>
+      <h1 className="editorial mt-3 text-4xl font-semibold leading-tight text-nile">{data.title}</h1>
 
       {data.type === "LESSON" && <Lesson key={data.id} a={data} onDone={finish} />}
       {data.type === "REFLECTION" && <Reflection key={data.id} a={data} onDone={finish} />}
