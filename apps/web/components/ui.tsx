@@ -113,27 +113,27 @@ export function AuthShell({
   footer?: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-surface lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-      <aside className="lattice bg-nile text-white lg:flex lg:min-h-screen lg:flex-col lg:justify-between lg:px-12 lg:py-10">
+    <div className="auth-scope home-bg min-h-screen overflow-x-clip text-white lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <aside className="lg:flex lg:min-h-screen lg:flex-col lg:justify-between lg:px-12 lg:py-10">
         <div className="flex px-6 py-4 lg:px-0 lg:py-0">
           <Link href="/" aria-label="Baytul Wisaal home" className="inline-block">
-            <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto lg:h-14" priority />
+            <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto rounded-md lg:h-14" priority />
           </Link>
         </div>
         <div className="hidden lg:block">
           <div className="arch mb-8 h-24 w-16 border-2 border-turquoise/70" aria-hidden />
           <p className="editorial max-w-sm text-3xl leading-snug">
-            Prepare for the home first. Meet someone second.
+            A strong, beautiful and formidable home starts with learning.
           </p>
         </div>
-        <p className="hidden text-sm text-white/60 lg:block">A 30-day marriage-readiness programme.</p>
+        <p className="hidden text-sm text-white/60 lg:block">A space to learn how to build a home.</p>
       </aside>
-      <main id="main" className="px-6 py-10 sm:py-14 lg:flex lg:items-center lg:justify-center">
+      <main id="main" className="px-6 pb-14 pt-6 sm:pb-16 lg:flex lg:items-center lg:justify-center lg:py-14">
         <div className="mx-auto w-full max-w-md">
-          <h1 className="editorial text-3xl font-semibold leading-tight text-nile sm:text-4xl">{title}</h1>
-          {intro && <p className="mt-3 text-base leading-relaxed text-text-muted">{intro}</p>}
-          <div className="mt-8 rounded-xl border border-border bg-white p-6 shadow-sm sm:p-8">{children}</div>
-          {footer && <div className="mt-6 text-center text-sm text-text-muted">{footer}</div>}
+          <h1 className="editorial text-3xl font-semibold leading-tight text-white sm:text-4xl">{title}</h1>
+          {intro && <p className="mt-3 text-base leading-relaxed text-white/75">{intro}</p>}
+          <div className="glass mt-8 rounded-2xl p-6 shadow-2xl shadow-black/30 sm:p-8">{children}</div>
+          {footer && <div className="mt-6 text-center text-sm text-white/70">{footer}</div>}
         </div>
       </main>
     </div>

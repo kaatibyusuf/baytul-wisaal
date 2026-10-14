@@ -417,6 +417,23 @@
 }
 @media (prefers-reduced-motion: reduce) { .home-ambient { animation: none; } }
 
+/* Forms on the dark background (sign in, sign up, recovery) */
+.auth-scope label { color: #fff; }
+.auth-scope p.text-text-muted { color: rgba(255, 255, 255, 0.72); }
+.auth-scope p.text-nile { color: #fff; }
+.auth-scope p.text-destructive { color: #ffb4ab; }
+.auth-scope a.text-aqua-ink,
+.auth-scope button.text-aqua-ink { color: #02d3cb; }
+.auth-scope a.text-aqua-ink:hover,
+.auth-scope button.text-aqua-ink:hover { color: #fff; }
+.auth-scope a.bg-nile,
+.auth-scope button.bg-nile { background-color: #02d3cb; color: #0f2234; }
+.auth-scope a.bg-nile:hover,
+.auth-scope button.bg-nile:hover { background-color: #fff; }
+.auth-scope button.border-nile { border-color: rgba(255, 255, 255, 0.5); color: #fff; }
+.auth-scope button.border-nile:hover { background-color: rgba(255, 255, 255, 0.1); }
+.auth-scope input:-webkit-autofill { -webkit-text-fill-color: #17334b; }
+
 /* Milestone highlight: subtle gold, readable ink */
 .milestone {
   background-color: var(--gold-tint);

@@ -11,12 +11,12 @@ const SUBSTACK = "https://baytulwisaal.substack.com/";
 
 export default function NewsletterPage() {
   return (
-    <div className="min-h-screen bg-nile text-white">
-      <div className="lattice">
+    <div className="home-bg min-h-screen overflow-x-clip text-white">
+      <div>
         <header>
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-5">
             <Link href="/" aria-label="Baytul Wisaal home">
-              <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} priority className="h-12 w-auto" />
+              <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} priority className="h-12 w-auto rounded-md" />
             </Link>
             <nav aria-label="Primary" className="flex items-center gap-6 text-sm">
               <Link href="/" className="hover:underline">Home</Link>
@@ -67,8 +67,8 @@ export default function NewsletterPage() {
         </main>
       </div>
 
-      <section className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-5 px-6 py-12 sm:flex-row sm:items-center sm:justify-between">
+      <section className="px-6 pb-16">
+        <div className="glass mx-auto flex max-w-6xl flex-col items-start gap-5 rounded-2xl px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-10">
           <p className="editorial max-w-xl text-xl">Prefer to learn step by step? The 30-day programme takes you through it in order.</p>
           <Link href="/register" className="btn-anim rounded-md bg-turquoise px-6 py-3 font-semibold text-nile hover:bg-white">
             Begin your journey
