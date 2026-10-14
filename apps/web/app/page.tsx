@@ -67,7 +67,11 @@ export default function Home() {
       <noscript>
         <style>{".reveal{opacity:1!important;transform:none!important}"}</style>
       </noscript>
-      <div className="lattice bg-nile text-white">
+      <div className="home-bg overflow-x-clip text-white">
+        <div aria-hidden className="home-ambient hidden lg:block">
+          <div className="arch h-[34rem] w-80 border border-white/10 p-8"><div className="arch h-full w-full border border-white/10 p-8"><div className="arch h-full w-full border border-turquoise/25" /></div></div>
+        </div>
+      <div>
         <header>
           <div className="mx-auto flex max-w-6xl items-start justify-between gap-6 px-6 py-5">
             <Link href="/" aria-label="Baytul Wisaal home">
@@ -118,14 +122,15 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto -mt-12 max-w-6xl px-6">
-        <Reveal className="grid items-center gap-6 rounded-2xl bg-white p-6 shadow-xl shadow-nile/15 ring-1 ring-border sm:grid-cols-2 lg:grid-cols-[repeat(4,1fr)_auto] lg:gap-8 lg:px-8">
+      <div className="relative z-10 -mt-12">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal className="grid items-center gap-6 rounded-2xl bg-white/[0.07] p-6 text-white shadow-2xl shadow-black/30 ring-1 ring-white/15 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-[repeat(4,1fr)_auto] lg:gap-8 lg:px-8">
           {facts.map((f) => (
             <div key={f.value} className="flex items-center gap-4">
-              <span className="text-aqua-ink"><FactIcon name={f.icon} /></span>
+              <span className="text-turquoise"><FactIcon name={f.icon} /></span>
               <div>
-                <p className="font-semibold leading-tight text-nile">{f.value}</p>
-                <p className="text-sm text-text-muted">{f.label}</p>
+                <p className="font-semibold leading-tight">{f.value}</p>
+                <p className="text-sm text-white/65">{f.label}</p>
               </div>
             </div>
           ))}
@@ -134,15 +139,16 @@ export default function Home() {
           </Link>
         </Reveal>
       </div>
+      </div>
 
       <main>
-        <section className="bg-surface">
+        <section className="text-white">
           <div className="mx-auto grid max-w-6xl gap-12 px-6 pb-20 pt-28 lg:grid-cols-[1.2fr_1fr] lg:gap-20 lg:pb-28 lg:pt-36">
             <div>
-              <h2 className="editorial text-balance text-3xl font-semibold leading-tight text-nile sm:text-5xl">
+              <h2 className="editorial text-balance text-3xl font-semibold leading-tight sm:text-5xl">
                 Baytul Wisaal is not a matchmaking platform.
               </h2>
-              <p className="editorial mt-7 max-w-[62ch] text-lg text-nile/90">
+              <p className="editorial mt-7 max-w-[62ch] text-lg text-white/85">
 It is a space where people learn how to build a strong, beautiful and formidable home. The
                 30-day programme and our newsletter come from that one purpose. Matching is one part of
                 what we do, for people who finish the programme and want an introduction. We do not look
@@ -151,10 +157,10 @@ It is a space where people learn how to build a strong, beautiful and formidable
               </p>
             </div>
             <div className="lg:pt-3">
-              <h3 className="text-lg font-semibold text-nile">What you will not find here</h3>
+              <h3 className="text-lg font-semibold">What you will not find here</h3>
               <ul className="mt-5 space-y-3">
                 {notHere.map((item) => (
-                  <li key={item} className="text-xl text-nile/70 line-through decoration-soft-gold decoration-2">
+                  <li key={item} className="text-xl text-white/60 line-through decoration-soft-gold decoration-2">
                     <span className="sr-only">Not offered: </span>
                     {item}
                   </li>
@@ -164,25 +170,25 @@ It is a space where people learn how to build a strong, beautiful and formidable
           </div>
         </section>
 
-        <section id="programme" className="scroll-mt-4 bg-white">
-          <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
-            <h2 className="editorial text-balance text-3xl font-semibold leading-tight text-nile sm:text-5xl">
+        <section id="programme" className="relative scroll-mt-4 text-white">
+          <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-28">
+            <h2 className="editorial text-balance text-3xl font-semibold leading-tight sm:text-5xl">
               What the 30 days cover
             </h2>
-            <p className="mt-4 max-w-xl text-lg text-text-muted">
+            <p className="mt-4 max-w-xl text-lg text-white/75">
               One day opens at a time. Each week builds on the one before it.
             </p>
             <div className="mt-12 grid gap-6 md:grid-cols-2">
               {weeks.map((w, i) => (
-                <Reveal key={w.title} delay={(i % 2) * 140} className="group rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-aqua hover:bg-aqua-tint hover:shadow-lg hover:shadow-nile/10">
+                <Reveal key={w.title} delay={(i % 2) * 140} className="group glass rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-turquoise/60 hover:bg-white/10 hover:shadow-xl hover:shadow-black/20">
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="editorial text-2xl font-semibold leading-snug text-nile">{w.title}</h3>
-                    <span className="shrink-0 rounded-full bg-nile px-3 py-1 text-xs font-semibold text-white">Week {i + 1}</span>
+                    <h3 className="editorial text-2xl font-semibold leading-snug">{w.title}</h3>
+                    <span className="shrink-0 rounded-full bg-turquoise px-3 py-1 text-xs font-semibold text-nile">Week {i + 1}</span>
                   </div>
-                  <p className="mt-1 text-sm text-text-muted">{w.days}</p>
+                  <p className="mt-1 text-sm text-white/65">{w.days}</p>
                   <ul className="mt-5 space-y-2.5">
                     {w.topics.map((t) => (
-                      <li key={t} className="flex items-start gap-3 text-nile">
+                      <li key={t} className="flex items-start gap-3 text-white/90">
                         <span aria-hidden className="arch mt-1.5 h-3.5 w-2.5 shrink-0 bg-turquoise transition-transform duration-300 group-hover:scale-125" />
                         {t}
                       </li>
@@ -194,26 +200,26 @@ It is a space where people learn how to build a strong, beautiful and formidable
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-mt-4 bg-surface">
+        <section id="how-it-works" className="scroll-mt-4 text-white">
           <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
-            <h2 className="editorial text-balance text-3xl font-semibold leading-tight text-nile sm:text-5xl">
+            <h2 className="editorial text-balance text-3xl font-semibold leading-tight sm:text-5xl">
               Six stages, in order
             </h2>
-            <p className="mt-4 max-w-xl text-lg text-text-muted">
+            <p className="mt-4 max-w-xl text-lg text-white/70">
               Each stage opens only when the one before it is complete. From Define onward the stages are about matching, which is only one part of what we do.
             </p>
             <ol className="mt-14 max-w-3xl">
               {steps.map((step, i) => (
                 <Reveal as="li" key={step.title} className="stage relative grid grid-cols-[3.5rem_1fr] gap-x-6 pb-12 last:pb-0">
                   {i < steps.length - 1 && (
-                    <span aria-hidden className="step-line absolute left-[1.35rem] top-16 h-[calc(100%-4rem)] w-0.5 bg-gradient-to-b from-nile to-border" />
+                    <span aria-hidden className="step-line absolute left-[1.35rem] top-16 h-[calc(100%-4rem)] w-0.5 bg-gradient-to-b from-turquoise to-white/10" />
                   )}
                   <span className="stage-badge arch flex h-16 w-11 items-end justify-center pb-2 text-base font-semibold">
                     {i + 1}
                   </span>
                   <div className="pt-1">
-                    <h3 className="editorial text-2xl font-semibold text-nile sm:text-3xl">{step.title}</h3>
-                    <p className="mt-2 max-w-[56ch] text-lg text-text-muted">{step.body}</p>
+                    <h3 className="editorial text-2xl font-semibold sm:text-3xl">{step.title}</h3>
+                    <p className="mt-2 max-w-[56ch] text-lg text-white/75">{step.body}</p>
                   </div>
                 </Reveal>
               ))}
@@ -221,7 +227,7 @@ It is a space where people learn how to build a strong, beautiful and formidable
           </div>
         </section>
 
-        <section id="privacy" className="privacy-bg relative scroll-mt-4 overflow-hidden text-white">
+        <section id="privacy" className="relative scroll-mt-4 text-white">
           <div aria-hidden className="pointer-events-none absolute -right-24 top-1/2 hidden -translate-y-1/2 lg:block">
             <div className="arch h-[30rem] w-80 border border-white/15 p-8"><div className="arch h-full w-full border border-white/15 p-8"><div className="arch h-full w-full border border-turquoise/30" /></div></div>
           </div>
@@ -255,13 +261,13 @@ It is a space where people learn how to build a strong, beautiful and formidable
           </div>
         </section>
 
-        <section id="faq" className="scroll-mt-4 bg-white">
+        <section id="faq" className="scroll-mt-4 text-white">
           <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-28">
             <div>
-              <h2 className="editorial text-balance text-3xl font-semibold leading-tight text-nile sm:text-5xl">
+              <h2 className="editorial text-balance text-3xl font-semibold leading-tight sm:text-5xl">
                 Questions
               </h2>
-              <p className="mt-4 max-w-sm text-lg text-text-muted">
+              <p className="mt-4 max-w-sm text-lg text-white/70">
                 Straight answers about how Baytul Wisaal works.
               </p>
             </div>
@@ -272,7 +278,7 @@ It is a space where people learn how to build a strong, beautiful and formidable
         </section>
       </main>
 
-      <div className="lattice bg-nile text-white">
+      <div className="text-white">
         <section>
           <div className="mx-auto max-w-6xl px-6 py-24 lg:py-32">
             <p className="editorial max-w-3xl text-balance text-2xl leading-snug sm:text-4xl">
@@ -312,6 +318,7 @@ It is a space where people learn how to build a strong, beautiful and formidable
           </div>
         </div>
       </footer>
+      </div>
       </div>
     </>
   );

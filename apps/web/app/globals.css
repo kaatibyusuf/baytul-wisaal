@@ -299,23 +299,24 @@
 
 /* Stage badges: outlined at first, then fill and pop as the stage arrives */
 .stage-badge {
-  border: 2px solid var(--nile-blue);
-  color: var(--nile-blue);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
   background-color: transparent;
-  transition: background-color 0.5s ease calc(var(--d, 0ms) + 0.35s), color 0.5s ease calc(var(--d, 0ms) + 0.35s), transform 0.3s ease;
+  transition: background-color 0.5s ease calc(var(--d, 0ms) + 0.35s), color 0.5s ease calc(var(--d, 0ms) + 0.35s), border-color 0.5s ease calc(var(--d, 0ms) + 0.35s), transform 0.3s ease;
 }
 .reveal[data-in] .stage-badge {
-  background-color: var(--nile-blue);
-  color: #fff;
+  background-color: var(--turquoise);
+  border-color: var(--turquoise);
+  color: var(--nile-blue);
   animation: pop 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) calc(var(--d, 0ms) + 0.35s) backwards;
 }
 @keyframes pop {
   0% { transform: scale(0.85); }
   100% { transform: scale(1); }
 }
-.stage[data-in]:hover .stage-badge { background-color: var(--turquoise); color: var(--nile-blue); border-color: var(--turquoise); transform: translateY(-4px); }
+.stage[data-in]:hover .stage-badge { background-color: var(--soft-gold); border-color: var(--soft-gold); color: var(--nile-blue); transform: translateY(-4px); }
 .stage h3 { transition: color 0.2s ease; }
-.stage:hover h3 { color: var(--aqua-ink); }
+.stage:hover h3 { color: var(--turquoise); }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
@@ -378,6 +379,43 @@
     backdrop-filter: blur(6px);
   }
 }
+
+/* One continuous background for the whole homepage: it shifts colour as you scroll */
+.home-bg {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(70rem 42rem at 92% 3%, rgba(2, 211, 203, 0.17), transparent 62%),
+    radial-gradient(50rem 40rem at -5% 24%, rgba(217, 164, 65, 0.09), transparent 62%),
+    radial-gradient(60rem 44rem at 105% 46%, rgba(2, 211, 203, 0.12), transparent 62%),
+    radial-gradient(56rem 44rem at -8% 66%, rgba(25, 104, 126, 0.42), transparent 62%),
+    radial-gradient(60rem 40rem at 100% 84%, rgba(217, 164, 65, 0.08), transparent 62%),
+    linear-gradient(180deg, #17334b 0%, #10263a 30%, #0d2032 55%, #10263a 80%, #17334b 100%);
+}
+.home-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 44px);
+}
+/* A doorway that stays put while the page scrolls past it */
+.home-ambient {
+  position: fixed;
+  right: -4rem;
+  bottom: -2rem;
+  z-index: -1;
+  pointer-events: none;
+  animation: breathe 14s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-10px); }
+}
+@media (prefers-reduced-motion: reduce) { .home-ambient { animation: none; } }
 
 /* Milestone highlight: subtle gold, readable ink */
 .milestone {

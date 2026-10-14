@@ -36,11 +36,11 @@ const items: { q: string; a: React.ReactNode }[] = [
     a: (
       <>
         Yes. It is on Substack and is about building the foundations of a strong marriage.{" "}
-        <Link href="/newsletter" className="font-semibold text-aqua-ink underline underline-offset-4 hover:text-nile">
+        <Link href="/newsletter" className="font-semibold text-turquoise underline underline-offset-4 hover:text-white">
           Read about the newsletter
         </Link>
         , or go straight to{" "}
-        <a href={SUBSTACK} target="_blank" rel="noopener noreferrer" className="font-semibold text-aqua-ink underline underline-offset-4 hover:text-nile">
+        <a href={SUBSTACK} target="_blank" rel="noopener noreferrer" className="font-semibold text-turquoise underline underline-offset-4 hover:text-white">
           Substack
         </a>
         .
@@ -51,17 +51,17 @@ const items: { q: string; a: React.ReactNode }[] = [
 
 export function Faq() {
   return (
-    <div className="divide-y divide-border border-y border-border">
+    <div className="divide-y divide-white/15 border-y border-white/15">
       {items.map((it) => (
         <details key={it.q} className="faq group">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-lg font-semibold text-nile transition-colors hover:text-aqua-ink [&::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-lg font-semibold text-white transition-colors hover:text-turquoise [&::-webkit-details-marker]:hidden">
             {it.q}
-            <span aria-hidden className="faq-icon relative h-6 w-6 shrink-0 rounded-full border-2 border-nile/30 transition-all duration-300 group-open:rotate-45 group-open:border-turquoise group-open:bg-turquoise">
-              <span className="absolute left-1/2 top-1/2 h-0.5 w-2.5 -translate-x-1/2 -translate-y-1/2 bg-nile" />
-              <span className="absolute left-1/2 top-1/2 h-2.5 w-0.5 -translate-x-1/2 -translate-y-1/2 bg-nile" />
+            <span aria-hidden className="faq-icon relative h-6 w-6 shrink-0 rounded-full border-2 border-white/40 transition-all duration-300 group-open:rotate-45 group-open:border-turquoise group-open:bg-turquoise">
+              <span className="absolute left-1/2 top-1/2 h-0.5 w-2.5 -translate-x-1/2 -translate-y-1/2 bg-white group-open:bg-nile" />
+              <span className="absolute left-1/2 top-1/2 h-2.5 w-0.5 -translate-x-1/2 -translate-y-1/2 bg-white group-open:bg-nile" />
             </span>
           </summary>
-          <div className="faq-body max-w-[62ch] pb-6 pr-10 text-text-muted">{it.a}</div>
+          <div className="faq-body max-w-[62ch] pb-6 pr-10 text-white/75">{it.a}</div>
         </details>
       ))}
     </div>
