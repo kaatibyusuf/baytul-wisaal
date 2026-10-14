@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s | Baytul Wisaal",
   },
   description:
-    "A structured marriage-readiness and matchmaking platform for Muslims who are seriously seeking marriage. Think beyond attraction and prepare for the reality of building a family.",
+    "A space where people learn how to build a strong, beautiful and formidable home. Start with a 30-day marriage-readiness programme.",
 };
 
 export const viewport: Viewport = {

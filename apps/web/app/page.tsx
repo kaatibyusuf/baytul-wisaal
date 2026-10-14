@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Faq } from "@/components/faq";
 import { Reveal } from "@/components/reveal";
 import { ScenarioTeaser } from "@/components/scenario-teaser";
 
@@ -77,6 +78,8 @@ export default function Home() {
                 <a href="#programme" className="hover:underline">The 30 days</a>
                 <a href="#how-it-works" className="hover:underline">How it works</a>
                 <a href="#privacy" className="hover:underline">Privacy</a>
+                <a href="#faq" className="hover:underline">FAQ</a>
+                <Link href="/newsletter" className="hover:underline">Newsletter</Link>
               </nav>
               <div className="-mt-5 flex items-center gap-3 whitespace-nowrap rounded-b-[1.75rem] bg-gradient-to-b from-soft-gold-on-dark to-[#b98a2e] px-4 pb-3 pt-8 text-sm font-semibold text-nile shadow-lg shadow-black/20 sm:gap-5 sm:px-7">
                 <Link href="/login" className="underline-offset-4 hover:underline">Sign in</Link>
@@ -95,8 +98,8 @@ export default function Home() {
                   Marriage is a big deal. Treat it like one.
                 </h1>
                 <p className="rise rise-2 mt-7 max-w-lg text-lg leading-relaxed text-white/80">
-                  Baytul Wisaal is a 30-day marriage-readiness programme with careful matchmaking at
-                  the end of it. You prepare for the home first, and meet someone second.
+                  Baytul Wisaal is a space where people learn how to build a strong, beautiful and
+                  formidable home. Start with a 30-day programme on what a marriage asks of you.
                 </p>
                 <div className="rise rise-3 mt-10 flex flex-wrap items-center gap-4">
                   <Link href="/register" className="btn-anim btn-pulse rounded-md bg-turquoise px-7 py-3.5 text-base font-semibold text-nile hover:bg-white">
@@ -137,12 +140,14 @@ export default function Home() {
           <div className="mx-auto grid max-w-6xl gap-12 px-6 pb-20 pt-28 lg:grid-cols-[1.2fr_1fr] lg:gap-20 lg:pb-28 lg:pt-36">
             <div>
               <h2 className="editorial text-balance text-3xl font-semibold leading-tight text-nile sm:text-5xl">
-                This is not a dating app with Islamic branding.
+                Baytul Wisaal is not a matchmaking platform.
               </h2>
               <p className="editorial mt-7 max-w-[62ch] text-lg text-nile/90">
-                Two people can both be responsible, religious and mature, and still want different
-                lives. So we do not look for a perfect spouse. We look at whether two specific
-                people have compatible expectations and approaches to building a home.
+It is a space where people learn how to build a strong, beautiful and formidable home. The
+                30-day programme and our newsletter come from that one purpose. Matching is one part of
+                what we do, for people who finish the programme and want an introduction. We do not look
+                for a perfect spouse. Two people can both be responsible, religious and mature, and
+                still want different lives.
               </p>
             </div>
             <div className="lg:pt-3">
@@ -195,7 +200,7 @@ export default function Home() {
               Six stages, in order
             </h2>
             <p className="mt-4 max-w-xl text-lg text-text-muted">
-              Each stage opens only when the one before it is complete.
+              Each stage opens only when the one before it is complete. From Define onward the stages are about matching, which is only one part of what we do.
             </p>
             <ol className="mt-14 max-w-3xl">
               {steps.map((step, i) => (
@@ -250,6 +255,21 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="faq" className="scroll-mt-4 bg-white">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1fr_1.6fr] lg:gap-20 lg:py-28">
+            <div>
+              <h2 className="editorial text-balance text-3xl font-semibold leading-tight text-nile sm:text-5xl">
+                Questions
+              </h2>
+              <p className="mt-4 max-w-sm text-lg text-text-muted">
+                Straight answers about how Baytul Wisaal works.
+              </p>
+            </div>
+            <Reveal>
+              <Faq />
+            </Reveal>
+          </div>
+        </section>
       </main>
 
       <div className="lattice bg-nile text-white">
@@ -282,7 +302,14 @@ export default function Home() {
       <footer className="border-t border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
           <Image src="/brand/logo-lockup-on-nile.png" alt="Baytul Wisaal" width={887} height={397} className="h-10 w-auto self-start object-contain" />
-          <p className="text-sm text-white/70">Marriage is a big deal, and we are going to treat it as such.</p>
+          <div className="flex flex-col gap-3 sm:items-end">
+            <nav aria-label="Footer" className="flex gap-6 text-sm">
+              <Link href="/newsletter" className="hover:underline">Newsletter</Link>
+              <a href="https://baytulwisaal.substack.com/" target="_blank" rel="noopener noreferrer" className="hover:underline">Substack</a>
+              <Link href="/login" className="hover:underline">Sign in</Link>
+            </nav>
+            <p className="text-sm text-white/70">Marriage is a big deal, and we are going to treat it as such.</p>
+          </div>
         </div>
       </footer>
       </div>
